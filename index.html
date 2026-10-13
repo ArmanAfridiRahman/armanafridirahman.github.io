@@ -203,7 +203,7 @@ html{color-scheme:light}
   --sans:'Jost','Helvetica Neue',Arial,sans-serif;
   --mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
   --hand:'Caveat','Segoe Print','Bradley Hand',cursive;
-  --gut:clamp(16px,4.4vw,84px); --gap:clamp(56px,10vw,120px); --frame:1680px;
+  --gut:clamp(16px,4.4vw,84px);
   /* paper: dark specks and light flecks on two tiles of different sizes, so the repeat never lines up
      and the grain adds tooth without darkening the page (its average is within 1% of --paper) */
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.2 0 0 0 0 0.14 0.3 0 0 0 -0.105'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='173' height='173'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='19' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.99 0 0 0 0 0.96 0 0.75 0 0 -0.22'/%3E%3C/filter%3E%3Crect width='173' height='173' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -225,7 +225,7 @@ html{scroll-behavior:smooth;scroll-padding-top:64px}
 body{margin:0;background-color:var(--paper);background-image:var(--grain);color:var(--ink);font:300 17px/1.68 var(--sans);font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip}
 a{color:inherit}
 ::selection{background:color-mix(in srgb,var(--sand) 42%,transparent);color:inherit}
-.wrap{max-width:var(--frame);margin:0 auto;padding:0 var(--gut)}
+.wrap{margin:0 auto;padding:0 var(--gut)}
 :focus-visible{outline:1.5px solid var(--accent);outline-offset:3px}
 em{font-style:italic}
 
@@ -249,18 +249,18 @@ em{font-style:italic}
 @media(max-width:359px){.bar nav a[href="#glance"]{display:none}}
 
 /* cover */
-.cover{padding:clamp(14px,3vw,30px) var(--gut) 0;max-width:var(--frame);margin:0 auto}
+.cover{padding:clamp(14px,3vw,30px) var(--gut) 0;margin:0 auto}
 .cover .strip{display:flex;justify-content:space-between;gap:8px 16px;flex-wrap:wrap}
 .mast{font:400 clamp(36px,11.6vw,196px)/.9 var(--serif);letter-spacing:-.03em;margin:18px 0 0}
 
 /* the opening line: the one massive statement. "built" is set a little heavier by hand (a hairline of ink
    around the letters, the way a stamp spreads), "well." gets the italic and the brush. */
-.open{padding-top:clamp(40px,7vw,120px)}
+.opening{padding-top:clamp(40px,7vw,120px)}
 .hl{font:400 clamp(46px,10.6vw,204px)/.9 var(--serif);letter-spacing:-.035em;margin:0;max-width:12.5ch}
 .hl .ink{letter-spacing:-.02em}
 .hl .tt{letter-spacing:-.055em}
 .hl em{letter-spacing:-.01em;padding-right:.04em}
-.open .hl{margin-left:clamp(0px,4.5vw,96px)}
+.opening .hl{margin-left:clamp(0px,4.5vw,96px)}
 
 /* ---------- the orbit: the chip holds the middle of the screen while the page moves around it ----------
    Wide screens: the chip sits in a sticky layer the height of the screen; the words travel in a layer above
@@ -271,7 +271,7 @@ em{font-style:italic}
 @media(max-width:1279px){.orbit{--chipW:clamp(300px,29vw,380px);--og:clamp(24px,2.6vw,40px)}.orbit .stand{font-size:18px}.orbit .chip-foot{flex-basis:100%;justify-content:space-between}.orbit .chip-ctrls output{white-space:nowrap}}
 .orbit-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:6svh 0 36svh;pointer-events:none}
 .orbit-flow>*,.orbit-flow .inside>*{pointer-events:auto;width:var(--laneW);margin-top:var(--mt,12svh)}
-.orbit-flow .inside{display:contents}
+.orbit-flow>.inside{display:flex;flex-direction:column;align-items:flex-start;align-self:stretch;width:auto;margin-top:0;pointer-events:none}
 .o-l{align-self:flex-start}
 .o-r{align-self:flex-end}
 .o-in.o-l{text-align:right}
@@ -317,7 +317,7 @@ em{font-style:italic}
 .orbit .chip figcaption{display:none}
 .orbit .chip-view{transform-origin:50% 100%;transition:transform .55s cubic-bezier(.3,1.15,.5,1)}
 /* the chip must never trap a finger that is scrolling: on touch screens up and down scrolls the page, sideways turns it */
-@media(pointer:coarse){.chip-view canvas{touch-action:pan-y}}
+@media(any-pointer:coarse){.chip-view canvas{touch-action:pan-y}}
 @media(prefers-reduced-motion:reduce){.orbit .chip-view{transition:none}}
 .orbit .chip-ui .dock{margin:0;flex:none}
 .orbit .chip-ui .dock>summary{min-height:40px;padding:8px 14px}
@@ -342,6 +342,7 @@ em{font-style:italic}
   .orbit .chip-ui .dock[open]>.dock-b{position:static;padding:4px 16px 16px;box-shadow:none;background:none}
   .o-hand{display:none}
   .o-in.o-l{text-align:left}
+  .orbit .o-l,.orbit .o-r{align-self:auto}
   .o-in.o-l .n{margin-left:0}
   .chip-note{order:3;margin-top:14px;max-width:560px;align-self:center}
   .orbit-flow .inside{order:4;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 18px;margin-top:clamp(36px,8vw,64px);padding-top:16px;border-top:1px solid var(--ink)}
@@ -405,7 +406,7 @@ br.d{display:none}
 /* ---------- the letter ---------- */
 .letter .lab{grid-row:1;font:400 15px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--muted)}
 #letH{grid-row:2;font:400 clamp(38px,5.2vw,96px)/1.04 var(--serif);letter-spacing:-.022em;margin:14px 0 0;text-wrap:balance}
-#letH .open{letter-spacing:.022em;margin:0 .02em}
+#letH .wide{letter-spacing:.022em;margin:0 .02em}
 .cols{grid-row:3;margin-top:clamp(36px,4.6vw,76px);columns:2;column-gap:calc(var(--cg) * 1.6)}
 .cols p{margin:0 0 1.1em;break-inside:avoid-column;text-wrap:pretty}
 .cols p:first-child::first-letter{font:400 5.6em/.78 var(--serif);float:left;padding:.06em .1em 0 0;color:var(--ink)}
@@ -468,7 +469,7 @@ br.d{display:none}
 #f3h .l2{letter-spacing:-.012em;margin-top:-.04em}
 #f4h .t1{letter-spacing:-.034em}
 #f5h{margin-left:-.045em}
-#f5h .open{letter-spacing:.014em}
+#f5h .wide{letter-spacing:.014em}
 #f6h{font-style:italic}
 #f6h .t2{letter-spacing:-.034em}
 #f7h{margin-left:-.04em}
@@ -574,7 +575,7 @@ br.d{display:none}
 /* ---------- photo slots: prints taped to the page, waiting for real photos ----------
    Empty, they show a hatched print with a pencilled caption. Put an <img> in place of the .snap-ph span
    and the photo fills the print. The tilt lives on the inner card so the arrival motion can't undo it. */
-:where(.snap){margin:0}
+.snap-in{margin:0}
 .snap{position:relative}
 .snap-in{position:relative;display:block;padding:10px 10px 0;background:#f7f5ef;box-shadow:0 1px 1px rgba(30,25,18,.08),0 14px 28px -18px rgba(30,25,18,.45);transform:rotate(var(--tilt,-2deg));transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
 @media(hover:hover){.snap:hover .snap-in{transform:rotate(calc(var(--tilt,-2deg) * .4)) translateY(-3px)}}
@@ -693,8 +694,8 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
 .next{position:relative;background:var(--ink);color:var(--paper);display:grid;grid-template-columns:7fr 5fr;gap:50px;align-items:end;
   grid-column:col 2/bleed-end;border-radius:32px 0 0 32px;padding:clamp(48px,5vw,84px) calc(var(--gut) + clamp(24px,2.6vw,44px)) clamp(44px,4.6vw,72px) clamp(32px,3.6vw,60px)}
 .next .built{margin-top:22px;font:400 13.5px/1.7 var(--mono);letter-spacing:-.01em;color:color-mix(in srgb,var(--paper) 78%,transparent)}
-.next .built .note{color:color-mix(in srgb,var(--paper) 55%,transparent)}
-.next .lab{font:400 13px/1.4 var(--sans);letter-spacing:.01em;text-transform:none;color:color-mix(in srgb,var(--paper) 62%,transparent)}
+.next .built .note{color:color-mix(in srgb,var(--paper) 68%,transparent)}
+.next .lab{font:400 13px/1.4 var(--sans);letter-spacing:.01em;text-transform:none;color:color-mix(in srgb,var(--paper) 72%,transparent)}
 .next h2{font:400 clamp(52px,7.6vw,150px)/.88 var(--serif);letter-spacing:-.035em;margin:14px 0 0}
 .next h2 em{letter-spacing:.004em}
 .next p{margin:0 0 22px;font-size:18px;color:color-mix(in srgb,var(--paper) 84%,transparent);text-wrap:pretty}
@@ -765,7 +766,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .tab-bar{display:flex;align-items:center;gap:5px;padding:8px 10px;border-bottom:1px solid var(--hair)}
 .tab-bar i{width:7px;height:7px;border-radius:50%;border:1px solid var(--rule)}
 .tab-bar .url{flex:1;margin-left:8px;padding:3px 9px;background:var(--paper2);font:300 12.5px/1.4 var(--sans);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tab-body{flex:1;padding:10px clamp(10px,3vw,14px) 6px;max-height:clamp(220px,52svh,340px);overflow:auto;overscroll-behavior:contain}
+.tab-body{flex:1;padding:10px clamp(10px,3vw,14px) 6px;max-height:clamp(220px,52svh,340px);overflow:auto}
 .tab-body .empty{margin:24px 0;font:400 italic 21px/1.3 var(--serif);color:var(--muted)}
 .tab-body h6{margin:12px 0 2px;font:400 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .tab-body h6:first-child{margin-top:2px}
@@ -777,7 +778,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .tab-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--hair);font:300 14px var(--sans)}
 .tab-foot .btn{padding:9px 14px}
 .tk-h{margin-top:26px}
-.tickets{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
+.tickets{list-style:none;margin:10px 0 0;padding:0;min-height:170px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
 .tickets .none{grid-column:1/-1;font:400 italic 20px var(--serif);color:var(--muted)}
 .tickets li.tk{border:1px solid var(--ink);background:var(--paper);padding:12px 14px;font:300 14px/1.5 var(--sans)}
 .tk-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
@@ -813,7 +814,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .stage.tiny .tag b{font-size:10.5px}
 
 /* Fig. 4: checkout, tracker and recent orders */
-.toggles button small{font-size:inherit;opacity:.7;letter-spacing:.06em}
+.toggles button small{font-size:inherit;letter-spacing:.06em}
 .mi small{display:block;font:400 10.5px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .mi.sel{box-shadow:inset 2px 0 0 var(--accent);padding-left:10px}
 .mi.sel span:first-child{color:var(--accent)}
@@ -829,7 +830,8 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .steps li.now::before{background:var(--accent);color:var(--on-accent);border-color:var(--accent);animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 25%,transparent)}}
 .steps-log{margin:6px 0 0;font:400 italic 17px/1.4 var(--serif);color:var(--ink);min-height:48px}
-.orders{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--ink)}
+.orders{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--ink);min-height:246px}
+@media(max-width:620px){.orders{min-height:132px}}
 .orders li{display:grid;grid-template-columns:64px minmax(0,1.2fr) minmax(0,1.6fr) auto;gap:4px 14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);font:300 14.5px/1.4 var(--sans)}
 .orders li.none{display:block;font:400 italic 19px var(--serif);color:var(--muted)}
 .orders li.fol{box-shadow:inset 2px 0 0 var(--accent);padding-left:10px}
@@ -872,9 +874,6 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 
 /* top bar: pills that bulge up on hover, a moulded theme switch */
 .bar{border-bottom:1px solid var(--hair)}
-.bar nav{gap:6px}
-.bar nav a{padding:8px 16px;border-radius:999px;font:600 14px var(--ui);letter-spacing:0;text-transform:none;color:var(--muted);transition:box-shadow .25s,color .2s}
-.bar nav a:hover{color:var(--ink);background:var(--face);box-shadow:var(--raise-s)}
 .tbtn{cursor:pointer;margin-left:12px;display:inline-flex;align-items:center;gap:10px;padding:6px 14px 6px 7px;border:0;border-radius:999px;background:var(--face);color:var(--ink);font:700 13.5px var(--ui);letter-spacing:0;text-transform:none;box-shadow:var(--raise-s);transition:box-shadow .2s}
 .tbtn::before{content:"";width:36px;height:20px;border-radius:999px;box-shadow:var(--sink-s);background:radial-gradient(circle at 10px 50%,var(--accent) 6px,transparent 6.5px)}
 :root[data-theme="dark"] .tbtn::before{background:radial-gradient(circle at 26px 50%,var(--accent) 6px,transparent 6.5px)}
@@ -902,12 +901,12 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 
 /* fields: raised pills with a soft groove inside */
 input[type=text],input[type=number],select,.csel-btn{padding:12px 18px;border:0;border-radius:999px;background:var(--surf);box-shadow:var(--sink-s);font:600 16px var(--ui);letter-spacing:0;margin-top:10px}
-input:focus,select:focus{box-shadow:var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+input:focus,select:focus{box-shadow:var(--sink-s),0 0 0 2px var(--accent)}
 select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 24px) 55%,calc(100% - 19px) 55%;padding-right:40px}
 .csel{margin-top:10px}
 .csel-btn{margin-top:0}
 .csel-btn:hover{box-shadow:var(--sink)}
-.csel-btn[aria-expanded="true"]{box-shadow:var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+.csel-btn[aria-expanded="true"]{box-shadow:var(--sink-s),0 0 0 2px var(--accent)}
 .csel-caret{margin-right:4px}
 .csel-list{border:0;border-radius:22px;padding:10px;top:calc(100% + 14px);background:var(--surf);box-shadow:var(--raise)}
 .csel.up .csel-list{bottom:calc(100% + 14px)}
@@ -941,7 +940,7 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 #flTables button,.toggles.pay button{padding:10px 18px}
 #flTables button::before,.toggles.pay button::before{content:none}
 #flTables button[aria-pressed="true"],.toggles.pay button[aria-pressed="true"]{color:var(--on-gface);background:var(--gface);box-shadow:var(--raise-s)}
-.toggles button small{opacity:.75}
+
 
 /* the browser tab: a raised panel; plain arrows instead of three dots */
 .tab{border:0;border-radius:26px;overflow:hidden;background:var(--surf);box-shadow:var(--raise)}
@@ -998,8 +997,6 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
   .fields{grid-template-columns:minmax(0,1fr)}
   .pay{grid-template-columns:minmax(0,1fr)}
   .chip-ctrls{gap:10px 18px}
-  .facts{grid-template-columns:1fr 1fr;gap:0 16px}
-  .facts div{padding:12px 0 0}
   .runrow .btn{flex:1 1 auto;text-align:center}
   .shnums{grid-template-columns:repeat(2,minmax(0,1fr))}
   .side .row{grid-template-columns:84px 1fr}
@@ -1007,9 +1004,6 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 }
 @media(max-width:360px){
   body{font-size:15.5px}
-  .facts{grid-template-columns:1fr}
-  .facts div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid var(--hair)}
-  .facts .v{text-align:right;margin:0;font-size:17px}
   .chip-ctrls{grid-template-columns:1fr}
   .side .row{grid-template-columns:1fr;gap:2px}
   .lane h5{font-size:22px}
@@ -1042,8 +1036,6 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
   .toggles button{padding:9px 12px}
 }
 @media(max-width:240px){
-  .facts div{display:block}
-  .facts .v{text-align:left;margin-top:2px}
   .slip tr.total td:last-child{white-space:nowrap;font-size:24px}
 }
 @media(max-width:220px){
@@ -1069,7 +1061,9 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
   .orbit-flow{display:block;padding:0}
   .orbit-flow>*,.orbit-flow .inside>*{width:auto;margin-top:12px}
   .orbit-pin{position:static;height:auto;display:block}
-  .orbit .chip-ui,.o-hand,.snap,.mast-echo{display:none}
+  .orbit .chip-ui,.o-hand,.snap,.mast-echo,.orbit-pin{display:none}
+  .next{background:none;color:var(--ink)}
+  .next p,.next .lab,.next .built,.next .built .note{color:var(--ink)}
 }
 
 /* taps: no blue flash, no stray text selection, and no focus ring after a tap on sliders and
@@ -1084,7 +1078,7 @@ input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2px var(--sur
 select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:none;box-shadow:var(--sink-s)}
 
 /* ---------- control drawers ---------- */
-.cover-grid>*,.chip-ui,.insert>*{min-width:0}
+.chip-ui,.insert>*{min-width:0}
 .dock{min-width:0;margin:6px 0 18px;border-radius:var(--r,16px);background:var(--surf,var(--paper2));box-shadow:var(--raise-s,none)}
 .dock>summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:46px;padding:10px 16px;cursor:pointer;border-radius:inherit}
 .dock>summary::-webkit-details-marker{display:none}
@@ -1143,9 +1137,9 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 /* ---------- marks: two colours from my photo, used by hand ----------
    --sand is the warm streak in the granite boulders: it paints the soft brush under a few words.
    --pencil and --loop are the leaf-green accent, drawn by hand: hover underlines, and one loop around a word. */
-:root{--sand:#9a7650; --sand-ink:#7a5b3b; --moss:#546634; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%239a7650' fill-opacity='.45' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%239a7650' fill-opacity='.24' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23546634' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23546634' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
-:root[data-theme="dark"]{--sand:#c9a77c; --sand-ink:#c9a77c; --moss:#a9b77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --sand-ink:#c9a77c; --moss:#a9b77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
+:root{--sand:#9a7650; --sand-ink:#7a5b3b; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%239a7650' fill-opacity='.45' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%239a7650' fill-opacity='.24' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23546634' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23546634' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
+:root[data-theme="dark"]{--sand:#c9a77c; --sand-ink:#c9a77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --sand-ink:#c9a77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
 .brush{background:var(--brush) no-repeat 0 92%/100% .38em;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .05em}
 .cols strong,.why li b{box-shadow:none;font-weight:400;text-decoration:underline 1.5px var(--sand);text-underline-offset:.22em;text-decoration-skip-ink:auto}
 .loop{position:relative;display:inline-block;margin-left:.12em}
@@ -1186,7 +1180,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 @media(max-width:620px){.cv-hero{min-height:min(440px,118vw);border-radius:22px}.cv-hero::before{background-position:0 0,0 0,0 0,72% 42%}}
 @media(max-height:520px) and (orientation:landscape){.cv-hero{min-height:78svh}}
 @media(prefers-reduced-motion:reduce){.cv-hero::before{animation:none}}
-@media print{.mast-echo{display:none}.cv-hero .mast{margin-bottom:0}.cv-hero{min-height:0;background:none}.cv-hero::before{display:none}.cv-hero .mast,.cv-hero .lab{color:#111}}
+@media print{.mast-echo{display:none}.cv-hero .mast{margin-bottom:0}.cv-hero{min-height:0;background:none}.cv-hero::before{display:none}.cv-hero .mast,.cv-hero .lab,.cv-hero .note{color:#111}}
 
 /* ---------- at a glance ----------
    One card: my photo across the top like a cover, then who, six facts and the stack.
@@ -1308,27 +1302,12 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 </section>
 
 <!-- THE OPENING LINE -->
-<section class="open wrap" aria-label="In one line">
+<section class="opening wrap" aria-label="In one line">
   <p class="hl" data-fly><span class="tt">Software</span> that is <span class="ink">built</span> to run <em class="brush">well.</em></p>
 </section>
 
 <!-- THE ORBIT: the chip holds the middle of the screen while the words go past it -->
 <section class="orbit wrap" id="orbit" aria-label="The chip, and what is inside">
-  <div class="orbit-flow">
-    <p class="stand o-r" data-fly style="--mt:4svh">I&rsquo;m a full-stack engineer. I make products <b>fast, lean and reliable</b>, even when the server is small and the stakes are real, and I design the plugins, sub-agent setups and patterns that make AI agents dependable.</p>
-    <p class="o-hand o-l o-in" data-fly style="--mt:20svh"><span class="hand">go on, grab it &mdash;<br>the gravity is real</span><svg viewBox="0 0 160 64" aria-hidden="true" focusable="false"><path d="M6 5c8 19 30 35 62 41 27 5 55 1 79-10"/><path d="M131 27c6 3 12 6 17 9-5 4-11 8-16 12"/></svg></p>
-    <p class="chip-note o-r o-in" data-fly style="--mt:12svh"><span class="note">fig. 0 &mdash; what you&rsquo;re looking at</span>The glowing pulses are beads on a wire: a steady supply pushes them toward the core while real gravity pulls along each trace. Turn the chip so a trace climbs, and the pulses slow, stall and slide back to their source.</p>
-    <nav class="inside" id="inside" aria-label="What is inside">
-      <span class="lab o-l" data-fly style="--mt:26svh">What&rsquo;s in here</span>
-      <a class="o-l" data-fly href="#f1" style="--mt:8svh"><span class="n">01</span><span class="t">Dispatching under limits</span></a>
-      <a class="o-r o-in" data-fly href="#f2" style="--mt:6svh"><span class="n">02</span><span class="t">Time, pay and the payslip</span></a>
-      <a class="o-l o-in" data-fly href="#f3" style="--mt:16svh"><span class="n">03</span><span class="t">Tables, menus and the order</span></a>
-      <a class="o-r" data-fly href="#f4" style="--mt:12svh"><span class="n">04</span><span class="t">Checkout to the shelf</span></a>
-      <a class="o-l" data-fly href="#f5" style="--mt:18svh"><span class="n">05</span><span class="t">WordPress, done properly</span></a>
-      <a class="o-r o-in" data-fly href="#f6" style="--mt:9svh"><span class="n">06</span><span class="t">Interface decisions that matter</span></a>
-      <a class="o-l o-in" data-fly href="#f7" style="--mt:15svh"><span class="n">07</span><span class="t">Agents, plugins and patterns for AI</span></a>
-    </nav>
-  </div>
   <div class="orbit-pin">
     <figure class="chip" id="chipFig">
       <div class="chip-view" id="chipHost"><canvas id="chipCanvas" tabindex="0" role="img" aria-label="Interactive 3D chip. Drag to rotate. Arrow keys turn it, Q and E roll it."></canvas></div>
@@ -1343,6 +1322,21 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
       </div>
       <figcaption class="note"><span>drag to turn it</span><span>gravity pulls down, as usual</span></figcaption>
     </figure>
+  </div>
+  <div class="orbit-flow">
+    <p class="stand o-r" data-fly style="--mt:4svh">I&rsquo;m a full-stack engineer. I make products <b>fast, lean and reliable</b>, even when the server is small and the stakes are real, and I design the plugins, sub-agent setups and patterns that make AI agents dependable.</p>
+    <p class="o-hand o-l o-in" data-fly style="--mt:20svh"><span class="hand">go on, grab it &mdash;<br>the gravity is real</span><svg viewBox="0 0 160 64" aria-hidden="true" focusable="false"><path d="M6 5c8 19 30 35 62 41 27 5 55 1 79-10"/><path d="M131 27c6 3 12 6 17 9-5 4-11 8-16 12"/></svg></p>
+    <p class="chip-note o-r o-in" data-fly style="--mt:12svh"><span class="note">fig. 0 &mdash; what you&rsquo;re looking at</span>The glowing pulses are beads on a wire: a steady supply pushes them toward the core while real gravity pulls along each trace. Turn the chip so a trace climbs, and the pulses slow, stall and slide back to their source.</p>
+    <nav class="inside" id="inside" aria-label="What is inside">
+      <span class="lab o-l" data-fly style="--mt:26svh">What&rsquo;s in here</span>
+      <a class="o-l" data-fly href="#f1" style="--mt:8svh"><span class="n">01</span><span class="t">Dispatching under limits</span></a>
+      <a class="o-r o-in" data-fly href="#f2" style="--mt:6svh"><span class="n">02</span><span class="t">Time, pay and the payslip</span></a>
+      <a class="o-l o-in" data-fly href="#f3" style="--mt:16svh"><span class="n">03</span><span class="t">Tables, menus and the order</span></a>
+      <a class="o-r" data-fly href="#f4" style="--mt:12svh"><span class="n">04</span><span class="t">Checkout to the shelf</span></a>
+      <a class="o-l" data-fly href="#f5" style="--mt:18svh"><span class="n">05</span><span class="t">WordPress, done properly</span></a>
+      <a class="o-r o-in" data-fly href="#f6" style="--mt:9svh"><span class="n">06</span><span class="t">Interface decisions that matter</span></a>
+      <a class="o-l o-in" data-fly href="#f7" style="--mt:15svh"><span class="n">07</span><span class="t">Agents, plugins and patterns for AI</span></a>
+    </nav>
   </div>
 </section>
 
@@ -1370,7 +1364,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
       <div><dt>Works</dt><dd>Remote, across time zones</dd></div>
       <div><dt>Speaks</dt><dd>Bengali and English</dd></div>
     </dl>
-    <div class="gl-stack" aria-label="Stack">
+    <div class="gl-stack" role="group" aria-label="Stack">
       <div class="gl-grp"><span class="lab">Code</span><ul><li>PHP</li><li>JavaScript</li><li>Node.js</li><li>Python</li><li>Rust</li><li>C</li><li>C++</li><li>C#</li><li>SQL</li></ul></div>
       <div class="gl-grp"><span class="lab">Web</span><ul><li>Laravel</li><li>Vue</li><li>Inertia</li><li>WordPress</li><li>REST APIs</li><li>MySQL</li></ul></div>
       <div class="gl-grp now"><span class="lab">Building with now</span><ul><li>TypeScript</li><li>SolidJS</li><li>Capacitor</li><li>Kotlin</li><li>Hono on Cloudflare Workers</li><li>SQLite</li><li>libsodium</li></ul></div>
@@ -1382,14 +1376,14 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 <!-- LETTER -->
 <section class="letter g" id="letter" aria-labelledby="letH">
   <span class="lab" data-fly>Before the work, a note</span>
-  <h2 id="letH" data-fly>I would rather <span class="ink open">prove</span> something is <span class="loop">faster</span> than assume&nbsp;it.</h2>
-  <figure class="snap snap-desk" data-fly=".6">
+  <h2 id="letH" data-fly>I would rather <span class="ink wide">prove</span> something is <span class="loop">faster</span> than assume&nbsp;it.</h2>
+  <div class="snap snap-desk" data-fly=".6">
     <!-- PHOTO SLOT. To add a real photo: put the file next to index.html, then replace the empty
          <span class="snap-ph"></span> below with, for example,
          <img src="desk.jpg" alt="My desk in Dhaka" width="800" height="1000" loading="lazy">
          and change the caption. -->
-    <div class="snap-in" style="--tilt:-2.4deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>my desk, Dhaka &mdash; photo soon</figcaption></div>
-  </figure>
+    <figure class="snap-in" style="--tilt:-2.4deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>my desk, Dhaka &mdash; photo soon</figcaption></figure>
+  </div>
   <div class="cols" data-fly=".55" data-fly-delay=".08">
     <p>I am a software engineer from Dhaka. I spent about three years building production web applications in PHP and Laravel, growing from intern to mid-level developer and working directly with clients and remote teams along the way.</p>
     <p>What I care about most is how software behaves under pressure: <strong>limited servers, tight budgets, failing networks, real money moving through the system.</strong> I look for the fast path, the lean query, and the integration that recovers when something goes wrong.</p>
@@ -1612,7 +1606,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 <section class="feature g" id="f5" aria-labelledby="f5h">
   <span class="f-num" aria-hidden="true">05</span>
   <div class="f-top" data-fly="rise"><span class="say">a short one</span><span>WordPress</span></div>
-  <h2 id="f5h" data-fly>WordPress,<br class="d"> done <span class="open">properly</span></h2>
+  <h2 id="f5h" data-fly>WordPress,<br class="d"> done <span class="wide">properly</span></h2>
   <p class="lede" data-fly=".7">I know WordPress from the inside, so the plugins and themes I build to a client&rsquo;s spec work with it rather than against it.</p>
   <div class="f-text" data-fly=".5" data-fly-delay=".06">
     <p>I build custom WordPress plugins that extend the platform without fighting it, bespoke themes rather than template reskins, and ACF-driven sites where the client needs to manage their own content.</p>
@@ -1646,10 +1640,10 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
       <div class="row"><dt>Effort</dt><dd>Less to read and type</dd></div>
     </dl>
   </aside>
-  <figure class="snap snap-sketch" data-fly=".6">
+  <div class="snap snap-sketch" data-fly=".6">
     <!-- PHOTO SLOT: sketches or wireframes. Replace the empty <span class="snap-ph"></span> with an <img>, as above. -->
-    <div class="snap-in" style="--tilt:1.8deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>sketches, before any code</figcaption></div>
-  </figure>
+    <figure class="snap-in" style="--tilt:1.8deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>sketches, before any code</figcaption></figure>
+  </div>
 
   <div class="insert" id="try-ux" data-fly="rise">
     <div class="insert-h"><span>Fig. 5</span><span>the first one is bad on purpose</span></div>
@@ -1698,10 +1692,10 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
     <p class="built"><span class="note">built with</span><br>TypeScript and SolidJS, Capacitor with Kotlin for the phone itself, Hono on Cloudflare Workers, SQLite, and libsodium for encryption.</p>
     <button class="btn soon" type="button" disabled aria-disabled="true">Coming soon</button>
   </div>
-  <figure class="snap snap-process">
+  <div class="snap snap-process">
     <!-- PHOTO SLOT: a process shot (a whiteboard, a notebook page). Replace the empty <span class="snap-ph"></span> with an <img>. -->
-    <div class="snap-in" style="--tilt:3.2deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>work in progress</figcaption></div>
-  </figure>
+    <figure class="snap-in" style="--tilt:3.2deg"><span class="snap-ph" aria-hidden="true"></span><figcaption>work in progress</figcaption></figure>
+  </div>
 </div>
 </section>
 
@@ -1770,7 +1764,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
         k: k, c: 2 * z * Math.sqrt(k), tiltMag: 0.35 + 0.9 * jit(i, 4), jS: (jit(i, 5) - 0.5) * 0.06,
         top: 0, h: 0, l: 0, rr: 0, cx: 0, w: 0, cw: 1, gone: false,
         dx: 0, dy: 0, rot: 0, minX: -1e4, maxX: 1e4,
-        q: 0, v: 0, tgt: 0, pt: 0, armAt: 0, live: false, done: false, ts: "", os: ""
+        q: 0, v: 0, tgt: 0, pt: 0, armAt: 0, live: false, done: false, held: false, ts: "", os: ""
       };
       el._fly = r; recs.push(r);
     });
@@ -1801,7 +1795,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
     r.dy = mode === "travel" ? clamp(vh * 0.06, 28, 72) * (wide ? 1.2 : 1) : mode === "drift" ? 40 : 22;
     /* a slight lean, the top edge trailing the travel; only for smallish things */
     r.rot = (mode === "travel" && dx && !wide && r.w < 0.45 * r.cw && r.h < 0.6 * vh) ? (dx > 0 ? -1 : 1) * r.tiltMag : 0;
-    r.minX = 2 - r.l; r.maxX = vw - 2 - r.rr;                                   /* never past the edge of the screen */
+    r.minX = Math.min(0, 2 - r.l); r.maxX = Math.max(0, vw - 2 - r.rr);         /* the travel never crosses the screen edge */
   }
   function measure(first){
     measT = 0;
@@ -1874,6 +1868,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
     for (i = live.length - 1; i >= 0; i--) {
       r = live[i];
       if (r.done) { live.splice(i, 1); continue; }
+      if (r.held) continue;                                          /* under a finger or a pressed mouse: stays put */
       target(r, s, now);
       if (r.armAt > now) busy = true;
       if (r.tgt === r.q && r.v === 0) continue;                      /* still waiting below the fold */
@@ -1898,7 +1893,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
     }
     kick();
   }
-  function onScroll(){ scrolled = true; kick(); clearTimeout(idleT); idleT = setTimeout(idle, 420); }
+  function onScroll(){ scrolled = true; kick(); clearTimeout(idleT); idleT = setTimeout(idle, 180); }
   function schedule(){ if (!on) return; clearTimeout(measT); measT = setTimeout(function(){ measure(false); kick(); }, 140); }
   function settleTo(y){ for (var i = 0; i < recs.length; i++) if (!recs[i].done && recs[i].top < y) finish(recs[i]); }
   function settleAll(){ settleTo(Infinity); }
@@ -1928,15 +1923,19 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
     if (a) settleTo(targetTop(a.getAttribute("href")));
   }, true);
   W.addEventListener("hashchange", function(){ if (on) settleTo(targetTop(location.hash)); });
-  /* keyboard focus lands before the browser scrolls to it, so it scrolls to the real place */
-  document.addEventListener("focusin", function(e){
-    var f = e.target.closest ? e.target.closest("[data-fly]") : null;
-    if (f && f._fly) finish(f._fly);
-  }, true);
-  /* anything being handled stays put */
+  /* something you press holds still where it is, so the click lands on it; it finishes landing once the
+     click is done. Keyboard focus lands it straight away, before the browser scrolls to it. */
+  var pressed = null;
   document.addEventListener("pointerdown", function(e){
     var f = e.target.closest ? e.target.closest("[data-fly]") : null;
-    if (f && f._fly) finish(f._fly);
+    if (f && f._fly && !f._fly.done) { pressed = f._fly; pressed.held = true; }
+  }, true);
+  function release(){ if (!pressed) return; var r = pressed; pressed = null; setTimeout(function(){ r.held = false; finish(r); }, 0); }
+  document.addEventListener("pointerup", release, true);
+  document.addEventListener("pointercancel", release, true);
+  document.addEventListener("focusin", function(e){
+    var f = e.target.closest ? e.target.closest("[data-fly]") : null;
+    if (f && f._fly && f._fly !== pressed) finish(f._fly);
   }, true);
   W.addEventListener("beforeprint", settleAll);
 
@@ -2634,7 +2633,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     $("oRx").textContent = Math.round(rot.x) + "°"; $("oRy").textContent = Math.round(rot.y) + "°"; $("oRz").textContent = Math.round(rot.z) + "°";
   }
   sx.addEventListener("input", function(){ var v = +sx.value; hold(); rot.x = v; vel.x = vel.y = 0; applyRot(); });
-  sy.addEventListener("input", function(){ var v = +sy.value; hold(); rot.y = v; vel.x = vel.y = 0; applyRot(); });
+  sy.addEventListener("input", function(){ var d = +sy.value - Math.round(rot.y); hold(); rot.y = wrap(rot.y + d); vel.x = vel.y = 0; applyRot(); });
   sz.addEventListener("input", function(){ var v = +sz.value; hold(); rot.z = v; vel.x = vel.y = 0; applyRot(); });
   function setSupply(){ D = +ss.value; $("oSup").textContent = (D / G).toFixed(1) + "× gravity"; }
   ss.addEventListener("input", setSupply);
@@ -2642,7 +2641,6 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
   var drag = false, lx = 0, ly = 0, vel = { x: 0, y: 0 };
   canvas.addEventListener("pointerdown", function(e){
-    hold();
     drag = true; lx = e.clientX; ly = e.clientY; vel.x = vel.y = 0;
     try { canvas.setPointerCapture(e.pointerId); } catch (er) {}
     canvas.classList.add("grab");
@@ -2650,6 +2648,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   canvas.addEventListener("pointermove", function(e){
     if (!drag) return;
     var dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY;
+    if (!held && Math.abs(dx) + Math.abs(dy) > 2) hold();
     rot.y = wrap(rot.y + dx * 0.55); rot.x = wrap(rot.x + dy * 0.55);
     vel.y = dx * 0.55; vel.x = dy * 0.55; applyRot();
   });
