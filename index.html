@@ -34,14 +34,14 @@
 <meta name="color-scheme" content="light dark">
 <meta id="tcLight" name="theme-color" content="#e9e6de" media="(prefers-color-scheme: light)">
 <meta id="tcDark" name="theme-color" content="#1c1b18" media="(prefers-color-scheme: dark)">
-<meta name="msapplication-TileColor" content="#b83a14">
+<meta name="msapplication-TileColor" content="#ae3417">
 <meta name="msapplication-TileImage" content="icon-192.png">
 
 <!-- Icons and installability -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
-<link rel="mask-icon" href="favicon.svg" color="#b83a14">
+<link rel="mask-icon" href="favicon.svg" color="#ae3417">
 <link rel="manifest" href="site.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -198,9 +198,9 @@ html{color-scheme:light}
   /* ONE accent, used sparingly: --brand, a vermilion, the colour of a red pencil on a proof. It marks the
      chip's power pulses, a hand-drawn line or two, hover states and the odd number. Everything else is ink
      on paper. Dark mode uses a lighter tint of it (--accent below), set by hand so it reads on dark paper. */
-  --brand:#b83a14;
+  --brand:#ae3417;
   --paper:#e9e6de; --paper2:#e0ddd3; --ink:#151412; --muted:#5f5c55; --hair:rgba(21,20,18,.14); --rule:rgba(21,20,18,.32);
-  --accent:var(--brand); --on-accent:#ffffff;
+  --accent:var(--brand); --on-accent:#fff8f0;
   --serif:'Instrument Serif','Times New Roman',Georgia,serif;
   --sans:'Jost','Helvetica Neue',Arial,sans-serif;
   --mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
@@ -211,13 +211,13 @@ html{color-scheme:light}
 }
 :root[data-theme="dark"]{
   --paper:#1c1b18; --paper2:#25231f; --ink:#eeebe3; --muted:#a29e95; --hair:rgba(238,235,227,.15); --rule:rgba(238,235,227,.34);
-  --accent:#ef7a52; --on-accent:#1a0c06;
+  --accent:#f0845f; --on-accent:#1a0b05;
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.85 0.25 0 0 0 -0.09'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='173' height='173'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.84 0 0 0 0 0.72 0.12 0 0 0 -0.045'/%3E%3C/filter%3E%3Crect width='173' height='173' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --paper:#1c1b18; --paper2:#25231f; --ink:#eeebe3; --muted:#a29e95; --hair:rgba(238,235,227,.15); --rule:rgba(238,235,227,.34);
-    --accent:#ef7a52; --on-accent:#1a0c06;
+    --accent:#f0845f; --on-accent:#1a0b05;
     --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.85 0.25 0 0 0 -0.09'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='173' height='173'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.84 0 0 0 0 0.72 0.12 0 0 0 -0.045'/%3E%3C/filter%3E%3Crect width='173' height='173' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }
@@ -225,7 +225,7 @@ html{color-scheme:light}
 html{scroll-behavior:smooth;scroll-padding-top:64px}
 body{margin:0;background-color:var(--paper);background-image:var(--grain);color:var(--ink);font:300 17px/1.68 var(--sans);font-synthesis:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:clip}
 a{color:inherit}
-::selection{background:var(--accent);color:var(--on-accent)}
+::selection{background:color-mix(in srgb,var(--sand) 42%,transparent);color:inherit}
 .wrap{max-width:var(--frame);margin:0 auto;padding:0 var(--gut)}
 :focus-visible{outline:1.5px solid var(--accent);outline-offset:3px}
 em{font-style:italic}
@@ -267,12 +267,14 @@ em{font-style:italic}
    the chip stays draggable everywhere else. Narrower screens: one column, the chip in its place in the text. */
 .orbit{--chipW:clamp(360px,33vw,620px);--og:clamp(28px,3.6vw,72px);--laneW:calc((100% - var(--chipW)) / 2 - var(--og));position:relative;display:grid}
 .orbit>.orbit-flow,.orbit>.orbit-pin{grid-area:1/1}
+@media(max-width:1279px){.orbit{--chipW:clamp(300px,29vw,380px);--og:clamp(24px,2.6vw,40px)}.orbit .stand{font-size:18px}}
 .orbit-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:6svh 0 34svh;pointer-events:none}
 .orbit-flow>*,.orbit-flow .inside>*{pointer-events:auto;width:var(--laneW);margin-top:var(--mt,12svh)}
 .orbit-flow .inside{display:contents}
 .o-l{align-self:flex-start}
 .o-r{align-self:flex-end}
 .o-in.o-l{text-align:right}
+.o-in.o-l .n{margin-left:auto}
 .orbit-pin{position:sticky;top:54px;height:calc(100svh - 54px);align-self:start;z-index:1;display:flex;align-items:center;justify-content:center;pointer-events:none}
 
 .stand{font:300 clamp(18px,1.45vw,22px)/1.55 var(--sans);color:var(--muted);margin:0}
@@ -286,7 +288,8 @@ em{font-style:italic}
 
 /* the contents, set as stops along the way: a big numeral, a line of what it is */
 .inside a{display:block;text-decoration:none}
-.inside .n{display:block;font:400 12px/1 var(--mono);letter-spacing:.04em;color:var(--muted);margin-bottom:10px;transition:color .25s}
+.inside .n{display:block;width:max-content;font:400 12px/1 var(--mono);letter-spacing:.04em;color:var(--muted);margin-bottom:10px;transition:color .25s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+@media(hover:hover){.inside a:hover .n{transform:translateX(4px) rotate(-4deg)}}
 .inside .t{display:inline;font:400 clamp(24px,2.3vw,40px)/1.12 var(--serif);letter-spacing:-.014em;text-wrap:balance;background:var(--pencil) no-repeat 0 100%/0 .32em;padding-bottom:.18em;transition:background-size .45s cubic-bezier(.3,.9,.3,1.15)}
 .inside a:hover .n{color:var(--accent)}
 .inside a:hover .t,.inside a:focus-visible .t{background-size:100% .32em}
@@ -335,6 +338,7 @@ em{font-style:italic}
   .orbit .chip-ui .dock[open]>.dock-b{top:auto;bottom:calc(100% + 6px)}
   .o-hand{display:none}
   .o-in.o-l{text-align:left}
+  .o-in.o-l .n{margin-left:0}
   .chip-note{order:3;margin-top:14px;max-width:560px;align-self:center}
   .orbit-flow .inside{order:4;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px 18px;margin-top:clamp(36px,8vw,64px);padding-top:16px;border-top:1px solid var(--ink)}
   .orbit-flow .inside>.lab{grid-column:1/-1}
@@ -568,7 +572,8 @@ br.d{display:none}
    and the photo fills the print. The tilt lives on the inner card so the arrival motion can't undo it. */
 :where(.snap){margin:0}
 .snap{position:relative}
-.snap-in{position:relative;display:block;padding:10px 10px 0;background:#f7f5ef;box-shadow:0 1px 1px rgba(30,25,18,.08),0 14px 28px -18px rgba(30,25,18,.45);transform:rotate(var(--tilt,-2deg))}
+.snap-in{position:relative;display:block;padding:10px 10px 0;background:#f7f5ef;box-shadow:0 1px 1px rgba(30,25,18,.08),0 14px 28px -18px rgba(30,25,18,.45);transform:rotate(var(--tilt,-2deg));transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+@media(hover:hover){.snap:hover .snap-in{transform:rotate(calc(var(--tilt,-2deg) * .4)) translateY(-3px)}}
 .snap-in::before{content:"";position:absolute;left:50%;top:-11px;width:84px;height:24px;margin-left:-42px;background:color-mix(in srgb,var(--sand) 34%,rgba(255,255,255,.5));opacity:.8;transform:rotate(calc(var(--tilt,-2deg) * -1.6))}
 .snap-ph,.snap-in img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
 .snap-ph{background:repeating-linear-gradient(-45deg,transparent 0 9px,rgba(40,34,26,.09) 9px 10px),#ebe7de}
@@ -583,7 +588,7 @@ br.d{display:none}
 }
 
 /* interactive */
-.insert{background-color:var(--paper2);background-image:var(--grain);padding:clamp(16px,3.4vw,30px) clamp(12px,3.4vw,32px) clamp(20px,3.6vw,34px);border-top:2px solid var(--ink)}
+.insert{background:var(--paper2);padding:clamp(16px,3.4vw,30px) clamp(12px,3.4vw,32px) clamp(20px,3.6vw,34px);border-top:2px solid var(--ink)}
 .insert-h{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
 .insert-h span:first-child{font:400 12px/1.4 var(--mono);letter-spacing:-.01em;color:var(--ink)}
 .insert-h span:last-child{font:italic 400 17px/1.2 var(--serif);letter-spacing:.003em;color:color-mix(in srgb,var(--ink) 70%,transparent)}
@@ -837,19 +842,19 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
    Set in Nunito, a rounded face. --surf is the colour of whatever a control sits on. */
 :root{
   --ui:'Nunito','Avenir Next','Segoe UI',system-ui,sans-serif;
-  --surf:var(--paper); --r:16px; --hiMix:#fff 70%; --loMix:#000 15%;
+  --surf:var(--paper); --r:16px; --hiMix:#fff 55%; --loMix:#5a4630 16%;
 }
-:root[data-theme="dark"]{--hiMix:#fff 7%; --loMix:#000 50%}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hiMix:#fff 7%; --loMix:#000 50%}}
+:root[data-theme="dark"]{--hiMix:#fff 6%; --loMix:#000 45%}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hiMix:#fff 6%; --loMix:#000 45%}}
 /* computed on every element, so whatever surface a control sits on lights it: the highlight and the
    shadow are both solid tints of that surface, balanced so the shape reads, never a grey smudge */
 *{
   --hi:color-mix(in srgb,var(--surf),var(--hiMix));
   --lo:color-mix(in srgb,var(--surf),var(--loMix));
-  --raise:6px 6px 14px var(--lo),-6px -6px 14px var(--hi);
-  --raise-s:3px 3px 8px var(--lo),-3px -3px 8px var(--hi);
-  --sink:inset 4px 4px 8px var(--lo),inset -4px -4px 8px var(--hi);
-  --sink-s:inset 2px 2px 5px var(--lo),inset -2px -2px 5px var(--hi);
+  --raise:4px 4px 10px var(--lo),-4px -4px 10px var(--hi);
+  --raise-s:2px 2px 5px var(--lo),-2px -2px 5px var(--hi);
+  --sink:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);
+  --sink-s:inset 1.5px 1.5px 4px var(--lo),inset -1.5px -1.5px 4px var(--hi);
   --face:var(--surf);
   --gface:var(--ink);
   --on-gface:var(--paper);
@@ -892,13 +897,13 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 .runrow{gap:18px}
 
 /* fields: raised pills with a soft groove inside */
-input[type=text],input[type=number],select,.csel-btn{padding:12px 18px;border:0;border-radius:999px;background:var(--surf);box-shadow:var(--raise-s);font:600 16px var(--ui);letter-spacing:0;margin-top:10px}
-input:focus,select:focus{box-shadow:var(--raise-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+input[type=text],input[type=number],select,.csel-btn{padding:12px 18px;border:0;border-radius:999px;background:var(--surf);box-shadow:var(--sink-s);font:600 16px var(--ui);letter-spacing:0;margin-top:10px}
+input:focus,select:focus{box-shadow:var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
 select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 24px) 55%,calc(100% - 19px) 55%;padding-right:40px}
 .csel{margin-top:10px}
 .csel-btn{margin-top:0}
-.csel-btn:hover{box-shadow:var(--raise)}
-.csel-btn[aria-expanded="true"]{box-shadow:var(--raise-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+.csel-btn:hover{box-shadow:var(--sink)}
+.csel-btn[aria-expanded="true"]{box-shadow:var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
 .csel-caret{margin-right:4px}
 .csel-list{border:0;border-radius:22px;padding:10px;top:calc(100% + 14px);background:var(--surf);box-shadow:var(--raise)}
 .csel.up .csel-list{bottom:calc(100% + 14px)}
@@ -966,11 +971,11 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .zoom button:active:not(:disabled){box-shadow:var(--sink-s)}
 
 /* contact links */
-.links{gap:18px}
-.links a{font:700 14px var(--ui);letter-spacing:0;text-transform:none;border:0;border-radius:999px;padding:12px 22px;background:var(--face);box-shadow:var(--raise-s);transition:box-shadow .2s,color .2s}
-.links a:hover{color:var(--accent);box-shadow:var(--raise)}
-.links a:active{box-shadow:var(--sink-s)}
-.links .soonlink{padding:12px 4px}
+.links{gap:28px}
+.links a{font:400 16px/1 var(--sans);letter-spacing:.01em;text-transform:none;padding:10px 0 7px;border:0;border-bottom:1px solid var(--rule);transition:border-color .2s,color .2s}
+.links a::after{content:"\2197";display:inline-block;margin-left:.35em;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+@media(hover:hover){.links a:hover{border-bottom-color:var(--accent)}.links a:hover::after{transform:translate(2px,-2px)}}
+.links .soonlink{font:400 15px var(--sans);padding:10px 0 7px}
 
 /* figure panels: flat trays a shade deeper than the page, so the controls on them have room to rise */
 .insert{border-top:0;border-radius:28px;box-shadow:none}
@@ -1054,6 +1059,14 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .fly-ready [data-fly]{opacity:1;animation:none}
 @media(prefers-reduced-motion:reduce){.js [data-fly]{opacity:1;animation:none}html{scroll-behavior:auto}.track i{transition:none}}
 @media print{.bar,.runrow,.seg,.tbtn,.toggles{display:none}[data-fly]{opacity:1 !important;transform:none !important;animation:none !important}}
+@media print{
+  body{background:none}
+  .orbit{display:block}
+  .orbit-flow{display:block;padding:0}
+  .orbit-flow>*,.orbit-flow .inside>*{width:auto;margin-top:12px}
+  .orbit-pin{position:static;height:auto;display:block}
+  .orbit .chip-ui,.o-hand,.snap,.mast-echo{display:none}
+}
 
 /* taps: no blue flash, no stray text selection, and no focus ring after a tap on sliders and
    dropdowns. Keyboard users still get a ring (focus-visible); text fields keep theirs while typing. */
@@ -1064,7 +1077,7 @@ input[type=range]:focus,input[type=range]:focus-visible{outline:none;box-shadow:
 input[type=range]::-moz-focus-outer{border:0}
 input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
 input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
-select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:none;box-shadow:var(--raise-s)}
+select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:none;box-shadow:var(--sink-s)}
 
 /* ---------- control drawers ---------- */
 .cover-grid>*,.chip-ui,.insert>*{min-width:0}
@@ -1126,9 +1139,9 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 /* ---------- marks: the sand brush from the granite in my photo, and the red pencil ----------
    --sand is the warm streak in the granite boulders: it paints the soft brush under a few words.
    --pencil and --loop are the accent, drawn by hand: hover underlines, and one loop around a word. */
-:root{--sand:#9a7650; --moss:#55663a; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%239a7650' fill-opacity='.45' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%239a7650' fill-opacity='.24' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23b83a14' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23b83a14' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
-:root[data-theme="dark"]{--sand:#c9a77c; --moss:#a9bb84; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23ef7a52' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23ef7a52' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --moss:#a9bb84; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23ef7a52' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23ef7a52' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
+:root{--sand:#9a7650; --sand-ink:#7a5b3b; --moss:#55663a; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%239a7650' fill-opacity='.45' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%239a7650' fill-opacity='.24' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23ae3417' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23ae3417' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
+:root[data-theme="dark"]{--sand:#c9a77c; --sand-ink:#c9a77c; --moss:#a9bb84; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23f0845f' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23f0845f' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --sand-ink:#c9a77c; --moss:#a9bb84; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23f0845f' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23f0845f' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
 .brush{background:var(--brush) no-repeat 0 92%/100% .38em;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .05em}
 .cols strong,.why li b{box-shadow:none;font-weight:400;text-decoration:underline 1.5px var(--sand);text-underline-offset:.22em;text-decoration-skip-ink:auto}
 .loop{position:relative;display:inline-block}
@@ -1174,7 +1187,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
    The cover always shows the full width of the photo and trims only its height: a thin band on
    wide screens, taller as the screen narrows, so the face stays in frame. The content below
    reflows: two columns on wide screens, fact tiles on phones, a single list on watches. */
-.gl-card{--surf:var(--paper2);margin-top:clamp(16px,2.6vw,24px);border-radius:28px;background-color:var(--paper2);background-image:var(--grain);overflow:hidden}
+.gl-card{--surf:var(--paper2);margin-top:clamp(16px,2.6vw,24px);border-radius:28px;background:var(--paper2);overflow:hidden}
 .gl-cover{position:relative;aspect-ratio:3.4/1;background:var(--me) 50% 40%/cover no-repeat,var(--paper);
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .gl-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 62%,color-mix(in srgb,var(--paper2) 70%,transparent) 92%,var(--paper2))}
@@ -1184,7 +1197,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 .gl-id>.gl-acts{grid-column:2;grid-row:1/span 3;justify-content:flex-end;margin:0;flex-wrap:nowrap}
 .gl-name{font:400 clamp(30px,4.4vw,58px)/1 var(--serif);letter-spacing:-.02em;margin:0}
 .gl-role{margin:12px 0 0;font:400 15px/1.5 var(--sans);letter-spacing:.005em;color:var(--muted)}
-.gl-role i{font-style:normal;color:var(--sand);padding:0 4px}
+.gl-role i{font-style:normal;color:var(--sand-ink);padding:0 4px}
 .gl-line{margin:10px 0 0;font:400 clamp(19px,2vw,24px)/1.3 var(--serif);max-width:34ch}
 .gl-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
 .gl-acts .btn{padding:11px 20px;font-size:14px;letter-spacing:.01em}
@@ -1202,7 +1215,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 .gl-grp ul{list-style:none;margin:12px 0 0;padding:4px 2px 6px;display:flex;flex-wrap:wrap;gap:12px 10px}
 .gl-grp li{font:400 12.5px/1 var(--mono);letter-spacing:-.005em;padding:9px 14px;border-radius:999px;background:var(--face);color:var(--ink);box-shadow:var(--raise-s)}
 .gl-grp .lab{font:400 11.5px/1.4 var(--mono);letter-spacing:.02em;text-transform:lowercase}
-.gl-grp.now .lab{color:var(--sand)}
+.gl-grp.now .lab{color:var(--sand-ink)}
 .gl-grp.now li{position:relative;isolation:isolate;background:linear-gradient(180deg,color-mix(in srgb,var(--sand),#fff 18%),color-mix(in srgb,var(--sand),#000 12%))}
 .gl-grp.now li::before{content:"";position:absolute;inset:0 0 0 4px;z-index:-1;border-radius:inherit;background:var(--face)}
 
@@ -2272,7 +2285,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   pg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   pg.setAttribute("aAlpha", new THREE.BufferAttribute(alpha, 1));
   pg.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
-  var uni = { uColor: { value: new THREE.Color(0x047857) }, uScale: { value: 100 } };
+  var uni = { uColor: { value: new THREE.Color(0xae3417) }, uScale: { value: 100 } };
   var pm = new THREE.ShaderMaterial({
     uniforms: uni, transparent: true, depthWrite: false,
     vertexShader: "attribute float aSize; attribute float aAlpha; varying float vA; uniform float uScale;" +
@@ -2362,7 +2375,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   /* ---------- colours ---------- */
   function applyColors(){
     var ink = readColor("--ink", [0.07, 0.07, 0.06]);
-    var acc = readColor("--accent", [0.02, 0.47, 0.34]);
+    var acc = readColor("--accent", [0.68, 0.2, 0.09]);
     var p2 = readColor("--paper2", [0.92, 0.92, 0.9]);
     mInk.color.setRGB(ink[0], ink[1], ink[2]); mSoft.color.setRGB(ink[0], ink[1], ink[2]);
     mAcc.color.setRGB(acc[0], acc[1], acc[2]); mCoreFill.color.setRGB(acc[0], acc[1], acc[2]); mDot.color.setRGB(acc[0], acc[1], acc[2]);
@@ -2784,7 +2797,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   function themeKey(){ return ["--ink", "--accent", "--paper", "--paper2", "--muted"].map(function(v){ return rootStyle.getPropertyValue(v); }).join("|"); }
   function palette(){
     return {
-      ink: readColor("--ink", [0.07, 0.07, 0.06]), acc: readColor("--accent", [0.02, 0.47, 0.34]),
+      ink: readColor("--ink", [0.07, 0.07, 0.06]), acc: readColor("--accent", [0.68, 0.2, 0.09]),
       paper: readColor("--paper", [0.96, 0.96, 0.95]), paper2: readColor("--paper2", [0.92, 0.92, 0.9]),
       muted: readColor("--muted", [0.4, 0.4, 0.37])
     };
