@@ -182,19 +182,19 @@ html{color-scheme:light}
   /* ONE place to change the primary colour: --brand. Everything else (text accents, buttons, sliders,
      the 3D chip's power lines and glow) derives from it. Dark mode gets a lighter tint of the same colour. */
   --brand:#047857;
-  --paper:#e7e8e3; --paper2:#e7e8e3; --ink:#111110; --muted:#66655f; --hair:rgba(17,17,16,.16); --rule:rgba(17,17,16,.34);
+  --paper:#e7e8e3; --paper2:#dedfd9; --ink:#111110; --muted:#66655f; --hair:rgba(17,17,16,.16); --rule:rgba(17,17,16,.34);
   --accent:var(--brand); --on-accent:#ffffff;
   --serif:'Instrument Serif','Times New Roman',Georgia,serif;
   --sans:'Jost','Helvetica Neue',Arial,sans-serif;
   --gut:clamp(12px,4.6vw,28px); --gap:clamp(56px,10vw,96px);
 }
 :root[data-theme="dark"]{
-  --paper:#1d1e1c; --paper2:#1d1e1c; --ink:#efeee9; --muted:#9c9a92; --hair:rgba(239,238,233,.16); --rule:rgba(239,238,233,.36);
+  --paper:#1d1e1c; --paper2:#242522; --ink:#efeee9; --muted:#9c9a92; --hair:rgba(239,238,233,.16); --rule:rgba(239,238,233,.36);
   --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --on-accent:#03140d;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#1d1e1c; --paper2:#1d1e1c; --ink:#efeee9; --muted:#9c9a92; --hair:rgba(239,238,233,.16); --rule:rgba(239,238,233,.36);
+    --paper:#1d1e1c; --paper2:#242522; --ink:#efeee9; --muted:#9c9a92; --hair:rgba(239,238,233,.16); --rule:rgba(239,238,233,.36);
     --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --on-accent:#03140d;
   }
 }
@@ -517,25 +517,26 @@ footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620
 
 /* ---------- UI layer: soft ----------
    The reading parts stay editorial (serif headlines, Jost text). Everything you press, drag or pick is
-   moulded out of the page itself: the same material as the surface, lit from the top left, so it bulges
-   up out of it with a convex face. Things that are on or chosen glow in the brand colour.
+   moulded out of the page itself: the same material as the surface, lit from the top left, so it rises
+   out of it. Things that are on or chosen fill with the brand colour; nothing glows.
    Set in Nunito, a rounded face. --surf is the colour of whatever a control sits on. */
 :root{
   --ui:'Nunito','Avenir Next','Segoe UI',system-ui,sans-serif;
-  --surf:var(--paper); --r:16px;
-  --hi:rgba(255,255,255,.92); --lo:rgba(150,153,140,.55);
+  --surf:var(--paper); --r:16px; --hiMix:#fff 70%; --loMix:#000 15%;
 }
-:root[data-theme="dark"]{--hi:rgba(255,255,255,.06); --lo:rgba(0,0,0,.6)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hi:rgba(255,255,255,.06); --lo:rgba(0,0,0,.6)}}
-/* computed on every element, so a panel that changes its surface or lighting re-lights what sits on it */
+:root[data-theme="dark"]{--hiMix:#fff 7%; --loMix:#000 50%}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hiMix:#fff 7%; --loMix:#000 50%}}
+/* computed on every element, so whatever surface a control sits on lights it: the highlight and the
+   shadow are both solid tints of that surface, balanced so the shape reads, never a grey smudge */
 *{
-  --raise:9px 9px 18px var(--lo),-9px -9px 18px var(--hi);
-  --raise-s:5px 5px 11px var(--lo),-5px -5px 11px var(--hi);
-  --sink:inset 5px 5px 10px var(--lo),inset -5px -5px 10px var(--hi);
-  --sink-s:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);
-  --face:linear-gradient(145deg,color-mix(in srgb,var(--surf) 90%,#fff),color-mix(in srgb,var(--surf) 93%,#000));
-  --glow:0 8px 20px -6px color-mix(in srgb,var(--accent) 75%,transparent);
-  --gface:linear-gradient(145deg,color-mix(in srgb,var(--accent) 80%,#fff),color-mix(in srgb,var(--accent) 90%,#000));
+  --hi:color-mix(in srgb,var(--surf),var(--hiMix));
+  --lo:color-mix(in srgb,var(--surf),var(--loMix));
+  --raise:6px 6px 14px var(--lo),-6px -6px 14px var(--hi);
+  --raise-s:3px 3px 8px var(--lo),-3px -3px 8px var(--hi);
+  --sink:inset 4px 4px 8px var(--lo),inset -4px -4px 8px var(--hi);
+  --sink-s:inset 2px 2px 5px var(--lo),inset -2px -2px 5px var(--hi);
+  --face:var(--surf);
+  --gface:var(--accent);
 }
 .insert{--surf:var(--paper2)}
 
@@ -545,7 +546,7 @@ footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620
 label output{font:700 13px var(--ui);letter-spacing:0}
 
 /* top bar: pills that bulge up on hover, a moulded theme switch */
-.bar{border-bottom:0;box-shadow:0 10px 20px -14px var(--lo)}
+.bar{border-bottom:1px solid var(--hair)}
 .bar nav{gap:6px}
 .bar nav a{padding:8px 16px;border-radius:999px;font:600 14px var(--ui);letter-spacing:0;text-transform:none;color:var(--muted);transition:box-shadow .25s,color .2s}
 .bar nav a:hover{color:var(--ink);background:var(--face);box-shadow:var(--raise-s)}
@@ -556,18 +557,18 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 .tbtn:hover{background:var(--face);color:var(--ink);box-shadow:var(--raise)}
 .tbtn:active{box-shadow:var(--sink-s)}
 
-/* buttons: convex pads standing out of the surface; the main one is green and glows */
+/* buttons: pads standing out of the surface; the main one is green */
 .btn{font:700 14.5px var(--ui);letter-spacing:.01em;text-transform:none;padding:14px 26px;border:0;border-radius:var(--r);background:var(--face);color:var(--ink);box-shadow:var(--raise);transition:box-shadow .2s ease,color .2s;-webkit-tap-highlight-color:transparent}
 .btn:hover{background:var(--face);color:var(--accent)}
 .btn:active{background:var(--surf);box-shadow:var(--sink)}
-.btn.solid{background:var(--gface);color:var(--on-accent);border:0;box-shadow:var(--glow),-7px -7px 16px var(--hi)}
-.btn.solid:hover{background:var(--gface);color:var(--on-accent);border:0;box-shadow:0 12px 26px -6px color-mix(in srgb,var(--accent) 85%,transparent),-7px -7px 16px var(--hi)}
-.btn.solid:active{box-shadow:inset 3px 3px 7px rgba(0,0,0,.3),inset -2px -2px 6px rgba(255,255,255,.2)}
+.btn.solid{background:var(--gface);color:var(--on-accent);border:0;box-shadow:var(--raise)}
+.btn.solid:hover{background:color-mix(in srgb,var(--accent) 90%,#000);color:var(--on-accent);border:0;box-shadow:var(--raise)}
+.btn.solid:active{box-shadow:inset 2px 2px 6px rgba(0,0,0,.28)}
 .btn:disabled,.btn.soon{background:var(--surf);border:0;color:var(--muted);opacity:.8;box-shadow:var(--raise-s)}
 .btn:disabled:hover{background:var(--surf);color:var(--muted)}
-.next{--surf:var(--ink);--hi:rgba(255,255,255,.08);--lo:rgba(0,0,0,.6);border-radius:32px}
-:root[data-theme="dark"] .next{--hi:rgba(255,255,255,.9);--lo:rgba(150,153,140,.5)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .next{--hi:rgba(255,255,255,.9);--lo:rgba(150,153,140,.5)}}
+.next{--surf:var(--ink);--hiMix:#fff 9%;--loMix:#000 55%;border-radius:32px}
+:root[data-theme="dark"] .next{--hiMix:#fff 70%;--loMix:#000 15%}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .next{--hiMix:#fff 70%;--loMix:#000 15%}}
 .next .btn:not(:disabled){border:0;color:var(--paper);background:var(--face)}
 .next .btn:not(:disabled):hover{background:var(--face);color:var(--accent)}
 .next .btn:disabled,.next .btn.soon{background:var(--surf);color:color-mix(in srgb,var(--paper) 60%,transparent)}
@@ -575,13 +576,13 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 .runrow{gap:18px}
 
 /* fields: raised pills with a soft groove inside */
-input[type=text],input[type=number],select,.csel-btn{padding:12px 18px;border:0;border-radius:999px;background:var(--surf);box-shadow:var(--raise-s),var(--sink-s);font:600 16px var(--ui);letter-spacing:0;margin-top:10px}
-input:focus,select:focus{box-shadow:var(--raise-s),var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+input[type=text],input[type=number],select,.csel-btn{padding:12px 18px;border:0;border-radius:999px;background:var(--surf);box-shadow:var(--raise-s);font:600 16px var(--ui);letter-spacing:0;margin-top:10px}
+input:focus,select:focus{box-shadow:var(--raise-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
 select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 24px) 55%,calc(100% - 19px) 55%;padding-right:40px}
 .csel{margin-top:10px}
 .csel-btn{margin-top:0}
-.csel-btn:hover{box-shadow:var(--raise),var(--sink-s)}
-.csel-btn[aria-expanded="true"]{box-shadow:var(--raise-s),var(--sink-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
+.csel-btn:hover{box-shadow:var(--raise)}
+.csel-btn[aria-expanded="true"]{box-shadow:var(--raise-s),0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent)}
 .csel-caret{margin-right:4px}
 .csel-list{border:0;border-radius:22px;padding:10px;top:calc(100% + 14px);background:var(--surf);box-shadow:var(--raise)}
 .csel.up .csel-list{bottom:calc(100% + 14px)}
@@ -590,31 +591,31 @@ select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),li
 .csel-opt.act{background:var(--face);box-shadow:var(--raise-s)}
 .csel-opt[aria-selected="true"]{font-weight:700;color:var(--accent)}
 
-/* sliders: a groove with a big convex knob that glows */
+/* sliders: a groove with a round raised knob */
 input[type=range]{height:40px}
 input[type=range]::-webkit-slider-runnable-track{height:10px;border-radius:10px;background:var(--surf);box-shadow:var(--sink-s)}
 input[type=range]::-moz-range-track{height:10px;border-radius:10px;background:var(--surf);box-shadow:var(--sink-s)}
-input[type=range]::-webkit-slider-thumb{width:28px;height:28px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle,var(--accent) 4px,transparent 4.5px),var(--face);border:0;box-shadow:4px 4px 9px var(--lo),-4px -4px 9px var(--hi),0 4px 12px -3px color-mix(in srgb,var(--accent) 55%,transparent)}
-input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,var(--accent) 4px,transparent 4.5px),var(--face);border:0;box-shadow:4px 4px 9px var(--lo),-4px -4px 9px var(--hi),0 4px 12px -3px color-mix(in srgb,var(--accent) 55%,transparent)}
+input[type=range]::-webkit-slider-thumb{width:28px;height:28px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle,var(--accent) 4px,transparent 4.5px),var(--face);border:0;box-shadow:4px 4px 9px var(--lo),-4px -4px 9px var(--hi)}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle,var(--accent) 4px,transparent 4.5px),var(--face);border:0;box-shadow:4px 4px 9px var(--lo),-4px -4px 9px var(--hi)}
 
-/* segmented control: two convex pads; the chosen one glows green */
+/* segmented control: two pads; the chosen one is green */
 .seg{border:0;background:none;gap:14px;padding:4px}
 .seg button{font:700 14px var(--ui);letter-spacing:0;text-transform:none;padding:11px 24px;border-radius:999px;color:var(--muted);background:var(--face);box-shadow:var(--raise-s);transition:box-shadow .2s,color .2s}
-.seg button[aria-pressed="true"]{background:var(--gface);color:var(--on-accent);box-shadow:var(--glow),-5px -5px 11px var(--hi)}
+.seg button[aria-pressed="true"]{background:var(--gface);color:var(--on-accent);box-shadow:var(--raise-s)}
 
-/* chips: on/off ones carry a switch that turns green; pick-one ones turn green when chosen */
+/* chips: on/off ones carry a switch that turns green; pick-one ones fill green when chosen */
 .toggles{gap:14px;margin:4px 0 12px}
 .toggles button{font:700 13.5px var(--ui);letter-spacing:0;text-transform:none;padding:8px 16px 8px 8px;border:0;border-radius:999px;background:var(--face);color:var(--muted);gap:10px;box-shadow:var(--raise-s);transition:box-shadow .2s,color .2s}
 .toggles button::before{width:34px;height:20px;border:0;border-radius:999px;box-shadow:var(--sink-s);background:radial-gradient(circle at 10px 50%,color-mix(in srgb,var(--muted) 60%,transparent) 6px,transparent 6.5px)}
 .toggles button[aria-pressed="true"]{color:var(--ink);box-shadow:var(--raise-s)}
-.toggles button[aria-pressed="true"]::before{box-shadow:0 3px 8px -2px color-mix(in srgb,var(--accent) 70%,transparent);background:radial-gradient(circle at 24px 50%,#fff 6.5px,transparent 7px),var(--gface)}
+.toggles button[aria-pressed="true"]::before{box-shadow:inset 1px 1px 3px rgba(0,0,0,.25);background:radial-gradient(circle at 24px 50%,#fff 6.5px,transparent 7px),var(--gface)}
 .toggles button:hover{color:var(--ink);border:0;box-shadow:var(--raise)}
 .toggles button:active{box-shadow:var(--sink-s)}
 .toggles button.busy{color:var(--accent)}
 .toggles button.busy::before{background:radial-gradient(circle at 24px 50%,#fff 6.5px,transparent 7px),var(--gface)}
 #flTables button,.toggles.pay button{padding:10px 18px}
 #flTables button::before,.toggles.pay button::before{content:none}
-#flTables button[aria-pressed="true"],.toggles.pay button[aria-pressed="true"]{color:var(--on-accent);background:var(--gface);box-shadow:var(--glow),-5px -5px 11px var(--hi)}
+#flTables button[aria-pressed="true"],.toggles.pay button[aria-pressed="true"]{color:var(--on-accent);background:var(--gface);box-shadow:var(--raise-s)}
 .toggles button small{opacity:.75}
 
 /* the browser tab: a raised panel; plain arrows instead of three dots */
@@ -634,12 +635,12 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .tickets li.tk{border:0;border-radius:20px;background:var(--face);box-shadow:var(--raise-s)}
 .tk .sum button{font:700 12.5px var(--ui);letter-spacing:0;text-transform:none;border-bottom:0;color:var(--accent)}
 
-/* order tracker: convex numbers; the current step glows */
+/* order tracker: raised numbers; the current step is green */
 .steps{border-top:0}
 .steps li{grid-template-columns:40px 1fr;border-bottom:0;padding:9px 10px 9px 6px;border-radius:14px}
 .steps li::before{width:26px;height:26px;border:0;border-radius:50%;font:700 11.5px/1 var(--ui);background:var(--surf);box-shadow:var(--sink-s);animation:none}
 .steps li.done::before{background:var(--face);color:var(--ink);box-shadow:3px 3px 7px var(--lo),-3px -3px 7px var(--hi)}
-.steps li.now::before{background:var(--gface);color:var(--on-accent);box-shadow:0 4px 14px -2px color-mix(in srgb,var(--accent) 75%,transparent);animation:pulse 1.6s ease-in-out infinite}
+.steps li.now::before{background:var(--gface);color:var(--on-accent);box-shadow:2px 2px 5px var(--lo),-2px -2px 5px var(--hi)}
 
 /* zoom keys on the 3D figures */
 .zoom{right:14px;bottom:14px;border:0;border-radius:999px;gap:10px;padding:8px;background:var(--surf);box-shadow:var(--raise-s)}
@@ -655,10 +656,11 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .links a:active{box-shadow:var(--sink-s)}
 .links .soonlink{padding:12px 4px}
 
-/* figure panels: one big soft slab of the same material; the 3D views are pressed into it */
-.insert{border-top:0;border-radius:36px;box-shadow:14px 14px 32px var(--lo),-14px -14px 32px var(--hi)}
-.stage{border:0;border-radius:26px;box-shadow:var(--sink)}
-.stage canvas{border-radius:26px}
+/* figure panels: flat trays a shade deeper than the page, so the controls on them have room to rise */
+.insert{border-top:0;border-radius:28px;box-shadow:none}
+.stage{border:0;border-radius:22px;box-shadow:var(--sink-s)}
+.stage canvas{border-radius:22px}
+.track{height:8px;border-radius:8px;overflow:hidden;background:var(--surf);box-shadow:var(--sink-s)}
 
 @media(pointer:coarse){input[type=range]::-webkit-slider-thumb{width:32px;height:32px;margin-top:-11px}input[type=range]::-moz-range-thumb{width:32px;height:32px}}
 
