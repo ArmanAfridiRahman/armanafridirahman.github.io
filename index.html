@@ -512,6 +512,120 @@ footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620
 .orders em.st4,.orders em.st5{color:var(--accent)}
 @media(max-width:620px){.orders li{grid-template-columns:auto 1fr auto}.orders span:nth-of-type(2){grid-column:1/-1;order:5;font-size:13px}}
 
+/* ---------- UI layer: workbench ----------
+   The reading parts stay editorial (serif headlines, Jost text). Everything you press, drag or pick
+   uses a second, hands-on style: monospace type, keys with a physical bottom edge that push down,
+   real on/off switches, fader caps on the sliders and boxed fields. */
+:root{
+  --mono:ui-monospace,'SF Mono','Cascadia Mono','JetBrains Mono','Roboto Mono',Menlo,Consolas,monospace;
+  --r:7px; --edge:var(--ink); --key:var(--paper); --well:color-mix(in srgb,var(--ink) 6%,var(--paper));
+}
+:root[data-theme="dark"]{--edge:color-mix(in srgb,var(--ink) 48%,var(--paper)); --key:#1d1d1b; --well:#141413}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--edge:color-mix(in srgb,var(--ink) 48%,var(--paper)); --key:#1d1d1b; --well:#141413}}
+
+/* small labels: monospace, tight, no wide tracking */
+.lab,label,.side dt,.tab-body h6,.tk-top span,.orders em,.mi small,.nums,.tag,.slip .head span:first-child,.slip tr.total td:first-child{font-family:var(--mono);letter-spacing:.03em}
+.lab,label{font-size:11.5px}
+.tag{letter-spacing:.02em}
+label output{font-family:var(--mono);letter-spacing:0}
+
+/* top bar: numbered links with a marker sweep, theme key */
+.bar nav{gap:6px;counter-reset:nv}
+.bar nav a{counter-increment:nv;padding:7px 10px;border-radius:var(--r);font:400 13px var(--mono);letter-spacing:0;text-transform:none;color:var(--ink);background:linear-gradient(color-mix(in srgb,var(--accent) 22%,transparent),color-mix(in srgb,var(--accent) 22%,transparent)) no-repeat 10px 72%/0 7px;transition:background-size .25s ease}
+.bar nav a::before{content:counter(nv,decimal-leading-zero);margin-right:6px;color:var(--accent);font-size:11px}
+.bar nav a:hover{background-size:calc(100% - 20px) 7px}
+.tbtn{margin-left:8px;font:400 12.5px var(--mono);letter-spacing:0;text-transform:none;display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--edge);border-radius:var(--r);background:var(--key);box-shadow:0 2px 0 var(--edge);transition:transform .08s,box-shadow .08s}
+.tbtn::before{content:"";width:11px;height:11px;border-radius:50%;border:1.5px solid currentColor;background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.tbtn:hover{background:var(--key);color:var(--ink);transform:translateY(1px);box-shadow:0 1px 0 var(--edge)}
+.tbtn:active{transform:translateY(2px);box-shadow:none}
+
+/* keys */
+.btn{font:500 13px var(--mono);letter-spacing:0;text-transform:none;padding:11px 18px;border:1px solid var(--edge);border-radius:var(--r);background:var(--key);color:var(--ink);box-shadow:0 3px 0 var(--edge);transition:transform .08s,box-shadow .08s,background .15s,color .15s;-webkit-tap-highlight-color:transparent}
+.btn:hover{background:var(--key);color:var(--ink);transform:translateY(1px);box-shadow:0 2px 0 var(--edge)}
+.btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--edge)}
+.btn.solid{background:var(--accent);color:var(--on-accent);border-color:var(--edge)}
+.btn.solid::before{content:"\2192";margin-right:8px}
+.btn.solid:hover{background:color-mix(in srgb,var(--accent) 88%,var(--ink));border-color:var(--edge);color:var(--on-accent)}
+.btn:disabled,.btn.soon{background:transparent;border:1px dashed var(--rule);box-shadow:none;transform:none;color:var(--muted);opacity:.8}
+.btn:disabled::before,.btn.soon::before{content:none}
+.btn:disabled:hover{background:transparent;transform:none;box-shadow:none}
+.next .btn:not(:disabled){--edge:var(--paper);--key:transparent;border-color:var(--paper);color:var(--paper)}
+.next .btn:not(:disabled):hover{background:transparent;color:var(--paper)}
+.next .btn:disabled,.next .btn.soon{border-style:dashed}
+.soonlink{font:400 12.5px var(--mono);letter-spacing:0;text-transform:none}
+.runrow{gap:12px}
+
+/* fields: boxed wells instead of bare underlines */
+input[type=text],input[type=number],select,.csel-btn{padding:9px 11px;border:1px solid var(--rule);border-radius:var(--r);background:var(--well);font:400 15.5px var(--mono);letter-spacing:0;box-shadow:inset 0 1px 0 color-mix(in srgb,var(--ink) 7%,transparent)}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+select{background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;padding-right:30px}
+.csel-btn:hover,.csel-btn[aria-expanded="true"]{border-color:var(--ink)}
+.csel-btn[aria-expanded="true"]{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.csel-list{border-radius:10px;border-color:var(--edge);padding:6px;box-shadow:0 4px 0 var(--edge),0 22px 40px -24px rgba(0,0,0,.5)}
+.csel-opt{border-radius:5px;padding:9px 12px;font:400 15px var(--mono)}
+.csel-opt::before{content:none}
+.csel-opt.act{background:color-mix(in srgb,var(--accent) 14%,var(--paper))}
+
+/* sliders: a sunk groove with a fader cap */
+input[type=range]{height:30px}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:var(--well);box-shadow:inset 0 0 0 1px var(--rule)}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:var(--well);box-shadow:inset 0 0 0 1px var(--rule)}
+input[type=range]::-webkit-slider-thumb{width:14px;height:22px;margin-top:-8px;border-radius:4px;background:var(--key) linear-gradient(var(--accent),var(--accent)) center/2px 10px no-repeat;border:1px solid var(--edge);box-shadow:0 2px 0 var(--edge)}
+input[type=range]::-moz-range-thumb{width:14px;height:22px;border-radius:4px;background:var(--key) linear-gradient(var(--accent),var(--accent)) center/2px 10px no-repeat;border:1px solid var(--edge);box-shadow:0 2px 0 var(--edge)}
+input[type=range]:active::-webkit-slider-thumb{background-color:color-mix(in srgb,var(--accent) 18%,var(--key))}
+
+/* segmented control: a tray with a raised key in it */
+.seg{border:1px solid var(--rule);border-radius:10px;background:var(--well);padding:3px;gap:3px}
+.seg button{font:400 13px var(--mono);letter-spacing:0;text-transform:none;padding:8px 18px;border-radius:var(--r)}
+.seg button[aria-pressed="true"]{background:var(--key);color:var(--ink);box-shadow:0 0 0 1px var(--edge),0 2px 0 var(--edge)}
+
+/* on/off groups get a real switch; pick-one groups are keys that stay pressed */
+.toggles{gap:8px}
+.toggles button{font:400 12.5px var(--mono);letter-spacing:0;text-transform:none;padding:7px 11px 7px 9px;border:1px solid var(--rule);border-radius:var(--r);background:var(--key);color:var(--muted);gap:9px;box-shadow:0 2px 0 var(--rule);transition:transform .08s,box-shadow .08s}
+.toggles button::before{width:24px;height:14px;border-radius:8px;border:1px solid currentColor;box-sizing:border-box;background:radial-gradient(circle at 6px 50%,currentColor 3.5px,transparent 4px)}
+.toggles button[aria-pressed="true"]{color:var(--ink);border-color:var(--edge);box-shadow:0 2px 0 var(--edge)}
+.toggles button[aria-pressed="true"]::before{border-color:var(--accent);background:radial-gradient(circle at calc(100% - 6px) 50%,var(--on-accent) 3.5px,transparent 4px),var(--accent)}
+.toggles button:hover{color:var(--ink);border-color:var(--edge)}
+.toggles button:active{transform:translateY(2px);box-shadow:none}
+.toggles button.busy{color:var(--accent);border-color:var(--accent);box-shadow:0 2px 0 var(--accent)}
+.toggles button.busy::before{border-color:var(--accent);background:radial-gradient(circle at calc(100% - 6px) 50%,var(--on-accent) 3.5px,transparent 4px),var(--accent)}
+#flTables button,.toggles.pay button{padding:7px 12px}
+#flTables button::before,.toggles.pay button::before{content:none}
+#flTables button[aria-pressed="true"],.toggles.pay button[aria-pressed="true"]{color:var(--on-accent);background:var(--accent);border-color:var(--edge);transform:translateY(2px);box-shadow:inset 0 2px 0 color-mix(in srgb,#000 22%,transparent)}
+.toggles button small{opacity:.75}
+
+/* browser tab: back, forward and reload instead of three dots */
+.tab{border-color:var(--edge);border-radius:10px;overflow:hidden;box-shadow:0 4px 0 var(--edge)}
+.tab-bar{gap:2px;padding:7px 10px;background:var(--well)}
+.tab-bar i{width:22px;height:22px;border:0;border-radius:5px;display:grid;place-items:center;font:400 14px/1 var(--mono);font-style:normal;color:var(--muted)}
+.tab-bar i:nth-child(1)::before{content:"\2190"}
+.tab-bar i:nth-child(2)::before{content:"\2192";opacity:.45}
+.tab-bar i:nth-child(3)::before{content:"\21BB"}
+.tab-bar .url{margin-left:6px;padding:4px 10px;border-radius:6px;background:var(--paper);border:1px solid var(--hair);font:400 12px/1.4 var(--mono)}
+.tab-foot .btn{padding:9px 14px}
+.tickets li.tk{border-radius:var(--r);border-color:var(--edge);box-shadow:0 3px 0 var(--edge)}
+.tk .sum button{font:400 12px var(--mono);letter-spacing:0;text-transform:none}
+
+/* order tracker: a rail, not numbered circles */
+.steps{border-top:0;margin-left:6px;border-left:2px solid var(--hair)}
+.steps li{grid-template-columns:38px 1fr;border-bottom:0;padding:8px 0;margin-left:-2px;border-left:2px solid transparent}
+.steps li::before{content:counter(s,decimal-leading-zero);width:auto;height:auto;border:0;border-radius:0;display:block;padding-left:12px;font:400 11.5px/1 var(--mono);background:none;animation:none}
+.steps li.done{border-left-color:var(--ink)}
+.steps li.done::before{background:none;color:var(--muted)}
+.steps li.now{border-left-color:var(--accent);background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 12%,transparent),transparent 70%)}
+.steps li.now::before{background:none;color:var(--accent);animation:none}
+
+/* zoom keys on the 3D figures */
+.zoom{border:1px solid var(--edge);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 0 var(--edge);background:var(--key)}
+.zoom button{font:400 18px/1 var(--mono)}
+
+/* contact links */
+.links{gap:14px}
+.links a{font:400 13px var(--mono);letter-spacing:0;text-transform:none;border:1px solid var(--edge);border-radius:var(--r);padding:9px 14px;box-shadow:0 2px 0 var(--edge);transition:transform .08s,box-shadow .08s}
+.links a::after{content:" \2197";color:var(--accent)}
+.links a:hover{transform:translateY(1px);box-shadow:0 1px 0 var(--edge)}
+.links .soonlink{padding:9px 0}
+
 /* ---------- small screens: phones, fold covers, watches ---------- */
 @media(max-width:620px){
   .shnums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px}
@@ -1010,7 +1124,7 @@ footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620
 <footer>
   <div class="wrap">
     <p>© <span id="yr"></span> Arman Afridi Rahman. Portfolio, Issue 01. Interactive pieces are illustrations with invented numbers: not client data and not client code.</p>
-    <p style="text-align:right">Set in Instrument Serif and Jost. 3D by three.js.</p>
+    <p style="text-align:right">Set in Instrument Serif and Jost, controls in the system monospace. 3D by three.js.</p>
   </div>
 </footer>
 
