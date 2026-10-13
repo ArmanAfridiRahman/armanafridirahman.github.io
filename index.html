@@ -236,7 +236,9 @@ em{font-style:italic}
 .hand{font:500 clamp(21px,1.9vw,27px)/1.05 var(--hand);color:var(--accent);letter-spacing:.005em}
 
 /* running bar */
-.bar{position:sticky;top:0;z-index:20;background-color:var(--paper);background-image:var(--grain);border-bottom:1px solid var(--hair)}
+/* the bar is a hair short of opaque on purpose: when it counts as fully opaque, Chrome stops drawing the part of
+   the pinned WebGL chip it thinks is behind it, and the chip vanishes early as the orbit ends */
+.bar{position:sticky;top:0;z-index:20;background-color:color-mix(in srgb,var(--paper) 99%,transparent);background-image:var(--grain);border-bottom:1px solid var(--hair)}
 .bar .wrap{display:flex;align-items:center;justify-content:space-between;height:54px;gap:16px}
 .bar .name{font:400 clamp(17px,4.6vw,23px)/1 var(--serif);letter-spacing:-.012em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;text-decoration:none}
 .bar .name i{font-style:italic;letter-spacing:-.02em}
@@ -266,8 +268,8 @@ em{font-style:italic}
    the chip stays draggable everywhere else. Narrower screens: one column, the chip in its place in the text. */
 .orbit{--chipW:clamp(360px,33vw,620px);--og:clamp(28px,3.6vw,72px);--laneW:calc((100% - var(--chipW)) / 2 - var(--og));position:relative;display:grid}
 .orbit>.orbit-flow,.orbit>.orbit-pin{grid-area:1/1}
-@media(max-width:1279px){.orbit{--chipW:clamp(300px,29vw,380px);--og:clamp(24px,2.6vw,40px)}.orbit .stand{font-size:18px}}
-.orbit-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:6svh 0 58svh;pointer-events:none}
+@media(max-width:1279px){.orbit{--chipW:clamp(300px,29vw,380px);--og:clamp(24px,2.6vw,40px)}.orbit .stand{font-size:18px}.orbit .chip-foot{flex-basis:100%;justify-content:space-between}.orbit .chip-ctrls output{white-space:nowrap}}
+.orbit-flow{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:6svh 0 36svh;pointer-events:none}
 .orbit-flow>*,.orbit-flow .inside>*{pointer-events:auto;width:var(--laneW);margin-top:var(--mt,12svh)}
 .orbit-flow .inside{display:contents}
 .o-l{align-self:flex-start}
@@ -278,7 +280,7 @@ em{font-style:italic}
 
 .stand{font:300 clamp(18px,1.45vw,22px)/1.55 var(--sans);color:var(--muted);margin:0}
 .stand b{font-weight:400;color:var(--ink)}
-.o-hand{position:relative;margin:0}
+.o-hand{position:relative;margin:0;left:calc(var(--og) + var(--chipW) * .16)}
 .o-hand .hand{display:block;transform:rotate(-4deg)}
 .o-hand svg{display:block;width:clamp(110px,10vw,170px);height:auto;margin:6px 0 0 auto;overflow:visible}
 .o-hand path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -293,7 +295,8 @@ em{font-style:italic}
 .inside a:hover .n{color:var(--accent)}
 .inside a:hover .t,.inside a:focus-visible .t{background-size:100% .32em}
 .inside .k{display:block;margin-top:8px}
-.inside .lab{max-width:none}
+.inside .lab{max-width:none;text-wrap:balance}
+.con-h,.orbit .stand,.chip-note{text-wrap:pretty}
 
 /* the chip, in the middle */
 .chip{margin:0;width:100%;pointer-events:auto}
@@ -328,13 +331,15 @@ em{font-style:italic}
   .orbit{display:flex;flex-direction:column}
   .orbit-flow{display:contents}
   .orbit-flow>*,.orbit-flow .inside>*{margin-top:0;width:auto}
-  .orbit-pin{position:relative;top:auto;height:auto;order:2;margin:clamp(26px,6vw,44px) 0 0;pointer-events:auto}
+  .orbit-pin{position:relative;top:auto;height:auto;order:2;margin:clamp(26px,6vw,44px) 0 0;pointer-events:auto;align-self:stretch}
+  .orbit .chip-ui,.orbit .chip figcaption{margin-inline:auto}
   .orbit .stand{order:1;margin-top:clamp(18px,4vw,30px);max-width:40ch}
   .orbit .chip{width:100%;max-width:560px;margin:0 auto}
   .orbit .chip-view{width:100%}
   .orbit .chip-ui{order:0;margin:6px 0 0}
   .orbit .chip figcaption{display:flex}
-  .orbit .chip-ui .dock[open]>.dock-b{top:auto;bottom:calc(100% + 6px)}
+  .orbit .chip-ui .dock[open]{flex:1 1 100%}
+  .orbit .chip-ui .dock[open]>.dock-b{position:static;padding:4px 16px 16px;box-shadow:none;background:none}
   .o-hand{display:none}
   .o-in.o-l{text-align:left}
   .o-in.o-l .n{margin-left:0}
@@ -366,6 +371,7 @@ br.d{display:none}
 
 /* uneven air between sections, set by eye: long pauses before the work and before the end, short ones between pairs */
 .glance{margin-top:clamp(72px,9vw,150px)}
+@media(min-width:1100px) and (min-height:680px){.orbit+.glance{margin-top:clamp(24px,3vw,48px)}}
 .letter{margin-top:clamp(88px,12vw,200px)}
 #f1{margin-top:clamp(104px,14vw,240px)}
 #f2{margin-top:clamp(80px,9.5vw,156px)}
@@ -552,7 +558,7 @@ br.d{display:none}
   #f6 h2{grid-column:col 2/col 12;margin-top:clamp(20px,2.4vw,34px)}
   #f6 .side{grid-column:col 2/col 6;grid-row:3;margin-top:clamp(30px,3vw,44px)}
   #f6 .snap-sketch{grid-column:col 2/col 5;grid-row:4;margin-top:clamp(40px,5vw,80px)}
-  #f6 .lede{grid-column:col 8/col-end;grid-row:3}
+  #f6 .lede{grid-column:col 8/col-end;grid-row:3;align-self:end}
   #f6 .f-text{grid-column:col 8/col-end;grid-row:4;columns:1;max-width:62ch}
   #f6 .insert{grid-column:col 2/col 12;grid-row:5;margin-top:clamp(56px,5.8vw,84px)}
 
@@ -696,7 +702,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
 .snap-process .snap-ph{aspect-ratio:5/4}
 @media(max-width:900px){
   .next{grid-template-columns:1fr;gap:24px}
-  .snap-process{top:auto;bottom:-40px;left:auto;right:calc(var(--gut) + 16px);width:clamp(112px,16vw,150px)}
+  .snap-process{position:relative;top:auto;left:auto;justify-self:end;width:clamp(112px,16vw,150px);margin:-8px 4px calc(-1 * clamp(56px,9vw,90px)) 0}
 }
 @media(max-width:760px){
   .next{grid-column:col 1/bleed-end;border-radius:24px 0 0 24px;padding:clamp(28px,7vw,44px) calc(var(--gut) + 18px) clamp(26px,6vw,40px) clamp(18px,5vw,26px)}
@@ -721,7 +727,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
 footer{margin-top:clamp(72px,9vw,150px);border-top:1px solid var(--ink);padding:16px 0 46px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620px}
-footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:right;max-width:44ch}
+footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:right;max-width:44ch;margin-left:auto}
 @media(max-width:620px){footer .colo{text-align:left}}
 
 /* 3D figures: restaurant floor and ecommerce flow */
@@ -801,6 +807,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .zoom button:disabled{color:var(--muted);opacity:.45;cursor:default}
 .stage.zoomed .stage-hint{opacity:0}
 .stage.tiny .zoom button{width:28px;height:28px;font-size:17px}
+@media(pointer:coarse){.stage.tiny .zoom button{width:36px;height:36px}}
 .stage.tiny .stage-hint{display:none}
 .stage.tiny .tag{font-size:7px;letter-spacing:.08em}
 .stage.tiny .tag b{font-size:10.5px}
@@ -884,7 +891,7 @@ label output{font:700 13px var(--ui);letter-spacing:0}
 .btn.solid:active{box-shadow:inset 2px 2px 6px rgba(0,0,0,.28)}
 .btn:disabled,.btn.soon{background:var(--surf);border:0;color:var(--muted);opacity:.8;box-shadow:var(--raise-s)}
 .btn:disabled:hover{background:var(--surf);color:var(--muted)}
-.next{--surf:var(--ink);--hiMix:#fff 9%;--loMix:#000 55%;border-radius:32px}
+.next{--surf:var(--ink);--hiMix:#fff 9%;--loMix:#000 55%}
 :root[data-theme="dark"] .next{--hiMix:#fff 70%;--loMix:#000 15%}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .next{--hiMix:#fff 70%;--loMix:#000 15%}}
 .next .btn:not(:disabled){border:0;color:var(--paper);background:var(--face)}
@@ -1102,10 +1109,10 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
   .lane h5{font-size:17px;line-height:1.15;margin-bottom:8px}
   .lane small{display:none}
   .race .nums{gap:4px 12px;margin-top:10px}
-  .race .nums span{font-size:9.5px;letter-spacing:.04em}
+  .race .nums span{font-size:10.5px;letter-spacing:.04em}
   .race .nums b{font-size:22px}
   .shnums{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px !important}
-  .shnums span{min-width:0;padding:8px 10px;border-radius:12px;background:var(--face,var(--paper));box-shadow:var(--raise-s,none);font-size:9.5px;letter-spacing:.03em;line-height:1.25}
+  .shnums span{min-width:0;padding:8px 10px;border-radius:12px;background:var(--face,var(--paper));box-shadow:var(--raise-s,none);font-size:10.5px;letter-spacing:.03em;line-height:1.25}
   .shnums b{font-size:22px;margin-top:2px}
   .steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));align-items:center}
   .steps li{display:flex;justify-content:center;padding:4px 0;font-size:0;position:relative}
@@ -1141,7 +1148,7 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --sand-ink:#c9a77c; --moss:#a9b77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
 .brush{background:var(--brush) no-repeat 0 92%/100% .38em;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .05em}
 .cols strong,.why li b{box-shadow:none;font-weight:400;text-decoration:underline 1.5px var(--sand);text-underline-offset:.22em;text-decoration-skip-ink:auto}
-.loop{position:relative;display:inline-block}
+.loop{position:relative;display:inline-block;margin-left:.12em}
 .loop::after{content:"";position:absolute;inset:-.06em -.2em -.02em -.24em;background:var(--loop) no-repeat center/100% 100%;pointer-events:none;transform:rotate(-2.5deg)}
 .mail{text-decoration:none;border-bottom:0;background:var(--brush) no-repeat 0 96%/100% .3em}
 .mail:hover{background:var(--pencil) no-repeat 0 100%/100% .28em;color:var(--ink)}
@@ -1165,6 +1172,8 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 /* the name runs off the bottom of the photo: the photo's edge cuts the letters a little above the
    baseline, and an ink copy below the edge carries them on. Both copies share --cut, in em. */
 .cover{--cut:.2em;--hp:clamp(14px,2.6vw,30px)}
+/* one line at every width: the name is about 7.3em wide, so it never needs more than the photo's inner width */
+.cover .mast{white-space:nowrap;font-size:min(clamp(36px,11.6vw,196px),calc((100vw - 2 * var(--gut) - 2 * var(--hp)) / 7.45))}
 .cv-hero{padding-bottom:0}
 .cv-hero .mast{margin-bottom:calc(-1 * var(--cut))}
 .mast-echo{display:block;margin:calc(var(--cut) - .9em) var(--hp) 0;color:var(--ink);clip-path:inset(calc(.9em - var(--cut)) -.2em -.2em -.2em);
@@ -1504,7 +1513,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   <div class="insert" id="try-floor" data-fly="rise">
     <div class="insert-h"><span>Fig. 3</span><span>three.js, made-up dishes</span></div>
     <h3>Sort, scan, order</h3>
-    <p class="cap">The admin's job comes first: a menu scattered over months of edits, sorted into categories. Then the guest's: pick a table, scan its code and order from the browser tab. Drag to turn the room, and click a table to scan it. Dishes and prices are invented.</p>
+    <p class="cap">The admin's job comes first: a menu scattered over months of edits, sorted into categories. Then the guest's: pick a table, scan its code and order from the browser tab. Drag to turn the room, and tap or click a table to scan it. Dishes and prices are invented.</p>
     <div class="runrow">
       <button class="btn solid" id="flSort" type="button">Sort the menu</button>
       <button class="btn" id="flGuest" type="button">Simulate a guest</button>
@@ -1556,7 +1565,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   <div class="insert" id="try-shop" data-fly="rise">
     <div class="insert-h"><span>Interactive &middot; Fig. 4</span><span>three.js &middot; simulation</span></div>
     <h3>Checkout to the doorstep</h3>
-    <p class="cap">Every order is one dot you can follow. It leaves the storefront, pays through one of four gateways, is picked from a warehouse bin, packed, loaded onto a van and dropped at the customer's door. Place your own order on the right and the tracker follows it. Switch a gateway off, or raise its failure rate, and orders move to another gateway instead of failing or being charged twice. Every number is simulated.</p>
+    <p class="cap">Every order is one dot you can follow. It leaves the storefront, pays through one of four gateways, is picked from a warehouse bin, packed, loaded onto a van and dropped at the customer's door. Place your own order in the checkout tab and the tracker follows it. Switch a gateway off, or raise its failure rate, and orders move to another gateway instead of failing or being charged twice. Every number is simulated.</p>
     <div class="scene3">
       <div class="stage sq" id="shHost">
         <canvas id="shCanvas" tabindex="0" role="img" aria-label="A 3D storefront, four payment gateways, a warehouse with three aisles, a packing station, a delivery van and four customers' homes. Drag or use the arrow keys to turn it, plus and minus to zoom."></canvas>
