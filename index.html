@@ -261,6 +261,7 @@ em{font-style:italic}
 .hl .tt{letter-spacing:-.055em}
 .hl em{letter-spacing:-.01em;padding-right:.04em}
 .opening .hl{margin-left:clamp(0px,4.5vw,96px)}
+@media(max-width:620px){.hl{font-size:clamp(46px,14.6vw,80px)}}
 
 /* ---------- the orbit: the chip holds the middle of the screen while the page moves around it ----------
    Wide screens: the chip sits in a sticky layer the height of the screen; the words travel in a layer above
@@ -280,9 +281,9 @@ em{font-style:italic}
 
 .stand{font:300 clamp(18px,1.45vw,22px)/1.55 var(--sans);color:var(--muted);margin:0}
 .stand b{font-weight:400;color:var(--ink)}
-.o-hand{position:relative;margin:0;left:calc(var(--og) + var(--chipW) * .16)}
+.o-hand{position:relative;margin:0;left:calc(var(--og) - 12px)}
 .o-hand .hand{display:block;transform:rotate(-4deg)}
-.o-hand svg{display:block;width:clamp(110px,10vw,170px);height:auto;margin:6px 0 0 auto;overflow:visible}
+.o-hand svg{display:block;width:clamp(110px,10vw,170px);height:auto;margin:6px calc(var(--chipW) * -.14) 0 auto;overflow:visible}
 .o-hand path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .chip-note{margin:0;font:400 15px/1.6 var(--sans);color:var(--muted)}
 .chip-note .note{display:block;margin-bottom:8px;color:var(--ink)}
@@ -434,7 +435,7 @@ br.d{display:none}
 .f-top .say{font:italic 400 19px/1.1 var(--serif);letter-spacing:.003em;color:color-mix(in srgb,var(--ink) 74%,transparent)}
 .feature h2{margin:clamp(12px,1.4vw,22px) 0 0;font:400 var(--hs,clamp(40px,7vw,120px))/var(--lh,.94) var(--serif);letter-spacing:var(--tr,-.03em)}
 .feature h2 em{letter-spacing:-.012em}
-.ink{text-shadow:max(1.1px,.012em) 0 0 currentColor}
+.ink{text-shadow:max(1.1px,.022em) 0 0 currentColor}
 .ink::selection{text-shadow:none}
 @media(forced-colors:active){.ink{text-shadow:none}}
 .lede{font:400 var(--ls,clamp(21px,2vw,34px))/1.22 var(--serif);letter-spacing:-.008em;margin:clamp(26px,3vw,44px) 0 0;text-wrap:balance}
@@ -459,6 +460,7 @@ br.d{display:none}
 #f5 .side dt{color:var(--muted)}
 #f5 .side dt::after{content:"\00a0\2014\00a0"}
 #f5 .side .row:not(:last-child)::after{content:"\00a0\00b7\0020";color:var(--muted)}
+@media(min-width:1100px){#f5 .side .row{display:block}#f5 .side .row:not(:last-child)::after{content:none}}
 #f7 .side dl{border-top:0}
 #f7 .side .row{display:block;padding:0 0 clamp(14px,1.4vw,20px);border:0}
 #f7 .side dt{font:400 11.5px/1.4 var(--mono);letter-spacing:.02em;color:var(--muted)}
@@ -718,7 +720,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
 }
 @media(max-width:760px){
   .next{grid-column:col 1/bleed-end;border-radius:24px 0 0 24px;padding:clamp(28px,7vw,44px) calc(var(--gut) + 18px) clamp(26px,6vw,40px) clamp(18px,5vw,26px)}
-  .next h2{font-size:clamp(52px,18vw,96px)}
+  .next h2{font-size:clamp(44px,12.5vw,96px)}
   .snap-process{width:112px}
 }
 
@@ -736,6 +738,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
   .links{grid-column:col 2/col-end}
 }
 .hidden{display:none !important}
+.nw{white-space:nowrap}
 footer{margin-top:clamp(72px,9vw,150px);border-top:1px solid var(--ink);padding:16px 0 46px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620px}
@@ -778,6 +781,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .tab-bar i{width:7px;height:7px;border-radius:50%;border:1px solid var(--rule)}
 .tab-bar .url{flex:1;margin-left:8px;padding:3px 9px;background:var(--paper2);font:300 12.5px/1.4 var(--sans);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tab-body{flex:1;padding:10px clamp(10px,3vw,14px) 6px;max-height:clamp(220px,52svh,340px);overflow:auto}
+#flMenu{flex:none;height:clamp(220px,52svh,340px)}
 .tab-body .empty{margin:24px 0;font:400 italic 21px/1.3 var(--serif);color:var(--muted)}
 .tab-body h6{margin:12px 0 2px;font:400 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 .tab-body h6:first-child{margin-top:2px}
@@ -789,7 +793,7 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 .tab-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--hair);font:300 14px var(--sans)}
 .tab-foot .btn{padding:9px 14px}
 .tk-h{margin-top:26px}
-.tickets{list-style:none;margin:10px 0 0;padding:0;min-height:170px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
+.tickets{list-style:none;margin:10px 0 0;padding:0;min-height:230px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
 .tickets .none{grid-column:1/-1;font:400 italic 20px var(--serif);color:var(--muted)}
 .tickets li.tk{border:1px solid var(--ink);background:var(--paper);padding:12px 14px;font:300 14px/1.5 var(--sans)}
 .tk-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
@@ -842,7 +846,8 @@ footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:rig
 @keyframes pulse{50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 25%,transparent)}}
 .steps-log{margin:6px 0 0;font:400 italic 17px/1.4 var(--serif);color:var(--ink);min-height:48px}
 .orders{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--ink);min-height:246px}
-@media(max-width:620px){.orders{min-height:132px}}
+@media(max-width:620px){.orders{min-height:132px}.tickets{min-height:312px}}
+#flStatus,#shStatus{min-height:2.6em}
 .orders li{display:grid;grid-template-columns:64px minmax(0,1.2fr) minmax(0,1.6fr) auto;gap:4px 14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);font:300 14.5px/1.4 var(--sans)}
 .orders li.none{display:block;font:400 italic 19px var(--serif);color:var(--muted)}
 .orders li.fol{box-shadow:inset 2px 0 0 var(--accent);padding-left:10px}
@@ -1153,8 +1158,8 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sand:#c9a77c; --sand-ink:#c9a77c; --brush:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 24' preserveAspectRatio='none'%3E%3Cpath fill='%23c9a77c' fill-opacity='.36' d='M4 13C38 8 92 9 140 8s80-2 96 2c3 2 1 5-5 5-40 1-110 2-160 4S14 21 6 20c-4-1-5-5-2-7z'/%3E%3Cpath fill='%23c9a77c' fill-opacity='.2' d='M18 18c50-2 120-4 200-3-60 3-130 5-200 5z'/%3E%3C/svg%3E"); --pencil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6.5C30 4 61 3.2 97 4.1s69 2.4 101-.6' fill='none' stroke='%23a9b77c' stroke-width='1.7' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E"); --loop:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80' preserveAspectRatio='none'%3E%3Cpath d='M118 9C70 1 16 11 8 37c-7 25 49 39 103 36 50-3 86-17 82-40C189 12 141 3 95 6 71 8 52 13 38 20' fill='none' stroke='%23a9b77c' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")}}
 .brush{background:var(--brush) no-repeat 0 92%/100% .38em;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding:0 .05em}
 .cols strong,.why li b{box-shadow:none;font-weight:400;text-decoration:underline 1.5px var(--sand);text-underline-offset:.22em;text-decoration-skip-ink:auto}
-.loop{position:relative;display:inline-block;margin-left:.12em}
-.loop::after{content:"";position:absolute;inset:-.06em -.2em -.02em -.24em;background:var(--loop) no-repeat center/100% 100%;pointer-events:none;transform:rotate(-2.5deg)}
+.loop{position:relative;display:inline-block;margin:0 .1em 0 .16em}
+.loop::after{content:"";position:absolute;inset:-.1em -.3em -.06em -.26em;background:var(--loop) no-repeat center/100% 100%;pointer-events:none;transform:rotate(-2.5deg)}
 .mail{text-decoration:none;border-bottom:0;background:var(--pencil) no-repeat 0 100%/0 .28em;transition:background-size .55s cubic-bezier(.3,.9,.3,1.15)}
 .mail:hover,.mail:focus-visible{background-size:100% .28em;color:var(--ink)}
 
@@ -1430,7 +1435,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   <div class="insert" id="try-dispatch" data-fly="rise">
     <div class="insert-h"><span>Fig. 1 &mdash; try it</span><span>simulated, not real traffic</span></div>
     <h3>Blast it, or pace it?</h3>
-    <p class="cap">Same job, same small server. One strategy fires everything at once. The other paces itself to the server's limit and queues retries. Numbers are simulated: the server accepts only so many sends per second and drops the rest.</p>
+    <p class="cap">Same job, same small server. One strategy fires everything at once. The other paces itself to the server&rsquo;s limit and queues retries. Numbers are simulated: the server accepts only so many sends per second and drops the rest.</p>
     <div class="ctrls">
       <label>Messages to send <output id="oTotal">1000</output>
         <select id="total"><option>500</option><option selected>1000</option><option>2000</option><option>5000</option></select></label>
@@ -1450,7 +1455,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
         <div class="nums"><span>Delivered<b id="ndn">0</b></span><span>Lost<b id="nfn">0</b></span><span>Time<b id="nt">0s</b></span></div>
       </div>
       <div class="lane">
-        <h5>Paced to the server's limit</h5><small>Uses 90% of capacity, queues retries, up to five attempts</small>
+        <h5>Paced to the server&rsquo;s limit</h5><small>Uses 90% of capacity, queues retries, up to five attempts</small>
         <div class="track" aria-hidden="true"><i class="d" id="pd" style="width:0"></i><i class="f" id="pf" style="width:0"></i></div>
         <div class="nums"><span>Delivered<b id="pdn">0</b></span><span>Lost<b id="pfn">0</b></span><span>Time<b id="pt">0s</b></span></div>
       </div>
@@ -1463,9 +1468,9 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 <section class="feature g" id="f2" aria-labelledby="f2h">
   <div class="f-top" data-fly="rise"><span class="no">No. 02</span><span>Management apps</span></div>
   <h2 id="f2h" data-fly><span class="t1">Time,</span> pay and<br class="d"> the <span class="t2">payslip</span></h2>
-  <p class="lede" data-fly=".7">Management apps that understand that every employee's time is different, and turn it into a payslip people can trust.</p>
+  <p class="lede" data-fly=".7">Management apps that understand that every employee&rsquo;s time is different, and turn it into a payslip people can trust.</p>
   <div class="f-text" data-fly=".5" data-fly-delay=".06">
-    <p>I have built management applications that handle employee-specific time and generate payslips. Hours, rates, overtime and deductions are not one rule for everyone, so the system has to hold each person's rules and still produce a clean, explainable result at the end of the month.</p>
+    <p>I have built management applications that handle employee-specific time and generate payslips. Hours, rates, overtime and deductions are not one rule for everyone, so the system has to hold each person&rsquo;s rules and still produce a clean, explainable result at the end of the month.</p>
     <p>Access is part of the design. Staff, managers and admins see what they should and nothing more, which in a payroll-adjacent system is as important as the arithmetic.</p>
   </div>
   <aside class="side" data-fly=".5" data-fly-delay=".12">
@@ -1513,7 +1518,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   </div>
   <aside class="side" data-fly=".5" data-fly-delay=".12">
     <dl>
-      <div class="row"><dt>Shape</dt><dd>Multi-tenant SaaS, admin-controlled</dd></div>
+      <div class="row"><dt>Shape</dt><dd>Multi-tenant SaaS, <span class="nw">admin-controlled</span></dd></div>
       <div class="row"><dt>Menus</dt><dd>Categorised, priced and switched on or off live</dd></div>
       <div class="row"><dt>Tables</dt><dd>A QR code per table, ordering in the browser</dd></div>
       <div class="row"><dt>Access</dt><dd>Multiple user tiers and permissions</dd></div>
@@ -1524,7 +1529,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   <div class="insert" id="try-floor" data-fly="rise">
     <div class="insert-h"><span>Fig. 3</span><span>three.js, made-up dishes</span></div>
     <h3>Sort, scan, order</h3>
-    <p class="cap">The admin's job comes first: a menu scattered over months of edits, sorted into categories. Then the guest's: pick a table, scan its code and order from the browser tab. Drag to turn the room, and tap or click a table to scan it. Dishes and prices are invented.</p>
+    <p class="cap">The admin&rsquo;s job comes first: a menu scattered over months of edits, sorted into categories. Then the guest&rsquo;s: pick a table, scan its code and order from the browser tab. Drag to turn the room, and tap or click a table to scan it. Dishes and prices are invented.</p>
     <div class="runrow">
       <button class="btn solid" id="flSort" type="button">Sort the menu</button>
       <button class="btn" id="flGuest" type="button">Simulate a guest</button>
@@ -1576,7 +1581,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   <div class="insert" id="try-shop" data-fly="rise">
     <div class="insert-h"><span>Interactive &middot; Fig. 4</span><span>three.js &middot; simulation</span></div>
     <h3>Checkout to the doorstep</h3>
-    <p class="cap">Every order is one dot you can follow. It leaves the storefront, pays through one of four gateways, is picked from a warehouse bin, packed, loaded onto a van and dropped at the customer's door. Place your own order in the checkout tab and the tracker follows it. Switch a gateway off, or raise its failure rate, and orders move to another gateway instead of failing or being charged twice. Every number is simulated.</p>
+    <p class="cap">Every order is one dot you can follow. It leaves the storefront, pays through one of four gateways, is picked from a warehouse bin, packed, loaded onto a van and dropped at the customer&rsquo;s door. Place your own order in the checkout tab and the tracker follows it. Switch a gateway off, or raise its failure rate, and orders move to another gateway instead of failing or being charged twice. Every number is simulated.</p>
     <div class="scene3">
       <div class="stage sq" id="shHost">
         <canvas id="shCanvas" tabindex="0" role="img" aria-label="A 3D storefront, four payment gateways, a warehouse with three aisles, a packing station, a delivery van and four customers' homes. Drag or use the arrow keys to turn it, plus and minus to zoom."></canvas>
@@ -1680,7 +1685,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 <section class="feature g" id="f7" aria-labelledby="f7h">
   <div class="f-top" data-fly="rise"><span class="no">07</span><span class="say">the last one, for now</span><span>AI engineering</span></div>
   <h2 id="f7h" data-fly>Agents, plugins and patterns</h2>
-  <p class="lede" data-fly=".7">I do not just prompt AI. I build the structure around it: sub-agents with focused jobs, carefully crafted plugins, and development patterns that make the results dependable.</p>
+  <p class="lede" data-fly=".7">I do not just prompt AI. I build the structure around it: <span class="nw">sub-agents</span> with focused jobs, carefully crafted plugins, and development patterns that make the results dependable.</p>
   <div class="f-text" data-fly=".5" data-fly-delay=".06">
     <p>Using AI well is an engineering problem, not a typing shortcut. I use sub-agents to split work into focused, separate jobs, so each one has a clear task and a clean context instead of one agent juggling everything at once.</p>
     <p>I make plugins for agents: packaged instructions, tools and guardrails that give an agent what it needs for a specific kind of work. And I design the development patterns around them, covering how a task is broken down, what is delegated, and how the result is checked before it ships.</p>
@@ -2732,7 +2737,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       lastStatus = now;
       var flowing = 0, drained = false;
       lines.forEach(function(l){ if (T - l.lastArrive < 1.4) flowing++; if (T - l.lastReturn < 1.4) drained = true; });
-      statusEl.textContent = "Power reaching the core: " + flowing + " of " + lines.length + " lines. " + labelFor(flowing, drained) + ".";
+      statusEl.textContent = (T < 1.6 && !flowing && !drained) ? "Power reaching the core: starting." : "Power reaching the core: " + flowing + " of " + lines.length + " lines. " + labelFor(flowing, drained) + ".";
       statusEl.setAttribute("data-flowing", flowing); statusEl.setAttribute("data-drained", drained ? "1" : "0");
     }
   }
@@ -3001,7 +3006,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       $("aForm").addEventListener("submit", function(e){
         e.preventDefault();
         var a=v1(), b=v2(), c=v3();
-        $("aOk").textContent = (a&&b&&c) ? "Order placed. We'll text you when it's on the way." : "";
+        $("aOk").textContent = (a&&b&&c) ? "Order placed. We’ll text you when it’s on the way." : "";
         if(!(a&&b&&c)){ var first=[f1,f2,f3][[a,b,c].indexOf(false)]; first.focus(); }
       });
     }
@@ -3524,7 +3529,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       $("flSort").textContent = on ? "Scatter the menu" : "Sort the menu";
       catTags.forEach(function(t, ci){ t.el.classList.toggle("gone", !on); t.el.classList.toggle("off", !catOn[ci]); });
       renderMenu();
-      say(on ? "Sorted: twenty dishes, five categories. Switch a category off and it leaves every table's menu at once." : "Scattered, the way a menu ends up after months of edits.");
+      say(on ? "Sorted: twenty dishes, five categories. Switch a category off and it leaves every table’s menu at once." : "Scattered, the way a menu ends up after months of edits.");
     }
     function stepCards(dt, T){
       cards.forEach(function(c){
@@ -3593,7 +3598,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       });
       if (!t.booked) { t.booked = true; t.at = Date.now(); bookedTotal++; }
       cart = {}; renderMenu(); renderTables(); renderTickets();
-      say("Table " + t.n + " is booked. " + n + (n === 1 ? " item" : " items") + " sent to the kitchen, and " + tk(sum) + " added to the table's bill.");
+      say("Table " + t.n + " is booked. " + n + (n === 1 ? " item" : " items") + " sent to the kitchen, and " + tk(sum) + " added to the table’s bill.");
     }
     function closeBill(ti){
       var t = tables[ti];
@@ -3661,7 +3666,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         catTags[ci].el.classList.toggle("off", !catOn[ci]);
         Object.keys(cart).forEach(function(k){ if (cards[+k].cat === ci && !catOn[ci]) delete cart[k]; });
         renderMenu();
-        say(n + (catOn[ci] ? " is back on every table's menu." : " is switched off. It disappears from every table's menu straight away, with nothing to reprint."));
+        say(n + (catOn[ci] ? " is back on every table’s menu." : " is switched off. It disappears from every table’s menu straight away, with nothing to reprint."));
       });
       catBox.appendChild(b);
     });
