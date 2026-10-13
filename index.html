@@ -261,7 +261,7 @@ em{font-style:italic}
 .hl .tt{letter-spacing:-.055em}
 .hl em{letter-spacing:-.01em;padding-right:.04em}
 .opening .hl{margin-left:clamp(0px,4.5vw,96px)}
-@media(max-width:620px){.hl{font-size:clamp(46px,14.6vw,80px)}}
+@media(max-width:620px){.hl{font-size:clamp(46px,14.6vw,66px)}}
 
 /* ---------- the orbit: the chip holds the middle of the screen while the page moves around it ----------
    Wide screens: the chip sits in a sticky layer the height of the screen; the words travel in a layer above
@@ -283,7 +283,7 @@ em{font-style:italic}
 .stand b{font-weight:400;color:var(--ink)}
 .o-hand{position:relative;margin:0;left:calc(var(--og) - 12px)}
 .o-hand .hand{display:block;transform:rotate(-4deg)}
-.o-hand svg{display:block;width:clamp(110px,10vw,170px);height:auto;margin:6px calc(var(--chipW) * -.14) 0 auto;overflow:visible}
+.o-hand svg{display:block;width:clamp(110px,10vw,170px);height:auto;margin:6px 0 0 auto;overflow:visible}
 .o-hand path{fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .chip-note{margin:0;font:400 15px/1.6 var(--sans);color:var(--muted)}
 .chip-note .note{display:block;margin-bottom:8px;color:var(--ink)}
@@ -435,6 +435,7 @@ br.d{display:none}
 .f-top .say{font:italic 400 19px/1.1 var(--serif);letter-spacing:.003em;color:color-mix(in srgb,var(--ink) 74%,transparent)}
 .feature h2{margin:clamp(12px,1.4vw,22px) 0 0;font:400 var(--hs,clamp(40px,7vw,120px))/var(--lh,.94) var(--serif);letter-spacing:var(--tr,-.03em)}
 .feature h2 em{letter-spacing:-.012em}
+@media(max-width:760px){.feature h2{text-wrap:balance}}
 .ink{text-shadow:max(1.1px,.022em) 0 0 currentColor}
 .ink::selection{text-shadow:none}
 @media(forced-colors:active){.ink{text-shadow:none}}
@@ -460,7 +461,7 @@ br.d{display:none}
 #f5 .side dt{color:var(--muted)}
 #f5 .side dt::after{content:"\00a0\2014\00a0"}
 #f5 .side .row:not(:last-child)::after{content:"\00a0\00b7\0020";color:var(--muted)}
-@media(min-width:1100px){#f5 .side .row{display:block}#f5 .side .row:not(:last-child)::after{content:none}}
+@media(min-width:1280px){#f5 .side .row{display:block}#f5 .side .row:not(:last-child)::after{content:none}}
 #f7 .side dl{border-top:0}
 #f7 .side .row{display:block;padding:0 0 clamp(14px,1.4vw,20px);border:0}
 #f7 .side dt{font:400 11.5px/1.4 var(--mono);letter-spacing:.02em;color:var(--muted)}
@@ -558,7 +559,7 @@ br.d{display:none}
 
   /* F5: short, its number hanging out on the left */
   #f5 .f-num{grid-column:col 1/col 3;grid-row:1/span 2;align-self:end}
-  #f5 .f-top{grid-column:col 3/col 9;border-top:0;padding-top:0}
+  #f5 .f-top{grid-column:col 3/col 8;border-top:0;padding-top:0}
   #f5 h2{grid-column:col 3/col 9;margin-top:6px}
   #f5 .lede{grid-column:col 3/col 8;grid-row:3}
   #f5 .f-text{grid-column:col 3/col 8;grid-row:4;columns:1;max-width:58ch}
@@ -720,7 +721,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;background:var(--acce
 }
 @media(max-width:760px){
   .next{grid-column:col 1/bleed-end;border-radius:24px 0 0 24px;padding:clamp(28px,7vw,44px) calc(var(--gut) + 18px) clamp(26px,6vw,40px) clamp(18px,5vw,26px)}
-  .next h2{font-size:clamp(44px,12.5vw,96px)}
+  .next h2{font-size:clamp(44px,12.5vw,64px)}
   .snap-process{width:112px}
 }
 
@@ -743,7 +744,7 @@ footer{margin-top:clamp(72px,9vw,150px);border-top:1px solid var(--ink);padding:
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer p{margin:0;font:300 13px/1.6 var(--sans);color:var(--muted);max-width:620px}
 footer .colo{font:400 12px/1.6 var(--mono);letter-spacing:-.005em;text-align:right;max-width:44ch;margin-left:auto}
-@media(max-width:620px){footer .colo{text-align:left}}
+@media(max-width:620px){footer .colo{text-align:left;margin-left:0}}
 
 /* 3D figures: restaurant floor and ecommerce flow */
 .scene3{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:30px;align-items:start}
@@ -1221,7 +1222,7 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 .gl-facts{grid-area:facts;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .gl-facts>div{min-width:0;padding:13px 16px 14px;border-radius:16px;background:var(--paper)}
 .gl-facts dt{font:400 12.5px/1.4 var(--sans);letter-spacing:.01em;color:var(--muted)}
-.gl-facts dd{margin:5px 0 0;font:400 clamp(18px,1.7vw,22px)/1.2 var(--serif);letter-spacing:-.005em}
+.gl-facts dd{margin:5px 0 0;font:400 clamp(18px,1.7vw,22px)/1.2 var(--serif);letter-spacing:-.005em;text-wrap:balance}
 .gl-facts b{font-weight:400;color:var(--accent);font-size:1.25em;line-height:.9}
 .gl-stack{grid-area:stack;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr) minmax(0,1.3fr);gap:24px;border-top:1px solid var(--hair);padding-top:clamp(18px,2.4vw,26px)}
 /* tags: pads moulded out of the card like every other pill. The "now" ones carry a solid granite
