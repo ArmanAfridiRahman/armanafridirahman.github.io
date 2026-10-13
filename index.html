@@ -869,10 +869,11 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 .gl-facts dd{margin:5px 0 0;font:400 clamp(18px,1.7vw,22px)/1.2 var(--serif);letter-spacing:-.005em}
 .gl-facts b{font-weight:400;color:var(--accent);font-size:1.25em;line-height:.9}
 .gl-stack{grid-area:stack;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr) minmax(0,1.3fr);gap:24px;border-top:1px solid var(--hair);padding-top:clamp(18px,2.4vw,26px)}
-.gl-grp ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:7px}
-.gl-grp li{font:600 13.5px/1 var(--ui);padding:8px 12px;border-radius:999px;background:var(--paper);color:var(--ink)}
+/* tags: pads moulded out of the card like every other pill; the "now" ones carry a granite dot */
+.gl-grp ul{list-style:none;margin:12px 0 0;padding:4px 2px 6px;display:flex;flex-wrap:wrap;gap:12px 10px}
+.gl-grp li{font:600 13.5px/1 var(--ui);padding:9px 14px;border-radius:999px;background:var(--face);color:var(--ink);box-shadow:var(--raise-s)}
 .gl-grp.now .lab{color:var(--sand)}
-.gl-grp.now li{background:color-mix(in srgb,var(--sand) 14%,var(--paper));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sand) 34%,transparent)}
+.gl-grp.now li::before{content:"";display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:var(--sand);vertical-align:1px}
 
 /* tablets and small laptops: name across the top, facts in three columns, stack as rows */
 @media(max-width:999px){
@@ -901,8 +902,8 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
   .gl-facts dd{margin-top:4px;font-size:17.5px}
   .gl-stack{padding-top:16px;gap:14px}
   .gl-grp{display:block}
-  .gl-grp ul{margin-top:8px;gap:6px}
-  .gl-grp li{font-size:12.5px;padding:7px 10px}
+  .gl-grp ul{margin-top:8px;gap:10px 8px}
+  .gl-grp li{font-size:12.5px;padding:8px 11px}
 }
 /* narrow phones: email gets the full row */
 @media(max-width:380px){
