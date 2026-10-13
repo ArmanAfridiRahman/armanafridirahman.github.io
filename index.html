@@ -741,6 +741,17 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;bac
 .js .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.track i{transition:none}}
 @media print{.bar,.runrow,.seg,.tbtn,.toggles{display:none}.rv{opacity:1 !important;transform:none !important}}
+
+/* taps: no blue flash, no stray text selection, and no focus ring after a tap on sliders and
+   dropdowns. Keyboard users still get a ring (focus-visible); text fields keep theirs while typing. */
+html{-webkit-tap-highlight-color:transparent}
+button,a,label,select,input[type=range],canvas,.csel-btn,.csel-opt,.mi,.toggles,.seg,.zoom,.runrow,.tab-foot{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+:focus:not(:focus-visible){outline:none}
+input[type=range]:focus,input[type=range]:focus-visible{outline:none;box-shadow:none}
+input[type=range]::-moz-focus-outer{border:0}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
+select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:none;box-shadow:var(--raise-s)}
 </style>
 </head>
 <body>
