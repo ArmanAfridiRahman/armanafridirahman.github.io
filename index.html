@@ -869,13 +869,15 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
 .gl-facts dd{margin:5px 0 0;font:400 clamp(18px,1.7vw,22px)/1.2 var(--serif);letter-spacing:-.005em}
 .gl-facts b{font-weight:400;color:var(--accent);font-size:1.25em;line-height:.9}
 .gl-stack{grid-area:stack;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr) minmax(0,1.3fr);gap:24px;border-top:1px solid var(--hair);padding-top:clamp(18px,2.4vw,26px)}
-/* tags: pads moulded out of the card like every other pill. The "now" ones carry a granite crescent
-   on their left curve: an inset shadow pushed right, so it is thickest at the middle and thins to
-   nothing at the top and bottom, softened so it melts into the pill */
+/* tags: pads moulded out of the card like every other pill. The "now" ones carry a solid granite
+   crescent on their left curve: the pill is granite underneath and its face sits on top, moved
+   4px right, so the crescent is thickest at the middle and thins away at the top and bottom.
+   It is lit like the pill (lighter at the top), so it reads as part of the raised surface. */
 .gl-grp ul{list-style:none;margin:12px 0 0;padding:4px 2px 6px;display:flex;flex-wrap:wrap;gap:12px 10px}
 .gl-grp li{font:600 13.5px/1 var(--ui);padding:9px 14px;border-radius:999px;background:var(--face);color:var(--ink);box-shadow:var(--raise-s)}
 .gl-grp.now .lab{color:var(--sand)}
-.gl-grp.now li{box-shadow:inset 4px 0 4px -1px color-mix(in srgb,var(--sand) 75%,transparent),var(--raise-s)}
+.gl-grp.now li{position:relative;isolation:isolate;background:linear-gradient(180deg,color-mix(in srgb,var(--sand),#fff 18%),color-mix(in srgb,var(--sand),#000 12%))}
+.gl-grp.now li::before{content:"";position:absolute;inset:0 0 0 4px;z-index:-1;border-radius:inherit;background:var(--face)}
 
 /* tablets and small laptops: name across the top, facts in three columns, stack as rows */
 @media(max-width:999px){
