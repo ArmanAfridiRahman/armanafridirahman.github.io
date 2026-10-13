@@ -752,6 +752,64 @@ input[type=range]::-moz-focus-outer{border:0}
 input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
 input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 30%,transparent)}
 select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:none;box-shadow:var(--raise-s)}
+
+/* ---------- control drawers ---------- */
+.cover-grid>*,.chip-ui,.insert>*{min-width:0}
+.dock{min-width:0;margin:6px 0 18px;border-radius:var(--r,16px);background:var(--surf,var(--paper2));box-shadow:var(--raise-s,none)}
+.dock>summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:46px;padding:10px 16px;cursor:pointer;border-radius:inherit}
+.dock>summary::-webkit-details-marker{display:none}
+.dock>summary:focus-visible{outline:1px solid var(--accent);outline-offset:2px}
+.dock-t{flex:none;font:700 13.5px var(--ui,var(--sans));color:var(--ink)}
+.dock-t::before{content:"";display:inline-block;width:13px;height:9px;margin-right:9px;vertical-align:1px;background:linear-gradient(var(--accent),var(--accent)) 0 0/100% 1.5px no-repeat,linear-gradient(var(--accent),var(--accent)) 0 50%/100% 1.5px no-repeat,linear-gradient(var(--accent),var(--accent)) 0 100%/100% 1.5px no-repeat}
+.dock-s{flex:1;min-width:0;contain:inline-size;font:600 12.5px var(--ui,var(--sans));color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock-c{flex:none;width:8px;height:8px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.dock[open]>summary .dock-c{transform:rotate(-135deg) translate(-2px,-1px)}
+.dock[open]>summary .dock-s{visibility:hidden}
+.dock-b{padding:4px 16px 16px}
+.dock-b>.ctrls,.dock-b>.chip-ctrls,.dock-b>.fields{margin:0}
+.dock-b>.ctrls+.lab{margin-top:14px}
+.dock-b>.runrow{margin:14px 0 0 !important}
+.chip-ui .dock{margin:4px 0 12px}
+@media(prefers-reduced-motion:reduce){.dock-c{transition:none}}
+
+/* ---------- compact numbers and panels on phones ---------- */
+@media(max-width:620px){
+  .race{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+  .lane,.lane+.lane{padding:0;border:0;margin:0}
+  .lane h5{font-size:17px;line-height:1.15;margin-bottom:8px}
+  .lane small{display:none}
+  .race .nums{gap:4px 12px;margin-top:10px}
+  .race .nums span{font-size:9.5px;letter-spacing:.04em}
+  .race .nums b{font-size:22px}
+  .shnums{grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:8px !important}
+  .shnums span{min-width:0;padding:8px 10px;border-radius:12px;background:var(--face,var(--paper));box-shadow:var(--raise-s,none);font-size:9.5px;letter-spacing:.03em;line-height:1.25}
+  .shnums b{font-size:22px;margin-top:2px}
+  .steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));align-items:center}
+  .steps li{display:flex;justify-content:center;padding:4px 0;font-size:0;position:relative}
+  .steps li:not(:last-child)::after{content:"";position:absolute;left:calc(50% + 15px);right:calc(-50% + 15px);top:50%;height:1.5px;background:color-mix(in srgb,var(--ink) 14%,transparent)}
+  .steps li.done:not(:last-child)::after{background:var(--accent)}
+  .steps-now{margin:2px 0 0;font:700 13px var(--ui,var(--sans));color:var(--accent)}
+  .steps-log{font-size:15.5px;min-height:0}
+  #shShop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-content:start}
+  #shShop h6,#shShop .toggles{grid-column:1/-1}
+  #shShop .mi{flex-direction:column;align-items:flex-start;gap:2px;padding:9px 11px;border:0;border-radius:12px;background:var(--face,var(--paper));box-shadow:var(--raise-s,none);font-size:14px}
+  #shShop .mi.sel{box-shadow:var(--raise-s,none),inset 0 0 0 1.5px var(--accent)}
+  .orders li:nth-child(n+4){display:none}
+  #flTables{flex-wrap:nowrap;overflow-x:auto;padding:6px 4px 10px;margin:0;scrollbar-width:none}
+  #flTables::-webkit-scrollbar{display:none}
+  #flTables button{flex:none}
+  .chip-note{font-size:13px}
+}
+@media(min-width:621px){ .steps-now{display:none} }
+@media(max-width:300px){ .shnums{grid-template-columns:repeat(2,minmax(0,1fr)) !important} .shnums span{overflow-wrap:anywhere} .tab-bar i{display:none} .tab-bar .url{margin-left:0} .tab-bar{min-width:0;overflow:hidden} }
+@media(max-width:620px){
+  #shShop{max-height:none;overflow:visible}
+  .tab{min-height:0}
+  .tab-body .empty{margin:14px 0}
+  #shStatus,#flStatus{font-size:15.5px}
+}
+.stage-hint{right:62px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
 </style>
 </head>
 <body>
@@ -973,7 +1031,7 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
         <span class="stage-hint lab">Fig. 3 · Drag to turn · pinch or +/− to zoom</span>
       </div>
       <div class="scene-side">
-        <div class="lab">Admin · categories on the menu</div>
+        <div class="lab">Categories on the menu</div>
         <div class="toggles" id="flCats" role="group" aria-label="Menu categories"></div>
         <div class="lab">Guest · scan a table</div>
         <div class="toggles" id="flTables" role="group" aria-label="Tables"></div>
@@ -1032,6 +1090,7 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
         </div>
         <div class="lab">Order tracker</div>
         <ol class="steps" id="shSteps"></ol>
+        <p class="steps-now" id="shStepNow"></p>
         <p class="steps-log" id="shLog">Place an order, or watch the next one that comes in.</p>
       </div>
     </div>
@@ -1041,7 +1100,7 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
       <label>Gateway failure rate <output id="oGfail">8%</output>
         <input id="shFail" type="range" min="0" max="40" value="8"></label>
     </div>
-    <div class="lab">Admin · gateways</div>
+    <div class="lab">Gateways</div>
     <div class="toggles" id="shGws" role="group" aria-label="Payment gateways"></div>
     <div class="runrow" style="margin-top:18px">
       <button class="btn solid" id="shRun" type="button">Pause</button>
@@ -3346,6 +3405,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         return '<li class="' + st + '">' + label + "</li>";
       }).join("");
       if (box.innerHTML !== h) box.innerHTML = h;
+      var now = !o ? "" : o.step >= 5 ? "Step 6 of 6 · " + (o.cod ? "Delivered and paid" : "Delivered") : "Step " + (o.step + 1) + " of 6 · " + (o.step === 1 && o.cod ? "Confirmed, cash on delivery" : STEPS[o.step]);
+      if ($("shStepNow").textContent !== now) $("shStepNow").textContent = now;
       var head = o ? "#" + o.id + " · " + PRODUCTS[o.prod][0] + (o.mine ? " · your order" : "") + ". " : "";
       var t = o ? head + o.log[o.log.length - 1] : "Place an order, or watch the next one that comes in.";
       if ($("shLog").textContent !== t) $("shLog").textContent = t;
@@ -3402,7 +3463,6 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       });
       renderShop(); renderTrack(); if (dirty) { renderOrders(); dirty = false; }
       if (stats.ord && performance.now() - sayT > 5000) {
-        sayT = performance.now() - 2000;
         $("shStatus").textContent = (stats.ord === 1 ? "1 order" : stats.ord + " orders") + ": " + stats.paid + " paid, " + stats.re + " moved to another gateway, " + stats.dup + " duplicate callbacks ignored, " + stats.ship + " delivered and " + stats.restock + " bins restocked. Charged twice: " + stats.twice + ".";
       }
     };
@@ -3414,5 +3474,52 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 })();
 </script>
 
+<script>
+/* ---- control drawers: each figure's settings fold into one line that shows their current values.
+   Closed on phones so the figure comes first; open on larger screens. ---- */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var q = function(sel){ return document.querySelector(sel); };
+  var wide = window.matchMedia("(min-width: 701px)"), docks = [];
+  function val(id){ var e = $(id); return e ? e.value : ""; }
+  function out(id){ var e = $(id); return e ? e.textContent : ""; }
+  function dock(nodes, title, sum){
+    nodes = nodes.filter(Boolean); if (!nodes.length) return;
+    var d = document.createElement("details"); d.className = "dock";
+    d.innerHTML = '<summary><span class="dock-t">' + title + '</span><span class="dock-s"></span><i class="dock-c" aria-hidden="true"></i></summary><div class="dock-b"></div>';
+    nodes[0].parentNode.insertBefore(d, nodes[0]);
+    var body = d.querySelector(".dock-b"); nodes.forEach(function(n){ body.appendChild(n); });
+    var s = d.querySelector(".dock-s");
+    function upd(){ var t = sum(); if (s.textContent !== t) s.textContent = t; }
+    ["input", "change", "click"].forEach(function(ev){ d.addEventListener(ev, function(){ setTimeout(upd, 0); }); });
+    d.open = wide.matches; upd(); docks.push({ d: d, upd: upd });
+  }
+  dock([q(".chip-ctrls")], "Adjust", function(){
+    return "X " + out("oRx") + " · Y " + out("oRy") + " · Z " + out("oRz") + " · " + out("oSup");
+  });
+  dock([q("#try-dispatch .ctrls")], "Adjust", function(){
+    return val("total") + " messages · " + val("cap") + "/s · " + val("fail") + "% fail";
+  });
+  dock([q("#try-payslip .fields")], "Edit inputs", function(){
+    return val("pReg") + " h + " + val("pOt") + " overtime · " + val("pRate") + "/h · tax " + val("pTax") + "%";
+  });
+  var cats = $("flCats");
+  if (cats) dock([cats.previousElementSibling, cats], "Admin", function(){
+    var on = cats.querySelectorAll('[aria-pressed="true"]').length, all = cats.children.length;
+    return on + " of " + all + " categories on the menu";
+  });
+  var gws = $("shGws"), shop = $("try-shop");
+  if (gws) dock([shop.querySelector(".ctrls"), gws.previousElementSibling, gws, gws.nextElementSibling], "Admin", function(){
+    var up = gws.querySelectorAll('[aria-pressed="true"]').length;
+    return out("oRate") + " orders/min · " + out("oGfail") + " fail · " + up + " of 4 gateways" + ($("shRun").textContent === "Run" ? " · paused" : "");
+  });
+  /* follow the screen size until someone opens or closes a drawer themselves */
+  var touched = false;
+  docks.forEach(function(k){ k.d.querySelector("summary").addEventListener("click", function(){ touched = true; }); });
+  function sync(){ if (!touched) docks.forEach(function(k){ k.d.open = wide.matches; }); }
+  if (wide.addEventListener) wide.addEventListener("change", sync); else if (wide.addListener) wide.addListener(sync);
+  setInterval(function(){ docks.forEach(function(k){ if (!k.d.open) k.upd(); }); }, 1000);
+})();
+</script>
 </body>
 </html>
