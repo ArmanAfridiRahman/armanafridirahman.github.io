@@ -90,62 +90,62 @@ Line numbers are approximate and drift with edits; the codes do not.
 | `B.01` | 216 | Typefaces | nine `@font-face` rules pointing at `assets/fonts/*.woff2` |
 | `B.02` | 283 | Tokens | one `:root` block for light, one for manual dark, one for system dark, `--max` at 1920px · portrait (`--me`, `assets/portrait.webp`) · per-element light (`--hi`, `--lo`, `--raise`, `--sink`) |
 | `B.03` | 402 | Document | reset and body (including body size at 300 / 360 / 1600 / 2200px) · theme transition · scrollbars · taps and focus · utilities (`.hidden`, `.nw`) |
-| `B.04` | 579 | Type & marks | labels (`.lab`, `.note`, `.hand`) · ink · marks (`.brush`, `.loop`) |
-| `B.05` | 636 | Layout | the `.g` grid and its named lines |
-| `B.06` | 662 | Top bar | bar · theme switch |
-| `B.07` | 790 | Cover | `.mast`, `.cv-hero`, the shade, `.mast-echo`, every width |
-| `B.08` | 922 | Opening line | `.hl` |
-| `B.09` | 954 | Orbit | frame and lanes · contents · chip · one column |
-| `B.10` | 1385 | At a glance | placement · card · ≤ 999 / 640 / 380 / 300px · short landscape · facts as a list on hairlines |
-| `B.11` | 1815 | Letter | heading, columns, drop cap, desk photo |
-| `B.12` | 1908 | Features | parts · detail tables · spacing and type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
-| `B.13` | 2520 | Photo slots | `.snap` prints, tape, hatching, dark variants |
-| `B.14` | 2602 | Figure trays | tray · Fig. 1 dispatch race · Fig. 2 payslip · Fig. 5 form |
-| `B.15` | 3037 | Controls | labels, fields and dropdowns · sliders · buttons · quiet links · segmented control · chips · drawers |
-| `B.16` | 3620 | 3D stages | stage and labels · zoom keys |
-| `B.17` | 3843 | Browser tab | tab · staff tickets · Fig. 4 checkout and readouts · Fig. 4 tracker · Fig. 4 recent orders |
-| `B.18` | 4396 | Compact figures | launcher · sheet · ticket row (≤ 900px) |
-| `B.19` | 4839 | Next issue | the dark `.next` card and its buttons |
-| `B.20` | 4966 | Contact | `.con-h`, `.mail`, `.links` |
-| `B.21` | 5067 | Footer | |
-| `B.22` | 5102 | Motion & print | arrivals · print |
-| `B.23` | 5205 | Shared finishing | rounded small labels · sand underlines · accent ink |
+| `B.04` | 575 | Type & marks | labels (`.lab`, `.note`, `.hand`) · ink · marks (`.brush`, `.loop`) |
+| `B.05` | 631 | Layout | the `.g` grid and its named lines |
+| `B.06` | 659 | Top bar | bar · theme switch |
+| `B.07` | 787 | Cover | `.mast`, `.cv-hero`, the shade, `.mast-echo`, every width |
+| `B.08` | 919 | Opening line | `.hl` |
+| `B.09` | 951 | Orbit | frame and lanes · contents · chip · one column |
+| `B.10` | 1371 | At a glance | placement · card · ≤ 999 / 640 / 380 / 300px · short landscape · facts as a list on hairlines |
+| `B.11` | 1781 | Letter | heading, columns, drop cap, desk photo |
+| `B.12` | 1871 | Features | parts · detail tables · spacing and type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
+| `B.13` | 2465 | Photo slots | `.snap` prints, tape, hatching, dark variants |
+| `B.14` | 2547 | Figure trays | tray · Fig. 1 dispatch race · Fig. 2 payslip · Fig. 5 form |
+| `B.15` | 2962 | Controls | labels, fields and dropdowns · sliders · buttons · quiet links · segmented control · chips · drawers |
+| `B.16` | 3518 | 3D stages | stage and labels · zoom keys |
+| `B.17` | 3726 | Browser tab | tab · staff tickets · Fig. 4 checkout and readouts · Fig. 4 tracker · Fig. 4 recent orders |
+| `B.18` | 4250 | Compact figures | launcher · sheet · ticket row (≤ 900px) |
+| `B.19` | 4690 | Next issue | the dark `.next` card and its buttons |
+| `B.20` | 4816 | Contact | `.con-h`, `.mail`, `.links` |
+| `B.21` | 4917 | Footer | |
+| `B.22` | 4952 | Motion & print | arrivals · print |
+| `B.23` | 5055 | Shared finishing | rounded small labels · sand underlines · accent ink |
 
 ### C · Page
 
 | Code | Line | Section | Anchor |
 |---|---:|---|---|
-| `C.01` | 5272 | Top bar | `header.bar` |
-| `C.02` | 5286 | Cover | `section.cover` |
-| `C.03` | 5297 | Opening line | `section.opening` |
-| `C.04` | 5304 | Orbit | `#orbit`, `#inside` |
-| `C.05` | 5340 | At a glance | `#glance` |
-| `C.06` | 5375 | Letter | `#letter` |
-| `C.07` | 5392 | Feature 01 · Dispatching under limits | `#f1`, Fig. 1 `#try-dispatch` |
-| `C.08` | 5444 | Feature 02 · Time, pay and the payslip | `#f2`, Fig. 2 `#try-payslip` |
-| `C.09` | 5488 | Feature 03 · Tables, menus and the order | `#f3`, Fig. 3 `#try-floor` |
-| `C.10` | 5544 | Feature 04 · Checkout to the shelf | `#f4`, Fig. 4 `#try-shop` |
-| `C.11` | 5610 | Feature 05 · WordPress, done properly | `#f5` (no demo) |
-| `C.12` | 5633 | Feature 06 · Interface decisions that matter | `#f6`, Fig. 5 `#try-ux` |
-| `C.13` | 5670 | Feature 07 · Agents, plugins and patterns | `#f7` |
-| `C.14` | 5693 | Next issue | `#next` |
-| `C.15` | 5713 | Contact | `#contact` |
-| `C.16` | 5728 | Footer | `footer` |
+| `C.01` | 5121 | Top bar | `header.bar` |
+| `C.02` | 5135 | Cover | `section.cover` |
+| `C.03` | 5146 | Opening line | `section.opening` |
+| `C.04` | 5153 | Orbit | `#orbit`, `#inside` |
+| `C.05` | 5189 | At a glance | `#glance` |
+| `C.06` | 5224 | Letter | `#letter` |
+| `C.07` | 5241 | Feature 01 · Dispatching under limits | `#f1`, Fig. 1 `#try-dispatch` |
+| `C.08` | 5293 | Feature 02 · Time, pay and the payslip | `#f2`, Fig. 2 `#try-payslip` |
+| `C.09` | 5337 | Feature 03 · Tables, menus and the order | `#f3`, Fig. 3 `#try-floor` |
+| `C.10` | 5393 | Feature 04 · Checkout to the shelf | `#f4`, Fig. 4 `#try-shop` |
+| `C.11` | 5459 | Feature 05 · WordPress, done properly | `#f5` (no demo) |
+| `C.12` | 5482 | Feature 06 · Interface decisions that matter | `#f6`, Fig. 5 `#try-ux` |
+| `C.13` | 5519 | Feature 07 · Agents, plugins and patterns | `#f7` |
+| `C.14` | 5542 | Next issue | `#next` |
+| `C.15` | 5562 | Contact | `#contact` |
+| `C.16` | 5577 | Footer | `footer` |
 
 ### D · Scripts
 
 | Code | Line | Script | Groups inside |
 |---|---:|---|---|
-| `D.01` | 5739 | Arrivals | collect · measure · one element · the loop |
-| `D.02` | 6128 | three.js r149 | `<script src="assets/vendor/three.min.js">`, the official build |
-| `D.03` | 6133 | Theme & footer | footer year and GitHub link · theme |
-| `D.04` | 6221 | Cover chip | theme colours · scene · power lines · beads · physics · colours · orientation · size and loop |
-| `D.05` | 6857 | Demos | custom dropdown · Fig. 1 dispatch simulator · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 form |
-| `D.06` | 7501 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
-| `D.07` | 10327 | Photo guard | — |
-| `D.08` | 10343 | Control drawers | — |
-| `D.09` | 10468 | Pinned chip drawer | — |
-| `D.10` | 10515 | Compact figures | browser tabs → sheet · staff tickets |
+| `D.01` | 5588 | Arrivals | collect · measure · one element · the loop |
+| `D.02` | 5977 | three.js r149 | `<script src="assets/vendor/three.min.js">`, the official build |
+| `D.03` | 5982 | Theme & footer | footer year and GitHub link · theme |
+| `D.04` | 6070 | Cover chip | theme colours · scene · power lines · beads · physics · colours · orientation · size and loop |
+| `D.05` | 6706 | Demos | custom dropdown · Fig. 1 dispatch simulator · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 form |
+| `D.06` | 7350 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
+| `D.07` | 10176 | Photo guard | — |
+| `D.08` | 10192 | Control drawers | — |
+| `D.09` | 10317 | Pinned chip drawer | — |
+| `D.10` | 10364 | Compact figures | browser tabs → sheet · staff tickets |
 
 ---
 
