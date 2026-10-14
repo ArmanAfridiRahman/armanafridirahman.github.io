@@ -192,6 +192,10 @@
 html{color-scheme:light}
 :root[data-theme="dark"]{color-scheme:dark}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark}}
+/* theme switch: the new theme grows out of the button as a circle (View Transitions; set up in the theme script) */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}
+::view-transition-new(root){z-index:2}
 :root{
   /* ONE accent, used sparingly: --brand, a leaf green picked from the foliage behind me in my photo (a real
      pixel of it). It marks the chip's power pulses, the hand-drawn lines, hover states and the odd number.
@@ -2475,9 +2479,23 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   if (root.getAttribute("data-theme")) syncTheme();
   tb.addEventListener("click", function(){
     var next = isDark() ? "light" : "dark";
-    root.setAttribute("data-theme", next);
-    try{ localStorage.setItem("theme", next); }catch(e){}
-    label(); syncTheme();
+    function apply(){
+      root.setAttribute("data-theme", next);
+      try{ localStorage.setItem("theme", next); }catch(e){}
+      label(); syncTheme();
+    }
+    /* bubble: the new theme expands from the button across the whole page */
+    if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches){ apply(); return; }
+    var r = tb.getBoundingClientRect(),
+        x = r.left + r.width/2, y = r.top + r.height/2,
+        rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    var vt = document.startViewTransition(apply);
+    vt.ready.then(function(){
+      root.animate(
+        { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + rad + "px at " + x + "px " + y + "px)"] },
+        { duration: 700, easing: "cubic-bezier(.4,0,.2,1)", pseudoElement: "::view-transition-new(root)" }
+      );
+    }).catch(function(){});
   });
 
 /* ---- cover: a chip you can turn in your hands (three.js) ----
