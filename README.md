@@ -1,16 +1,16 @@
 # Arman Afridi Rahman · Portfolio
 
 > **Software that is built to run *well*.**
-> A single, self-contained page at **[armanafridirahman.github.io](https://armanafridirahman.github.io/)**:
+> A single page at **[armanafridirahman.github.io](https://armanafridirahman.github.io/)**:
 > editorial type, a 3D chip you can turn in your hands, and five working demos that show how the
 > systems behind the case studies behave.
 
 | | |
 |---|---|
-| **Entry point** | `index.html`. It is the whole site: markup, styles, scripts, fonts and the portrait. |
+| **Entry point** | `index.html`: markup, styles and the site's own scripts. Binary assets live in `assets/`. |
 | **Build step** | None. Open the file in a browser, or push to `main` and GitHub Pages serves it. |
-| **Network at runtime** | None for the page itself. Fonts, the photo, three.js and jsPDF are all embedded. |
-| **Size** | ≈ 1.7 MB unminified (three.js ≈ 608 KB, jsPDF ≈ 364 KB, portrait ≈ 268 KB, fonts ≈ 183 KB). |
+| **Network at runtime** | Same-origin only. The portrait and the seven fonts on the first screen are preloaded; three.js loads with the page; jsPDF loads only when the payslip is downloaded. |
+| **Size** | `index.html` ≈ 350 KB unminified. `assets/`: three.js 608 KB, jsPDF 364 KB (on demand), portrait 201 KB, fonts 137 KB. |
 | **Browsers** | Evergreen browsers. `color-mix()` is required; View Transitions, popovers and `CloseWatcher` are used where they exist. |
 
 ---
@@ -33,7 +33,7 @@
 
 `index.html` reads top to bottom in four layers. Each layer opens with a heavy rule, each part of a
 layer with a double-ruled banner that carries a short code, and each group inside a part with a light
-rule. The codes are the stable anchors: search the file for `B.15` or `D.07` and you land on that part.
+rule. The codes are the stable anchors: search the file for `B.15` or `D.06` and you land on that part.
 
 ```
 <!-- ━━━━━━━━  B  ·  STYLES  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->      layer
@@ -45,10 +45,10 @@ rule. The codes are the stable anchors: search the file for `B.15` or `D.07` and
 
 | Layer | What it holds | Codes |
 |---|---|---|
-| **A · Head** | identity, crawling, colour, icons, social cards, structured data | `A.01` – `A.08` |
-| **B · Styles** | one `<style>` element, one part per component | `B.01` – `B.24` |
+| **A · Head** | identity, crawling, colour, icons, social cards, structured data | `A.01` – `A.09` |
+| **B · Styles** | one `<style>` element, one part per component | `B.01` – `B.23` |
 | **C · Page** | the markup of the bar, `<main>` and the footer | `C.01` – `C.16` |
-| **D · Scripts** | eleven `<script>` elements, in load order | `D.01` – `D.11` |
+| **D · Scripts** | ten `<script>` elements, in load order (`D.02` from `assets/vendor`) | `D.01` – `D.10` |
 
 **Styles are organised by component.** Each component's part holds everything about it: its base
 rules, its states, its pressed-and-raised soft look, and its adjustments for every screen size, with
@@ -60,7 +60,7 @@ must override the components before them.
 
 **Formatting** is standard: one declaration per line in the CSS, and the scripts formatted
 consistently (two-space indent, double quotes, 100 columns). Each script is a single IIFE in ES5
-style (`var`, `function`), and nothing is global except `window.Fly`.
+style (`var`, `function`), and nothing is global.
 
 ---
 
@@ -80,36 +80,36 @@ Line numbers are approximate and drift with edits; the codes do not.
 | `A.05` | 71 | Open Graph, profile fields |
 | `A.06` | 88 | Twitter / X card |
 | `A.07` | 97 | JSON-LD graph: `WebSite`, `ProfilePage`, `Person` |
-| `A.08` | 200 | Adds the `js` class to `<html>` before first paint |
+| `A.08` | 200 | Early fetches: preloads the portrait and the seven first-screen fonts |
+| `A.09` | 210 | Adds the `js` class to `<html>` before first paint |
 
 ### B · Styles
 
 | Code | Line | Part | Groups inside |
 |---|---:|---|---|
-| `B.01` | 206 | Typefaces | nine embedded WOFF2 `@font-face` rules |
-| `B.02` | 282 | Tokens | one `:root` block for light, one for manual dark, one for system dark, `--max` at 1920px · per-element light (`--hi`, `--lo`, `--raise`, `--sink`) |
-| `B.03` | 396 | Document | reset and body (including body size at 300 / 360 / 1600 / 2200px) · theme transition · scrollbars · taps and focus · utilities (`.hidden`, `.nw`) |
-| `B.04` | 573 | Type & marks | labels (`.lab`, `.note`, `.hand`) · ink · marks (`.brush`, `.loop`) |
-| `B.05` | 630 | Layout | the `.g` grid and its named lines |
-| `B.06` | 656 | Top bar | bar · theme switch |
-| `B.07` | 784 | Cover | `.mast`, `.cv-hero`, the shade, `.mast-echo`, every width |
-| `B.08` | 916 | Opening line | `.hl` |
-| `B.09` | 948 | Orbit | frame and lanes · contents · chip · one column |
-| `B.10` | 1379 | At a glance | placement · card · ≤ 999 / 640 / 380 / 300px · short landscape · facts as a list on hairlines |
-| `B.11` | 1809 | Letter | heading, columns, drop cap, desk photo |
-| `B.12` | 1902 | Features | parts · detail tables · spacing and type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
-| `B.13` | 2514 | Photo slots | `.snap` prints, tape, hatching, dark variants |
-| `B.14` | 2596 | Figure trays | tray · Fig. 1 dispatch race · Fig. 2 payslip · Fig. 5 form |
-| `B.15` | 3031 | Controls | labels, fields and dropdowns · sliders · buttons · quiet links · segmented control · chips · drawers |
-| `B.16` | 3614 | 3D stages | stage and labels · zoom keys |
-| `B.17` | 3837 | Browser tab | tab · staff tickets · Fig. 4 checkout and readouts · Fig. 4 tracker · Fig. 4 recent orders |
-| `B.18` | 4390 | Compact figures | launcher · sheet · ticket row (≤ 900px) |
-| `B.19` | 4833 | Next issue | the dark `.next` card and its buttons |
-| `B.20` | 4960 | Contact | `.con-h`, `.mail`, `.links` |
-| `B.21` | 5061 | Footer | |
-| `B.22` | 5096 | Motion & print | arrivals · print |
-| `B.23` | 5199 | Shared finishing | rounded small labels · sand underlines · accent ink |
-| `B.24` | 5260 | Portrait | `--me`, the photo as one embedded WebP |
+| `B.01` | 216 | Typefaces | nine `@font-face` rules pointing at `assets/fonts/*.woff2` |
+| `B.02` | 283 | Tokens | one `:root` block for light, one for manual dark, one for system dark, `--max` at 1920px · portrait (`--me`, `assets/portrait.webp`) · per-element light (`--hi`, `--lo`, `--raise`, `--sink`) |
+| `B.03` | 402 | Document | reset and body (including body size at 300 / 360 / 1600 / 2200px) · theme transition · scrollbars · taps and focus · utilities (`.hidden`, `.nw`) |
+| `B.04` | 579 | Type & marks | labels (`.lab`, `.note`, `.hand`) · ink · marks (`.brush`, `.loop`) |
+| `B.05` | 636 | Layout | the `.g` grid and its named lines |
+| `B.06` | 662 | Top bar | bar · theme switch |
+| `B.07` | 790 | Cover | `.mast`, `.cv-hero`, the shade, `.mast-echo`, every width |
+| `B.08` | 922 | Opening line | `.hl` |
+| `B.09` | 954 | Orbit | frame and lanes · contents · chip · one column |
+| `B.10` | 1385 | At a glance | placement · card · ≤ 999 / 640 / 380 / 300px · short landscape · facts as a list on hairlines |
+| `B.11` | 1815 | Letter | heading, columns, drop cap, desk photo |
+| `B.12` | 1908 | Features | parts · detail tables · spacing and type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
+| `B.13` | 2520 | Photo slots | `.snap` prints, tape, hatching, dark variants |
+| `B.14` | 2602 | Figure trays | tray · Fig. 1 dispatch race · Fig. 2 payslip · Fig. 5 form |
+| `B.15` | 3037 | Controls | labels, fields and dropdowns · sliders · buttons · quiet links · segmented control · chips · drawers |
+| `B.16` | 3620 | 3D stages | stage and labels · zoom keys |
+| `B.17` | 3843 | Browser tab | tab · staff tickets · Fig. 4 checkout and readouts · Fig. 4 tracker · Fig. 4 recent orders |
+| `B.18` | 4396 | Compact figures | launcher · sheet · ticket row (≤ 900px) |
+| `B.19` | 4839 | Next issue | the dark `.next` card and its buttons |
+| `B.20` | 4966 | Contact | `.con-h`, `.mail`, `.links` |
+| `B.21` | 5067 | Footer | |
+| `B.22` | 5102 | Motion & print | arrivals · print |
+| `B.23` | 5205 | Shared finishing | rounded small labels · sand underlines · accent ink |
 
 ### C · Page
 
@@ -137,16 +137,15 @@ Line numbers are approximate and drift with edits; the codes do not.
 | Code | Line | Script | Groups inside |
 |---|---:|---|---|
 | `D.01` | 5739 | Arrivals | collect · measure · one element · the loop |
-| `D.02` | 6144 | three.js r149 | vendor, minified, untouched |
-| `D.03` | 6155 | jsPDF 2.5.1 | vendor, minified, untouched |
-| `D.04` | 6558 | Theme & footer | footer year and GitHub link · theme |
-| `D.05` | 6647 | Cover chip | theme colours · scene · power lines · beads · physics · colours · orientation · size and loop |
-| `D.06` | 7288 | Demos | custom dropdown · Fig. 1 dispatch simulator · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 form |
-| `D.07` | 7912 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
-| `D.08` | 10765 | Photo guard | — |
-| `D.09` | 10781 | Control drawers | — |
-| `D.10` | 10907 | Pinned chip drawer | — |
-| `D.11` | 10955 | Compact figures | browser tabs → sheet · staff tickets |
+| `D.02` | 6128 | three.js r149 | `<script src="assets/vendor/three.min.js">`, the official build |
+| `D.03` | 6133 | Theme & footer | footer year and GitHub link · theme |
+| `D.04` | 6221 | Cover chip | theme colours · scene · power lines · beads · physics · colours · orientation · size and loop |
+| `D.05` | 6857 | Demos | custom dropdown · Fig. 1 dispatch simulator · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 form |
+| `D.06` | 7501 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
+| `D.07` | 10327 | Photo guard | — |
+| `D.08` | 10343 | Control drawers | — |
+| `D.09` | 10468 | Pinned chip drawer | — |
+| `D.10` | 10515 | Compact figures | browser tabs → sheet · staff tickets |
 
 ---
 
@@ -321,9 +320,9 @@ How it works:
 - **Always readable.** Reduced motion, print, a jump to a `#section`, keyboard focus and pressing on
   an element all land things immediately. If the script never runs, CSS shows everything after 2.5 s.
 
-Exposes `window.Fly = { refresh(), settle(el?), settleTo(y) }` and sets `html.fly-ready`.
+Sets `html.fly-ready` once running.
 
-### D.04 – D.06 · Theme, cover chip and demos
+### D.03 – D.05 · Theme, cover chip and demos
 
 **Theme.** `data-theme` on `<html>` holds a manual choice, saved in `localStorage["theme"]`; without
 it the system preference rules. The switch keeps both `theme-color` metas in step. Where View
@@ -366,15 +365,16 @@ deductions`. Negative or empty inputs count as zero.
 
 **Fig. 2 · Receipt PDF.** jsPDF draws an 80 mm till roll in Courier, marked as sample data. It is drawn
 twice: once on a tall page to measure its height, then on a page cut to fit. Saved as
-`payslip-<name>-<YYYY-MM>.pdf`. Nothing leaves the browser. Without jsPDF it falls back to
-`window.print()`.
+`payslip-<name>-<YYYY-MM>.pdf`. Nothing leaves the browser. jsPDF (`assets/vendor/jspdf.umd.min.js`)
+is fetched on the first hover, focus or click of the button; if it cannot load, the button falls
+back to `window.print()`.
 
 **Fig. 5 · The same form, twice.** "Before" has cryptic labels, seven equal fields, three equal
 buttons and one useless error. "After" has plain labels with examples, errors beside the field on
 blur, fewer fields, one action, autofill hints, and a Bangladeshi mobile number check
 (`01[3-9]` plus eight digits, optional `+88`).
 
-### D.07 · 3D figures
+### D.06 · 3D figures
 
 **Stage.** One factory sets up each figure: renderer, a camera orbiting a target, HTML labels pinned to
 3D points, picking, and input.
@@ -426,20 +426,20 @@ van → one of four homes. One order is one object the whole way, so it can be f
   Placed, Paid, Picked, Packed, Out for delivery, Delivered.
 - Six products, orders per minute 6 – 90, gateway failure 0 – 40%, gateways switchable.
 
-### D.08 – D.09 · Photo guard & control drawers
+### D.07 – D.08 · Photo guard & control drawers
 
 The cover and glance photos get no context menu and no drag. Each figure's settings fold into a
 `<details class="dock">` whose summary shows the current values in one line. Drawers open from
 701px and close below, until someone opens or closes one themselves. The chip, the Fig. 3 admin and
 the Fig. 4 admin drawers always start closed.
 
-### D.10 · Pinned chip drawer
+### D.09 · Pinned chip drawer
 
 When the chip is pinned (≥ 1100px wide and ≥ 680px tall) its drawer opens down over the chip; the chip
 moves down and, if it has to, shrinks to as little as 60% to stay in sight. Escape or a click outside
 closes it.
 
-### D.11 · Compact figures (≤ 900px)
+### D.10 · Compact figures (≤ 900px)
 
 **Browser tabs → sheets.** The tabs of Figs. 3 and 4 fold into a launcher (a small browser icon with
 a cursor that taps it when the address changes). Opening it raises the same tab as a sheet over a
@@ -464,17 +464,16 @@ spring into place one after another. A new table slides in from the right.
 
 | Name | Kind | Set by | Read by |
 |---|---|---|---|
-| `html.js` | class | `A.08`, `D.04` | `B.22` (hide `[data-fly]` until placed) |
+| `html.js` | class | `A.09` | `B.22` (hide `[data-fly]` until placed) |
 | `html.fly-ready` | class | `D.01` | `B.22` |
-| `html.sheet-on` | class | `D.11` | `B.17`, `B.18` (lock page scroll, pause the tracker pulse) |
-| `html[data-theme]` | attribute | `D.04` | `B.02`, `B.06`, `B.13`, `B.19`, the 3D colour readers |
-| `localStorage.theme` | storage | `D.04` | `D.04` |
-| `sheetchange` | `CustomEvent` on `document`, `detail.open` | `D.11` | `D.07` Stage |
-| `window.Fly` | object | `D.01` | available to any script |
+| `html.sheet-on` | class | `D.10` | `B.17`, `B.18` (lock page scroll, pause the tracker pulse) |
+| `html[data-theme]` | attribute | `D.03` | `B.02`, `B.06`, `B.13`, `B.19`, the 3D colour readers |
+| `localStorage.theme` | storage | `D.03` | `D.03` |
+| `sheetchange` | `CustomEvent` on `document`, `detail.open` | `D.10` | `D.06` Stage |
 | `--surf` | CSS variable | `B.02`, containers | every soft control |
-| `#flTickets` contents | markup | `D.07` Fig. 3 rewrites it per order | `D.11` re-lays the row |
-| `.tab`, `.tab-body`, `.url` | markup | `C.09`, `C.10` | `D.11` moves the tab into a sheet |
-| `.chip-ctrls`, `.ctrls`, `.fields`, `#flCats`, `#shGws` | markup | `C` | `D.09` moves them into drawers |
+| `#flTickets` contents | markup | `D.06` Fig. 3 rewrites it per order | `D.10` re-lays the row |
+| `.tab`, `.tab-body`, `.url` | markup | `C.09`, `C.10` | `D.10` moves the tab into a sheet |
+| `.chip-ctrls`, `.ctrls`, `.fields`, `#flCats`, `#shGws` | markup | `C` | `D.08` moves them into drawers |
 
 Element IDs the scripts depend on:
 
@@ -503,10 +502,10 @@ Element IDs the scripts depend on:
 - **The photo slot's tilt lives on the inner card** (`.snap-in`), so the arrival motion on `.snap` can
   never undo it. (`B.13`)
 - **The sheet is a popover, not a `<dialog>`.** Opening a modal dialog makes the rest of the page
-  inert, and the browser restyles every element to do it, on the way in and out. (`D.11`)
+  inert, and the browser restyles every element to do it, on the way in and out. (`D.10`)
 - **The Fig. 4 checkout tab is built once and updated in place,** so keyboard focus is never lost.
 - **Resizing clears a WebGL canvas.** While a sheet covers a figure its loop does not draw, so the
-  Stage redraws once on resize. (`D.07`)
+  Stage redraws once on resize. (`D.06`)
 - **Theme colours reach WebGL by probing CSS.** A hidden span takes `color: var(--token)` and a 1×1
   canvas converts whatever the browser returns into RGB; the key of the current tokens is checked
   every 20 frames.
@@ -524,11 +523,11 @@ Element IDs the scripts depend on:
 `<img src="desk.jpg" alt="My desk in Dhaka" width="800" height="1000" loading="lazy">`, and change
 the `figcaption`. Slots: the desk in `C.06`, sketches in `C.12`, a process shot in `C.14`.
 
-**Change the GitHub link.** `GITHUB_USER` at the top of `D.04`. An empty string hides the link and
+**Change the GitHub link.** `GITHUB_USER` at the top of `D.03`. An empty string hides the link and
 shows "GitHub · Coming soon".
 
 **Change the accent.** `--brand` and `--accent-ink` in `B.02`, the dark `--accent` twice in `B.02`,
-and the chip's starting colour (`0x546634`) in `D.05`, which the live colour read replaces on the
+and the chip's starting colour (`0x546634`) in `D.04`, which the live colour read replaces on the
 first frame.
 
 **Add a feature.** Copy a `C.07`-style section with a new `id` (`f8`, heading `f8h`), add a link to
@@ -542,7 +541,9 @@ Without a wide composition it uses the shared phone and tablet layout; add one i
 **Add a dark-mode rule.** Write it for `:root[data-theme="dark"]` and again inside
 `@media (prefers-color-scheme: dark)` for `:root:not([data-theme="light"])`.
 
-**Update a vendor library.** Replace the whole `<script>` body under `D.02` or `D.03`. The own code uses
+**Update a vendor library.** Replace `assets/vendor/three.min.js` or `assets/vendor/jspdf.umd.min.js`
+with the official minified build (both are byte-identical to npm `three@0.149.0` and
+`jspdf@2.5.1` today). The own code uses
 three.js r149 APIs (`BufferGeometry`, `EdgesGeometry`, `ShaderMaterial`, `Raycaster`) and jsPDF's
 `window.jspdf.jsPDF`.
 
@@ -552,6 +553,9 @@ three.js r149 APIs (`BufferGeometry`, `EdgesGeometry`, `ShaderMaterial`, `Raycas
 
 | File | Purpose |
 |---|---|
+| `assets/fonts/*.woff2` | the nine typefaces of `B.01` |
+| `assets/portrait.webp` | the 1500 × 900 cover photo behind `--me` |
+| `assets/vendor/` | three.js r149 and jsPDF 2.5.1, untouched official builds |
 | `arman-afridi-rahman.jpg` | portrait referenced by the JSON-LD `Person.image` and the sitemap |
 | `og-card.jpg` | 1200 × 630 social card for Open Graph and X |
 | `og-image.png` | an earlier social image, not referenced by the page |
