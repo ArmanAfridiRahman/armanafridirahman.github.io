@@ -1151,6 +1151,79 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 }
 .stage-hint{right:62px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+/* ---------- compact figures: up to 900px, where each figure is one column ----------
+   The browser tabs in Figs. 3 and 4 fold into a small launcher, a browser with a cursor on it, and open as a
+   sheet from the bottom of the screen, so the page never holds a list that scrolls inside itself. The staff
+   tickets become one row of short cards that scrolls sideways; see the script at the end. */
+.tab-pop,.tk-more,.tk-count{display:none}
+@media(max-width:900px){
+  .has-pop>.tab{display:none}
+  .tab-pop{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;margin:2px 0 8px;padding:11px 12px 11px 11px;border:0;border-radius:22px;background:var(--face);color:var(--ink);box-shadow:var(--raise);text-align:left;cursor:pointer;font:inherit;transition:box-shadow .2s;-webkit-tap-highlight-color:transparent}
+  .tab-pop:active{box-shadow:var(--sink)}
+  .tab-pop:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .tp-ico{width:58px;height:50px;border-radius:15px;display:grid;place-items:center;background:var(--surf);box-shadow:var(--sink-s);color:var(--muted)}
+  .tp-ico svg{width:44px;height:38px;overflow:visible}
+  .tp-ico .w{fill:none;stroke:currentColor;stroke-width:1.6}
+  .tp-ico .r{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;opacity:.55}
+  .tp-ico .d{fill:currentColor}
+  .tp-cur{fill:var(--ink);stroke:var(--surf);stroke-width:1.5;stroke-linejoin:round;transform-box:fill-box;transform-origin:0 0}
+  .tp-ring{fill:none;stroke:var(--accent);stroke-width:1.6;opacity:0;transform-box:fill-box;transform-origin:50% 50%}
+  .tab-pop.hint .tp-cur{animation:tpCur 1.5s cubic-bezier(.3,.7,.3,1) 2}
+  .tab-pop.hint .tp-ring{animation:tpRing 1.5s ease-out 2}
+  @keyframes tpCur{0%{transform:translate(5px,6px)}38%{transform:translate(0,0)}48%{transform:translate(0,0) scale(.84)}60%,100%{transform:translate(0,0)}}
+  @keyframes tpRing{0%,44%{opacity:0;transform:scale(.4)}52%{opacity:1}100%{opacity:0;transform:scale(2.3)}}
+  .tp-txt{display:grid;gap:2px;min-width:0}
+  .tp-url{font:600 12.5px/1.35 var(--ui);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tp-sub{font:300 15.5px/1.3 var(--sans);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tp-go{font:700 13.5px/1 var(--ui);padding:10px 15px;border-radius:999px;background:var(--gface);color:var(--on-gface);box-shadow:var(--raise-s);transition:background .2s,color .2s}
+  .tab-pop:hover .tp-go{background:var(--accent);color:var(--on-accent)}
+  .tk-count{display:inline;margin-left:.6em;color:var(--accent)}
+}
+@media(max-width:300px){ .tab-pop{grid-template-columns:auto minmax(0,1fr);gap:10px} .tp-go{display:none} .tp-ico{width:46px;height:42px} }
+@media(prefers-reduced-motion:reduce){ .tab-pop.hint .tp-cur,.tab-pop.hint .tp-ring{animation:none} }
+
+/* the sheet: the same browser tab, raised over a dimmed page */
+.sheet{display:none;position:fixed;inset:auto 0 0;margin:0 auto;width:min(640px,100%);max-width:100%;height:auto;max-height:100%;padding:0 10px calc(10px + env(safe-area-inset-bottom,0px));border:0;background:none;color:var(--ink);overflow:visible;--surf:var(--paper2)}
+.sheet[open]{display:flex;flex-direction:column}
+.sheet::backdrop{background:rgba(12,11,9,.58)}
+.sheet-grab{align-self:stretch;height:26px;flex:none;display:grid;place-items:center;touch-action:none;cursor:grab}
+.sheet-grab::before{content:"";width:44px;height:5px;border-radius:5px;background:rgba(246,244,236,.7)}
+.sheet .tab{display:flex;flex:1 1 auto;min-height:0;max-height:calc(100svh - 46px - env(safe-area-inset-bottom,0px));box-shadow:0 -8px 40px -14px rgba(0,0,0,.5)}
+.sheet .tab-bar{touch-action:none;cursor:grab}
+.sheet .tab-body,.sheet #flMenu,.sheet #shShop{flex:1 1 auto;height:auto;max-height:none;min-height:0;overflow:auto;overscroll-behavior:contain}
+.tab-x{display:none}
+.sheet .tab-x{display:grid;place-items:center;flex:none;width:32px;height:32px;margin-left:6px;padding:0;border:0;border-radius:50%;background:var(--face);color:var(--ink);font:600 19px/1 var(--ui);box-shadow:2px 2px 5px var(--lo),-2px -2px 5px var(--hi);cursor:pointer;transition:box-shadow .2s,color .2s}
+.sheet .tab-x:hover{color:var(--accent)}
+.sheet .tab-x:active{box-shadow:var(--sink-s)}
+.tp-pick{margin:4px 0 14px}
+.tp-pick button{padding:10px 18px}
+.tp-pick button::before{content:none}
+html.sheet-on{overflow:hidden}
+
+/* staff tickets in one sideways row: short cards, one opened at a time */
+@media(max-width:900px){
+  .tk-scroll{--ip:clamp(12px,3.4vw,32px);margin:6px calc(-1 * var(--ip)) 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tk-scroll::-webkit-scrollbar{display:none}
+  .tk-scroll>.tickets{--tkw:min(236px,76vw);position:relative;display:block;margin:0;padding:8px var(--ip) 16px;min-height:0;overflow:hidden}
+  .tk-scroll>.tickets li.none{padding:4px 0 2px}
+  .tk-scroll li.tk{position:absolute;left:0;top:0;width:var(--tkw);display:flex;flex-direction:column;overflow:hidden;padding:12px 14px;transform-origin:50% 30%;backface-visibility:hidden}
+  .tk-scroll .tk-top{flex:none}
+  .tk-scroll li.tk ul{display:none;flex:0 1 auto;min-height:0;overflow:hidden;margin:0 0 8px}
+  .tk-scroll li.tk.open ul,.tk-scroll li.tk.closing ul{display:block}
+  .tk-scroll .tk .sum{flex:none;margin-top:auto;padding-top:8px}
+  .tk-scroll .tk-more{display:flex;align-items:center;gap:7px;width:100%;margin:4px 0 8px;padding:7px 10px 7px 12px;border:0;border-radius:12px;background:var(--surf);box-shadow:var(--sink-s);font:600 12.5px/1.35 var(--ui);color:var(--muted);text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .tk-more b{flex:none;font-weight:700;color:var(--ink)}
+  .tk-more .tk-p{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tk-more .tk-l{display:none;flex:1}
+  .tk.open .tk-more .tk-p{display:none}
+  .tk.open .tk-more .tk-l{display:inline}
+  .tk-more i{flex:none;width:7px;height:7px;margin:0 3px 3px 0;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg);transition:transform .25s}
+  .tk.open .tk-more i{transform:rotate(-135deg) translate(-2px,-2px)}
+  .tk-more:hover{color:var(--ink)}
+  .tk-more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+}
+@media(max-width:900px) and (prefers-reduced-motion:reduce){ .tk-more i{transition:none} }
+
 /* ---------- marks: two colours from my photo, used by hand ----------
    --sand is the warm streak in the granite boulders: it paints the soft brush under a few words.
    --pencil and --loop are the leaf-green accent, drawn by hand: hover underlines, and one loop around a word. */
@@ -1554,8 +1627,8 @@ main{--me:url(data:image/webp;base64,UklGRvQRAwBXRUJQVlA4IOgRAwBQ0QydASrcBYQDPs1
         </div>
       </div>
     </div>
-    <div class="lab tk-h">Staff view · orders by table</div>
-    <ol class="tickets" id="flTickets"></ol>
+    <div class="lab tk-h">Staff view · orders by table<span class="tk-count" id="flTkCount"></span></div>
+    <div class="tk-scroll" id="flTkScroll"><ol class="tickets" id="flTickets"></ol></div>
     <div class="verdict" id="flStatus" aria-live="polite"></div>
   </div>
   <p class="quote" data-fly=".6">The records should match<br class="d"> <span class="up">reality.</span></p>
@@ -3723,10 +3796,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var box = $("flTickets"), open = tables.filter(function(t){ return t.booked; }).sort(function(a, b){ return a.at - b.at; });
       if (!open.length) { box.innerHTML = '<li class="none">No open tables. Orders appear here, grouped by table.</li>'; return; }
       box.innerHTML = open.map(function(t){
-        var sum = 0, items = t.order.map(function(o){ var c = cards[o.i]; sum += c.price * o.q; return "<li><span>" + o.q + " × " + esc(c.name) + "</span><span>" + tk(c.price * o.q) + "</span></li>"; }).join("");
+        var sum = 0, n = 0, names = [], items = t.order.map(function(o){ var c = cards[o.i]; sum += c.price * o.q; n += o.q; names.push(c.name); return "<li><span>" + o.q + " × " + esc(c.name) + "</span><span>" + tk(c.price * o.q) + "</span></li>"; }).join("");
         var tm = new Date(t.at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-        return '<li class="tk"><div class="tk-top"><b>Table ' + t.n + "</b><span>" + t.cap + " seats · " + tm + "</span></div><ul>" + items +
-          '</ul><div class="sum"><b>' + tk(sum) + '</b><button type="button" data-close="' + t.i + '">Close bill</button></div></li>';
+        /* the button only shows on small screens, where each ticket starts folded to one line of dishes */
+        return '<li class="tk" data-t="' + t.i + '"><div class="tk-top"><b>Table ' + t.n + "</b><span>" + t.cap + " seats · " + tm + "</span></div>" +
+          '<button type="button" class="tk-more" aria-expanded="false" aria-controls="flTk' + t.i + '"><b>' + n + (n === 1 ? " item" : " items") + '</b><span class="tk-p">' + esc(names.join(", ")) + '</span><span class="tk-l">Show less</span><i aria-hidden="true"></i></button>' +
+          '<ul id="flTk' + t.i + '">' + items + '</ul><div class="sum"><b>' + tk(sum) + '</b><button type="button" data-close="' + t.i + '">Close bill</button></div></li>';
       }).join("");
     }
     $("flTickets").addEventListener("click", function(e){ var b = e.target.closest("[data-close]"); if (b) { stopGuest(); closeBill(+b.getAttribute("data-close")); } });
@@ -3778,7 +3853,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       setOrganised(false);
       renderTables(); renderMenu(); renderTickets(); say("");
     });
-    S.onPick = function(obj){ stopGuest(); selectTable(obj.userData.table); };
+    S.onPick = function(obj){ stopGuest(); selectTable(obj.userData.table); $("flTab").dispatchEvent(new Event("want")); };
     S.onSeen = function(){ if (!reduce) setTimeout(function(){ if (!organised && current < 0 && !guestT.length) guest(); }, 900); };
     S.onTheme = function(p){
       P = p; M.apply(p);
@@ -4292,6 +4367,326 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   document.addEventListener("pointerdown", function(e){ if (d.open && pinned.matches && !pin.contains(e.target)) d.open = false; });
   if (pinned.addEventListener) pinned.addEventListener("change", fit); else if (pinned.addListener) pinned.addListener(fit);
   if ("ResizeObserver" in window) new ResizeObserver(fit).observe(pin);
+})();
+</script>
+<script>
+/* ---- compact figures, up to 900px wide. The browser tabs of Figs. 3 and 4 fold into a launcher that grows
+   into a sheet over the page, and the staff tickets turn into a row of short cards that scrolls sideways.
+   Opening a card stacks the cards to its right under one another, as many deep as its height leaves room
+   for, and they spring into place the way the dishes sort themselves in the 3D room. ---- */
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var cmp = window.matchMedia("(max-width: 900px)"), still = window.matchMedia("(prefers-reduced-motion: reduce)");
+  function onMq(mq, fn){ if (mq.addEventListener) mq.addEventListener("change", fn); else if (mq.addListener) mq.addListener(fn); }
+  var root = document.documentElement;
+
+  /* ---------- the browser tabs ---------- */
+  var ICON = '<svg viewBox="0 0 46 40" aria-hidden="true"><rect class="w" x="1.5" y="2.5" width="36" height="29" rx="6"/><path class="w" d="M1.5 10.5h36"/>' +
+    '<circle class="d" cx="6.5" cy="6.6" r="1.25"/><circle class="d" cx="10.5" cy="6.6" r="1.25"/><circle class="d" cx="14.5" cy="6.6" r="1.25"/>' +
+    '<path class="r" d="M7 16.5h14M27 16.5h4M7 21.5h10M27 21.5h4M7 26.5h12"/>' +
+    '<circle class="tp-ring" cx="29" cy="23" r="4.5"/><path class="tp-cur" d="M29 23v15.2l3.9-3.6 2.9 6.4 2.8-1.3-2.9-6.3 5.3-.4z"/></svg>';
+
+  function sheet(o){
+    var tab = o.tab;
+    if (!tab || typeof HTMLDialogElement !== "function" || !tab.animate) return;
+    var home = tab.parentNode, url = tab.querySelector(".url"), body = tab.querySelector(".tab-body"), bar = tab.querySelector(".tab-bar");
+    var pop = document.createElement("button");
+    pop.type = "button"; pop.className = "tab-pop";
+    pop.setAttribute("aria-haspopup", "dialog"); pop.setAttribute("aria-expanded", "false");
+    pop.innerHTML = '<span class="tp-ico">' + ICON + '</span><span class="tp-txt"><span class="tp-url"></span><span class="tp-sub"></span></span><span class="tp-go" aria-hidden="true">Open</span>';
+    home.insertBefore(pop, tab); home.classList.add("has-pop");
+    var dlg = document.createElement("dialog");
+    dlg.className = "sheet"; dlg.setAttribute("aria-label", o.name);
+    dlg.innerHTML = '<span class="sheet-grab" aria-hidden="true"></span>';
+    document.body.appendChild(dlg);
+    var x = document.createElement("button");
+    x.type = "button"; x.className = "tab-x"; x.setAttribute("aria-label", "Close the tab"); x.textContent = "×";
+    bar.appendChild(x);
+    var pu = pop.querySelector(".tp-url"), ps = pop.querySelector(".tp-sub");
+
+    /* the launcher repeats the tab's address and what is in the basket */
+    var lastUrl = "";
+    function sync(){
+      var u = url.textContent, s = o.status.textContent;
+      s = o.sub[s] || s;
+      if (pu.textContent !== u) pu.textContent = u;
+      if (ps.textContent !== s) ps.textContent = s;
+      var l = "Open the tab: " + u + ", " + s;
+      if (pop.getAttribute("aria-label") !== l) pop.setAttribute("aria-label", l);
+      if (u !== lastUrl) { if (lastUrl) hint(); lastUrl = u; }
+    }
+    function hint(){
+      if (open || still.matches) return;
+      pop.classList.remove("hint"); void pop.offsetWidth; pop.classList.add("hint");
+    }
+    pop.addEventListener("animationend", function(e){ if (e.target.classList.contains("tp-ring")) pop.classList.remove("hint"); });
+    [url, o.status].forEach(function(n){ new MutationObserver(sync).observe(n, { childList: true, characterData: true, subtree: true }); });
+    sync();
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function(es){ if (es[0].isIntersecting && cmp.matches) { hint(); io.disconnect(); } }, { threshold: 1 });
+      io.observe(pop);
+    }
+
+    /* opening grows the tab out of the launcher: it starts clipped to the launcher's box and opens to full size */
+    var open = false, anims = [];
+    function stop(){ anims.forEach(function(a){ try { a.cancel(); } catch (e) {} }); anims = []; }
+    function fade(on, ms){
+      try { anims.push(dlg.animate({ opacity: on ? [0, 1] : [1, 0] }, { duration: ms, easing: "ease", fill: "forwards", pseudoElement: "::backdrop" })); } catch (e) {}
+    }
+    function from(){
+      /* the launcher's box, as a clip on the dialog, and how far the tab has to travel to sit on it */
+      var r = pop.getBoundingClientRect(), d = dlg.getBoundingClientRect(), t = tab.getBoundingClientRect();
+      if (r.height === 0 || r.bottom < 0 || r.top > innerHeight) return null;
+      var top = t.top - d.top, dy = r.top - t.top;
+      return { dy: dy, clip: "inset(" + top + "px " + Math.max(0, d.right - r.right) + "px " + Math.max(0, d.height - top - r.height) + "px " + Math.max(0, r.left - d.left) + "px round 22px)" };
+    }
+    function show(){
+      if (open || !cmp.matches) return;
+      open = true; stop();
+      dlg.appendChild(tab);
+      root.classList.add("sheet-on");
+      dlg.style.transform = "";
+      dlg.showModal();
+      pop.setAttribute("aria-expanded", "true");
+      picker();
+      if (still.matches) { anims.push(dlg.animate({ opacity: [0, 1] }, { duration: 160 })); fade(true, 160); return; }
+      var f = from();
+      if (f) {
+        anims.push(dlg.animate([
+          { transform: "translateY(" + f.dy + "px)", clipPath: f.clip, opacity: 0 },
+          { opacity: 1, offset: 0.18 },
+          { transform: "none", clipPath: "inset(-60px -60px -60px -60px round 26px)", opacity: 1 }
+        ], { duration: 460, easing: "cubic-bezier(.2,.85,.25,1)" }));
+        anims.push(body.animate([{ opacity: 0 }, { opacity: 0, offset: 0.3 }, { opacity: 1 }], { duration: 460 }));
+      } else {
+        anims.push(dlg.animate([{ transform: "translateY(100%)" }, { transform: "none" }], { duration: 380, easing: "cubic-bezier(.2,.85,.25,1)" }));
+      }
+      fade(true, 300);
+    }
+    function hide(dragged){
+      if (!open || dlg.classList.contains("going")) return;
+      if (still.matches || !cmp.matches) { dlg.close(); return; }
+      dlg.classList.add("going"); stop();
+      var f = dragged ? null : from(), a, y0 = dlg.style.transform || "none";
+      if (f) {
+        a = dlg.animate([
+          { transform: "none", clipPath: "inset(-60px -60px -60px -60px round 26px)", opacity: 1 },
+          { opacity: 1, offset: 0.75 },
+          { transform: "translateY(" + f.dy + "px)", clipPath: f.clip, opacity: 0 }
+        ], { duration: 380, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
+        anims.push(body.animate({ opacity: [1, 0] }, { duration: 200, fill: "forwards" }));
+      } else {
+        a = dlg.animate([{ transform: y0 }, { transform: "translateY(105%)" }], { duration: 260, easing: "cubic-bezier(.4,0,1,1)", fill: "forwards" });
+      }
+      anims.push(a); fade(false, 300);
+      a.onfinish = function(){ dlg.close(); };
+    }
+    dlg.addEventListener("close", function(){
+      open = false; stop();
+      dlg.classList.remove("going"); dlg.style.transform = "";
+      var pk = body.querySelector(".tp-pick"); if (pk) pk.remove();
+      home.insertBefore(tab, pop.nextSibling);
+      root.classList.remove("sheet-on");
+      pop.setAttribute("aria-expanded", "false");
+      if (cmp.matches) try { pop.focus({ preventScroll: true }); } catch (e) {}
+    });
+    dlg.addEventListener("cancel", function(e){ e.preventDefault(); hide(); });
+    dlg.addEventListener("click", function(e){ if (e.target === dlg) hide(); });
+    x.addEventListener("click", function(){ hide(); });
+    pop.addEventListener("click", show);
+    tab.addEventListener("want", function(){ setTimeout(show, 520); });
+    if (o.pick) o.pick.addEventListener("click", function(e){ if (e.target.closest("button")) show(); });
+    /* once the order is placed the guest is done with the tab: close it so the order can be seen landing */
+    o.go.addEventListener("click", function(){ if (open) setTimeout(function(){ hide(); }, 480); });
+    onMq(cmp, function(){ if (!cmp.matches && open) dlg.close(); });
+
+    /* opened before a table is picked: offer the tables inside the tab, as a real QR landing page would */
+    function picker(){
+      if (!open || !o.pick || !body.querySelector(".empty") || body.querySelector(".tp-pick")) return;
+      var box = document.createElement("div");
+      box.className = "toggles tp-pick"; box.setAttribute("role", "group"); box.setAttribute("aria-label", "Tables");
+      Array.prototype.forEach.call(o.pick.querySelectorAll("button"), function(src){
+        var b = document.createElement("button");
+        b.type = "button"; b.innerHTML = src.innerHTML; b.className = src.className;
+        b.setAttribute("aria-label", src.getAttribute("aria-label") || src.textContent);
+        b.setAttribute("aria-pressed", "false");
+        b.addEventListener("click", function(){ src.click(); });
+        box.appendChild(b);
+      });
+      body.appendChild(box);
+    }
+    new MutationObserver(picker).observe(body, { childList: true });
+
+    /* drag the handle or the address bar down to put the tab away */
+    var drag = null;
+    function dStart(e){
+      if (!open || (e.button && e.button > 0) || e.target.closest("button")) return;
+      drag = { y: e.clientY, t: performance.now(), dy: 0, v: 0, id: e.pointerId };
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) {}
+    }
+    function dMove(e){
+      if (!drag || e.pointerId !== drag.id) return;
+      var now = performance.now(), dy = Math.max(0, e.clientY - drag.y);
+      drag.v = (dy - drag.dy) / Math.max(1, now - drag.t); drag.t = now; drag.dy = dy;
+      dlg.style.transform = dy ? "translateY(" + dy + "px)" : "";
+    }
+    function dEnd(){
+      if (!drag) return;
+      var d = drag; drag = null;
+      if (d.dy > 90 || (d.dy > 16 && d.v > 0.5)) hide(true);
+      else if (d.dy > 0) { dlg.style.transform = ""; if (!still.matches) dlg.animate([{ transform: "translateY(" + d.dy + "px)" }, { transform: "none" }], { duration: 240, easing: "cubic-bezier(.2,.85,.25,1)" }); }
+    }
+    [dlg.querySelector(".sheet-grab"), bar].forEach(function(el){
+      el.addEventListener("pointerdown", dStart); el.addEventListener("pointermove", dMove);
+      el.addEventListener("pointerup", dEnd); el.addEventListener("pointercancel", dEnd);
+    });
+  }
+  sheet({ tab: $("flTab"), status: $("flCart"), go: $("flOrder"), pick: $("flTables"), name: "The guest’s browser tab: the menu for their table",
+    sub: { "No table yet": "No table scanned yet", "Tap a dish to add it": "Ready to order" } });
+  sheet({ tab: $("shTab"), status: $("shTotal"), go: $("shPay"), name: "The customer’s browser tab: checkout", sub: {} });
+
+  /* ---------- the staff tickets ---------- */
+  var box = $("flTickets"), scr = $("flTkScroll"), count = $("flTkCount");
+  if (!box || !scr) return;
+  var G = 12, openKey = null, st = {}, raf = 0, last = 0, items = [], hc = 0, cw = 0, pr = 0, pb = 0, follow = null;
+  var K = 240, C = 23, SWIRL = 520;
+  function key(li){ return li.getAttribute("data-t"); }
+  function measure(){
+    /* every card's folded height, and the opened card's full height, read in one pass */
+    var hs = {};
+    items.forEach(function(li){ li._h = li.style.height; li._c = li.className; li.style.height = ""; li.classList.remove("open", "closing"); });
+    items.forEach(function(li){ hs[key(li)] = { c: li.offsetHeight }; });
+    var oli = items.filter(function(li){ return key(li) === openKey; })[0];
+    if (oli) { oli.classList.add("open"); hs[openKey].o = oli.offsetHeight; }
+    items.forEach(function(li){ li.className = li._c; li.style.height = li._h; });
+    return hs;
+  }
+  function layout(fresh){
+    items = Array.prototype.slice.call(box.querySelectorAll("li.tk"));
+    if (count) count.textContent = items.length ? items.length + " open" : "";
+    if (!cmp.matches || !items.length) {
+      cancelAnimationFrame(raf); raf = 0;
+      box.style.width = box.style.height = "";
+      items.forEach(function(li){ li.style.left = li.style.top = li.style.transform = li.style.height = ""; li.classList.remove("open", "closing"); });
+      if (!cmp.matches) { st = {}; openKey = null; items.forEach(function(li){ setExp(li, false); }); }
+      return;
+    }
+    if (openKey !== null && !items.some(function(li){ return key(li) === openKey; })) openKey = null;
+    var cs = getComputedStyle(box), pl = parseFloat(cs.paddingLeft) || 0, pt = parseFloat(cs.paddingTop) || 0;
+    pr = parseFloat(cs.paddingRight) || 0; pb = parseFloat(cs.paddingBottom) || 0;
+    var W = cw = items[0].offsetWidth, hs = measure();
+    hc = 0; items.forEach(function(li){ hc = Math.max(hc, hs[key(li)].c); });
+    var oi = -1; items.forEach(function(li, i){ if (key(li) === openKey) oi = i; });
+    var he = oi < 0 ? hc : hs[openKey].o;
+    /* how many folded cards fit beside the opened one, one under another */
+    var R = oi < 0 ? 1 : Math.max(1, Math.floor((he + G) / (hc + G)));
+    var wave = 0;
+    items.forEach(function(li, i){
+      var k = key(li), s = st[k], col, row = 0;
+      if (oi < 0 || i <= oi) col = i;
+      else { var j = i - oi - 1; col = oi + 1 + Math.floor(j / R); row = j % R; }
+      var tx = pl + col * (W + G), ty = pt + row * (hc + G), th = k === openKey ? he : hs[k].c;
+      if (!s) {
+        /* a new table: it slides in from the right; on the first pass everything is simply placed */
+        s = st[k] = { x: tx + (fresh ? 0 : 48), y: ty, vx: 0, vy: 0, h: th, vh: 0, d: 0, sg: (+k % 2 ? 1 : -1) };
+        if (!fresh && !still.matches) li.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: "ease-out" });
+      } else if ((Math.abs(s.tx - tx) > 1 || Math.abs(s.ty - ty) > 1) && Math.abs(s.vx) + Math.abs(s.vy) < 20) {
+        /* cards that move set off one after another, nearest first */
+        s.d = 0.045 * wave++;
+      }
+      s.tx = tx; s.ty = ty; s.th = th;
+      if (li.className.indexOf("closing") < 0 && k !== openKey) li.classList.remove("open");
+      li.style.left = tx + "px"; li.style.top = ty + "px";
+    });
+    Object.keys(st).forEach(function(k){ if (!items.some(function(li){ return key(li) === k; })) delete st[k]; });
+    if (fresh || still.matches) items.forEach(function(li){ var s = st[key(li)]; s.x = s.tx; s.y = s.ty; s.h = s.th; s.vx = s.vy = s.vh = 0; s.d = 0; });
+    paint();
+    if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+  }
+  function paint(){
+    var right = 0, bottom = 0;
+    items.forEach(function(li){
+      var s = st[key(li)]; if (!s) return;
+      var ox = s.x - s.tx, oy = s.y - s.ty, sp = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      var rot = Math.max(-3.5, Math.min(3.5, s.vx * 0.0028)), sc = 1 + Math.min(0.035, sp / 26000);
+      li.style.transform = (Math.abs(ox) > 0.1 || Math.abs(oy) > 0.1 || Math.abs(rot) > 0.01)
+        ? "translate3d(" + ox.toFixed(2) + "px," + oy.toFixed(2) + "px,0) rotate(" + rot.toFixed(2) + "deg) scale(" + sc.toFixed(4) + ")" : "";
+      var settled = Math.abs(s.h - s.th) < 0.5 && Math.abs(s.vh) < 1;
+      li.style.height = settled ? "" : Math.max(0, s.h).toFixed(1) + "px";
+      right = Math.max(right, Math.max(s.x, s.tx) + cw);
+      bottom = Math.max(bottom, s.ty + s.h);
+    });
+    box.style.width = Math.ceil(right + pr) + "px";
+    box.style.height = Math.ceil(bottom + pb) + "px";
+  }
+  function frame(now){
+    var dt = Math.min(0.032, Math.max(0.001, (now - last) / 1000)); last = now;
+    var busy = false;
+    items.forEach(function(li){
+      var s = st[key(li)]; if (!s) return;
+      if (s.d > 0) { s.d -= dt; busy = true; }
+      else {
+        /* a spring toward the slot, with a sideways push that bends the path and fades out on arrival */
+        var dx = s.tx - s.x, dy = s.ty - s.y, dist = Math.sqrt(dx * dx + dy * dy);
+        var ax = K * dx - C * s.vx, ay = K * dy - C * s.vy;
+        if (dist > 1) { var w = Math.min(1, dist / 180) * SWIRL * s.sg; ax += -dy / dist * w; ay += dx / dist * w; }
+        s.vx += ax * dt; s.vy += ay * dt; s.x += s.vx * dt; s.y += s.vy * dt;
+        if (dist < 0.3 && Math.abs(s.vx) + Math.abs(s.vy) < 3) { s.x = s.tx; s.y = s.ty; s.vx = s.vy = 0; } else busy = true;
+      }
+      /* the height opens and closes on a stiffer spring, with no bounce */
+      var dh = s.th - s.h;
+      s.vh += (380 * dh - 36 * s.vh) * dt; s.h += s.vh * dt;
+      if (Math.abs(dh) < 0.5 && Math.abs(s.vh) < 1) { s.h = s.th; s.vh = 0; if (li.classList.contains("closing")) li.classList.remove("closing"); }
+      else busy = true;
+    });
+    paint();
+    raf = busy ? requestAnimationFrame(frame) : 0;
+  }
+  function toggle(k){
+    var li = box.querySelector('li.tk[data-t="' + k + '"]'); if (!li) return;
+    var was = openKey;
+    if (was !== null && was !== k) { var pl = box.querySelector('li.tk[data-t="' + was + '"]'); if (pl) { pl.classList.remove("open"); pl.classList.add("closing"); setExp(pl, false); } }
+    if (was === k) { openKey = null; li.classList.remove("open"); li.classList.add("closing"); setExp(li, false); }
+    else {
+      openKey = k; li.classList.remove("closing"); li.classList.add("open"); setExp(li, true);
+      var ul = li.querySelector("ul"); if (ul && !still.matches) ul.animate([{ opacity: 0 }, { opacity: 0, offset: 0.25 }, { opacity: 1 }], { duration: 380 });
+    }
+    layout(false);
+    if (openKey !== null) {
+      /* bring the opened card fully into view */
+      var s = st[openKey], l = s.tx - 12, r = s.tx + cw + 12, v = scr.scrollLeft, w = scr.clientWidth;
+      if (l < v || r > v + w) scr.scrollTo({ left: Math.max(0, r > v + w ? Math.min(l, r - w) : l), behavior: still.matches ? "auto" : "smooth" });
+    }
+  }
+  function setExp(li, on){ var b = li.querySelector(".tk-more"); if (b) b.setAttribute("aria-expanded", on ? "true" : "false"); }
+  box.addEventListener("click", function(e){ var b = e.target.closest(".tk-more"); if (b && cmp.matches) toggle(key(b.closest("li.tk"))); });
+  box.addEventListener("focusin", function(e){
+    var li = e.target.closest("li.tk");
+    follow = li ? { k: key(li), sel: e.target.classList.contains("tk-more") ? ".tk-more" : "[data-close]" } : null;
+  });
+  /* the figure rewrites the tickets on every order; carry the open card and the motion across, before paint */
+  new MutationObserver(function(){
+    var known = Object.keys(st).length, had = {};
+    Object.keys(st).forEach(function(k){ had[k] = 1; });
+    Array.prototype.forEach.call(box.querySelectorAll("li.tk"), function(li){
+      var k = key(li);
+      if (k === openKey) { li.classList.add("open"); setExp(li, true); }
+    });
+    var lost = !document.activeElement || document.activeElement === document.body;
+    layout(false);
+    if (lost && follow) { var f = box.querySelector('li.tk[data-t="' + follow.k + '"] ' + follow.sel); if (f) try { f.focus({ preventScroll: true }); } catch (e) {} }
+    /* a newly seated table goes to the end of the row: show it, unless someone is reading an opened card */
+    var added = items.filter(function(li){ return !had[key(li)]; });
+    if (cmp.matches && known && added.length && openKey === null) {
+      var s = st[key(added[added.length - 1])];
+      if (s) scr.scrollTo({ left: Math.max(0, s.tx + cw + 12 - scr.clientWidth), behavior: still.matches ? "auto" : "smooth" });
+    }
+  }).observe(box, { childList: true });
+  onMq(cmp, function(){ layout(true); });
+  var lastW = 0;
+  if ("ResizeObserver" in window) new ResizeObserver(function(es){ var w = es[0].contentRect.width; if (w !== lastW) { lastW = w; layout(true); } }).observe(scr);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ layout(true); });
+  layout(true);
 })();
 </script>
 </body>
