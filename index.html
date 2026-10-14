@@ -1184,10 +1184,11 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 
 /* the sheet: the same browser tab, raised over a dimmed page. A full-screen layer (a popover in the top layer
    where the browser has them) holding the dimming and the pane; only their transform and opacity animate. */
-.sheet{display:none;position:fixed;inset:0;z-index:1000;margin:0;padding:0;width:auto;height:auto;max-width:none;max-height:none;border:0;background:none;color:var(--ink);overflow:hidden;overscroll-behavior:contain;flex-direction:column;justify-content:flex-end;align-items:center;--surf:var(--paper2)}
+.sheet{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;margin:0;padding:0;width:auto;height:auto;max-width:none;max-height:none;border:0;background:none;color:var(--ink);overflow:hidden;overscroll-behavior:contain;flex-direction:column;justify-content:flex-end;align-items:center;--surf:var(--paper2)}
 .sheet.on{display:flex}
-.sheet-scrim{position:absolute;inset:0;background:rgba(12,11,9,.58);touch-action:none}
+.sheet-scrim{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(12,11,9,.58);touch-action:pinch-zoom;will-change:opacity}
 .sheet-in{position:relative;display:flex;flex-direction:column;width:min(640px,100%);max-height:100%;padding:0 10px calc(10px + env(safe-area-inset-bottom,0px));transform-origin:50% 0;will-change:transform,opacity}
+.sheet-in:focus{outline:none}
 .sheet-grab{align-self:stretch;height:26px;flex:none;display:grid;place-items:center;touch-action:none;cursor:grab}
 .sheet-grab::before{content:"";width:44px;height:5px;border-radius:5px;background:rgba(246,244,236,.7)}
 .sheet .tab{display:flex;flex:1 1 auto;min-height:0;max-height:calc(100svh - 46px - env(safe-area-inset-bottom,0px));box-shadow:0 -8px 40px -14px rgba(0,0,0,.5)}
@@ -1200,7 +1201,9 @@ select:focus:not(:focus-visible),.csel-btn:focus:not(:focus-visible){outline:non
 .tp-pick{margin:4px 0 14px}
 .tp-pick button{padding:10px 18px}
 .tp-pick button::before{content:none}
-html.sheet-on{overflow:hidden}
+/* the page stays put under the sheet: no scrolling, the scrollbar's room kept, and the tracker's pulse resting */
+html.sheet-on{overflow:hidden;scrollbar-gutter:stable}
+html.sheet-on .steps li.now::before{animation-play-state:paused}
 
 /* staff tickets in one sideways row: short cards, one opened at a time */
 @media(max-width:900px){
@@ -3223,6 +3226,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       var sc = (h * renderer.getPixelRatio() / 2) / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
       S.glows.forEach(function(g){ g.uni.uScale.value = sc; });
       host.classList.toggle("tiny", w < 300);
+      /* resizing clears the canvas; while a tab covers the figure the loop will not redraw it, so do it here */
+      if (S.held) { place(); placeTags(); renderer.render(scene, camera); }
     }
     var aim = new THREE.Vector3();
     function dist(){
@@ -3363,8 +3368,10 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       resize(); zoomed();
       function loop(now){
         requestAnimationFrame(loop);
-        if (!S.visible || S.held) { last = now; return; }
+        if (!S.visible) { last = now; return; }
         var dt = Math.min((now - last) / 1000, 0.05); last = now; frame++;
+        /* covered by a browser tab: keep the figure's clock running (orders, stock, flights), draw nothing */
+        if (S.held) { if (S.onFrame) S.onFrame(dt, now / 1000); return; }
         if (frame % 20 === 1) { var k = themeKey(); if (k !== key) { key = k; if (S.onTheme) S.onTheme(palette()); } }
         /* a little momentum after a drag; when not zoomed in, drift back to the resting angle */
         if (!down && !pinch) {
@@ -4408,6 +4415,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     dlg.innerHTML = '<div class="sheet-scrim"></div><div class="sheet-in"><span class="sheet-grab" aria-hidden="true"></span></div>';
     document.body.appendChild(dlg);
     var pane = dlg.querySelector(".sheet-in"), scrim = dlg.querySelector(".sheet-scrim");
+    /* a click on plain text in the tab keeps focus in the sheet, as it did in the dialog */
+    pane.tabIndex = -1;
     var x = document.createElement("button");
     x.type = "button"; x.className = "tab-x"; x.setAttribute("aria-label", "Close the tab"); x.textContent = "×";
     bar.appendChild(x);
@@ -4438,7 +4447,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 
     /* the tab rises out of the launcher: it starts on the launcher, at its width, and grows into place. Only
        transform and opacity move, so the compositor runs it and the page under it is never repainted. */
-    var open = false, going = false, anims = [];
+    var open = false, going = false, anims = [], cw = null, tWant = 0, tGo = 0;
     function stop(){ anims.forEach(function(a){ try { a.cancel(); } catch (e) {} }); anims = []; }
     function onLauncher(r){
       /* where the pane has to be, scaled and moved, for its tab to sit on the launcher */
@@ -4449,6 +4458,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     }
     function show(){
       if (open || !cmp.matches) return;
+      clearTimeout(tWant); clearTimeout(tGo);
       var r = pop.getBoundingClientRect();
       open = true; going = false; stop();
       pane.appendChild(tab);
@@ -4457,6 +4467,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       root.classList.add("sheet-on");
       pop.setAttribute("aria-expanded", "true");
       hold(true);
+      /* Android's back gesture arrives as a close request, as Escape does: the dialog answered both, so this does too */
+      if (window.CloseWatcher) try { cw = new CloseWatcher(); cw.onclose = function(){ cw = null; hide(); }; } catch (e) { cw = null; }
       picker();
       try { x.focus({ preventScroll: true }); } catch (e) {}
       if (still.matches) { anims.push(pane.animate({ opacity: [0, 1] }, { duration: 160 }), scrim.animate({ opacity: [0, 1] }, { duration: 160 })); return; }
@@ -4470,12 +4482,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     }
     function hide(dragged){
       if (!open || going) return;
+      clearTimeout(tGo); drag = null;
       if (still.matches || !cmp.matches) { done(); return; }
+      /* start from wherever the pane and dimming are now, even part way through opening */
+      var cp = getComputedStyle(pane), y0 = cp.transform, p0 = +cp.opacity, o0 = +getComputedStyle(scrim).opacity;
       going = true; stop();
-      var to = dragged ? null : onLauncher(pop.getBoundingClientRect()), y0 = pane.style.transform || "none", o0 = scrim.style.opacity || 1;
+      var to = dragged ? null : onLauncher(pop.getBoundingClientRect());
       var a = pane.animate(to ? [
-        { transform: y0, opacity: 1 },
-        { opacity: 1, offset: 0.55 },
+        { transform: y0, opacity: p0 },
+        { opacity: p0, offset: 0.55 },
         { transform: to, opacity: 0 }
       ] : [{ transform: y0 }, { transform: "translateY(105%)" }], { duration: to ? 340 : 260, easing: to ? "cubic-bezier(.4,0,.2,1)" : "cubic-bezier(.4,0,1,1)", fill: "forwards" });
       anims.push(a, scrim.animate({ opacity: [o0, 0] }, { duration: 300, easing: "ease", fill: "forwards" }));
@@ -4484,6 +4499,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
     function done(){
       if (!open) return;
       open = going = false; drag = null; stop();
+      clearTimeout(tWant); clearTimeout(tGo);
+      if (cw) { var c = cw; cw = null; try { c.destroy(); } catch (e) {} }
       if (layer) try { dlg.hidePopover(); } catch (e) {}
       dlg.classList.remove("on");
       pane.style.transform = scrim.style.opacity = "";
@@ -4491,27 +4508,31 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       home.insertBefore(tab, pop.nextSibling);
       root.classList.remove("sheet-on");
       pop.setAttribute("aria-expanded", "false");
-      hold(false);
+      /* the 3D figures start drawing again a frame later, so their first frame does not land on this one */
+      requestAnimationFrame(function(){ if (!open) hold(false); });
       if (cmp.matches) try { pop.focus({ preventScroll: true }); } catch (e) {}
     }
-    /* keep focus inside while it is open, and Escape puts it away */
+    /* keep focus inside while it is open, and Escape puts it away, wherever focus is: a dish added with the
+       keyboard is redrawn, and focus falls to the page body for a moment */
     function stops(){ return Array.prototype.filter.call(pane.querySelectorAll("button,[href],input,select,textarea,[tabindex]:not([tabindex='-1'])"), function(el){ return !el.disabled && el.getClientRects().length; }); }
-    dlg.addEventListener("keydown", function(e){
+    document.addEventListener("keydown", function(e){
+      if (!open) return;
       if (e.key === "Escape") { e.preventDefault(); hide(); return; }
       if (e.key !== "Tab") return;
       var f = stops(); if (!f.length) return;
-      var a = f[0], z = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
-      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+      var a = f[0], z = f[f.length - 1], el = document.activeElement;
+      if (!pane.contains(el) || (el === pane && e.shiftKey)) { e.preventDefault(); (e.shiftKey ? z : a).focus(); }
+      else if (e.shiftKey && el === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && el === z) { e.preventDefault(); a.focus(); }
     });
     document.addEventListener("focusin", function(e){ if (open && !going && !dlg.contains(e.target)) try { x.focus({ preventScroll: true }); } catch (er) {} });
     scrim.addEventListener("click", function(){ hide(); });
     x.addEventListener("click", function(){ hide(); });
     pop.addEventListener("click", show);
-    tab.addEventListener("want", function(){ setTimeout(show, 520); });
+    tab.addEventListener("want", function(){ clearTimeout(tWant); tWant = setTimeout(show, 520); });
     if (o.pick) o.pick.addEventListener("click", function(e){ if (e.target.closest("button")) show(); });
     /* once the order is placed the guest is done with the tab: close it so the order can be seen landing */
-    o.go.addEventListener("click", function(){ if (open) setTimeout(function(){ hide(); }, 480); });
+    o.go.addEventListener("click", function(){ if (open) { clearTimeout(tGo); tGo = setTimeout(function(){ hide(); }, 480); } });
     onMq(cmp, function(){ if (!cmp.matches && open) done(); });
 
     /* opened before a table is picked: offer the tables inside the tab, as a real QR landing page would */
@@ -4529,18 +4550,29 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       });
       body.appendChild(box);
     }
-    new MutationObserver(picker).observe(body, { childList: true });
+    var lastFocus = null;
+    body.addEventListener("focusin", function(e){
+      var k = e.target.closest("[data-i],[data-p],[data-g]");
+      lastFocus = k ? (k.hasAttribute("data-i") ? '[data-i="' + k.getAttribute("data-i") + '"]' : k.hasAttribute("data-p") ? '[data-p="' + k.getAttribute("data-p") + '"]' : '[data-g="' + k.getAttribute("data-g") + '"]') : null;
+    });
+    new MutationObserver(function(){
+      picker();
+      if (!open || (document.activeElement && document.activeElement !== document.body)) return;
+      var el = lastFocus && body.querySelector(lastFocus);
+      try { (el || pane).focus({ preventScroll: true }); } catch (e) {}
+    }).observe(body, { childList: true });
 
     /* drag the handle or the address bar down to put the tab away; the dimming lifts as it goes */
     var drag = null;
+    function moving(){ return anims.some(function(a){ return a.playState === "running"; }); }
     function dStart(e){
       if (!open || going || (e.button && e.button > 0) || e.target.closest("button")) return;
-      stop();
       drag = { y: e.clientY, t: performance.now(), dy: 0, v: 0, id: e.pointerId };
       try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) {}
     }
     function dMove(e){
       if (!drag || e.pointerId !== drag.id) return;
+      if (moving()) { drag.y = e.clientY; return; }
       var now = performance.now(), dy = Math.max(0, e.clientY - drag.y);
       drag.v = (dy - drag.dy) / Math.max(1, now - drag.t); drag.t = now; drag.dy = dy;
       pane.style.transform = dy ? "translate3d(0," + dy + "px,0)" : "";
