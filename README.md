@@ -33,26 +33,34 @@
 
 `index.html` reads top to bottom in four layers. Each layer opens with a heavy rule, each part of a
 layer with a double-ruled banner that carries a short code, and each group inside a part with a light
-rule. The codes are the stable anchors: search the file for `B.17` or `D.05` and you land on that part.
+rule. The codes are the stable anchors: search the file for `B.15` or `D.07` and you land on that part.
 
 ```
 <!-- ━━━━━━━━  B  ·  STYLES  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->      layer
 /* ═════════════════════════════════════════════════════════════════════════════
-   B.06  ORBIT  ·  the chip holds the middle while words pass                        part
+   B.09  ORBIT  ·  the chip holds the middle while words pass                        part
    ══════════════════════════════════════════════════════════════════════════ */
-/* ── the chip ────────────────────────────────────────────────────────────── */      group
+/* ── chip ────────────────────────────────────────────────────────────────── */      group
 ```
 
 | Layer | What it holds | Codes |
 |---|---|---|
 | **A · Head** | identity, crawling, colour, icons, social cards, structured data | `A.01` – `A.08` |
-| **B · Styles** | one `<style>` element, in cascade order | `B.01` – `B.29` |
+| **B · Styles** | one `<style>` element, one part per component | `B.01` – `B.24` |
 | **C · Page** | the markup of the bar, `<main>` and the footer | `C.01` – `C.16` |
-| **D · Scripts** | eight `<script>` elements, in load order | `D.01` – `D.08` |
+| **D · Scripts** | eleven `<script>` elements, in load order | `D.01` – `D.11` |
 
-The styles are written in the order the design was built up, and later parts deliberately override
-earlier ones (most visibly `B.17 Soft UI`, which re-skins every control defined in `B.12`). **Order in
-layer B is load-bearing.** Moving a part changes the cascade.
+**Styles are organised by component.** Each component's part holds everything about it: its base
+rules, its states, its pressed-and-raised soft look, and its adjustments for every screen size, with
+`@media` blocks placed right after the rules they adjust. A selector is written once per context
+wherever the cascade allows; the few places where a rule repeats are deliberate, because a rule in
+between must win for some state (for example `.btn:hover` and `.btn:disabled`). Rules that serve
+several components at once live together in `B.23 Shared finishing`, near the end, because they
+must override the components before them.
+
+**Formatting** is standard: one declaration per line in the CSS, and the scripts formatted
+consistently (two-space indent, double quotes, 100 columns). Each script is a single IIFE in ES5
+style (`var`, `function`), and nothing is global except `window.Fly`.
 
 ---
 
@@ -79,70 +87,66 @@ Line numbers are approximate and drift with edits; the codes do not.
 | Code | Line | Part | Groups inside |
 |---|---:|---|---|
 | `B.01` | 206 | Typefaces | nine embedded WOFF2 `@font-face` rules |
-| `B.02` | 220 | Theme | `color-scheme`, view-transition layers, tokens for light, dark, and system dark |
-| `B.03` | 253 | Base | box sizing, body type, selection, focus · labels (`.lab`, `.note`, `.hand`) |
-| `B.04` | 270 | Top bar | sticky `.bar`, its name and nav |
-| `B.05` | 283 | Cover & opening line | `.mast` · opening line (`.hl`) |
-| `B.06` | 299 | Orbit | contents · the chip · chip controls inside the orbit · one-column fallback |
-| `B.07` | 391 | Page grid | the `.g` grid, named lines · section rhythm (top margins of every section) |
-| `B.08` | 418 | At a glance | where the glance card sits in the grid at each width |
-| `B.09` | 439 | Letter | heading, two columns, drop cap, desk photo |
-| `B.10` | 464 | Features | detail tables · type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
-| `B.11` | 626 | Photo slots | `.snap` prints, tape, hatching, dark variants |
-| `B.12` | 646 | Figure trays | `.insert` · labels and fields · custom dropdown · buttons · Fig. 1 race · Fig. 2 payslip · Fig. 5 form |
-| `B.13` | 756 | Next issue & contact | the dark `.next` card, `.mail`, `.links`, utilities, footer |
-| `B.14` | 800 | 3D stages | `.scene3`, `.stage`, `.tag`, toggles, the browser `.tab`, tickets |
-| `B.15` | 864 | Scrollbars | thin themed scrollbars |
-| `B.16` | 874 | Zoom keys & Fig. 4 panels | `.zoom` · checkout, tracker (`.steps`), recent orders |
-| `B.17` | 918 | Soft UI | per-surface light · labels · top bar · buttons · fields · sliders · segmented · chips · browser tab · tracker · zoom keys · contact links · trays |
-| `B.18` | 1062 | Small screens | 620 / 460 / 360 / 300px · short landscape · touch targets · 240 / 220px |
-| `B.19` | 1122 | Large screens | body size at 1600px and 2200px |
-| `B.20` | 1128 | Arrivals & print | `[data-fly]` hidden-until-placed, reduced motion, print |
-| `B.21` | 1147 | Taps & focus | tap highlight, touch callout, focus rings only for keyboards |
-| `B.22` | 1159 | Control drawers | `details.dock` |
-| `B.23` | 1180 | Phone panels | compact race, stats, tracker, product tiles, table chips (≤ 620px) |
-| `B.24` | 1220 | Compact figures | launcher `.tab-pop` · the sheet · staff tickets in one row (≤ 900px) |
-| `B.25` | 1295 | Marks | `--sand`, `--brush`, `--pencil`, `--loop`; `.brush`, `.loop`, underlines |
-| `B.26` | 1308 | Portrait | `--me`, the photo as one embedded WebP |
-| `B.27` | 1313 | Cover photo | `.cv-hero`, the shade, the name cut by the photo's edge, `.mast-echo` |
-| `B.28` | 1341 | Glance card | cover, identity, facts, stack tags · ≤ 999 / 640 / 380 / 300px · short landscape |
-| `B.29` | 1430 | Finishing | `--accent-ink` on small accent text; glance facts on hairlines |
+| `B.02` | 282 | Tokens | one `:root` block for light, one for manual dark, one for system dark, `--max` at 1920px · per-element light (`--hi`, `--lo`, `--raise`, `--sink`) |
+| `B.03` | 396 | Document | reset and body (including body size at 300 / 360 / 1600 / 2200px) · theme transition · scrollbars · taps and focus · utilities (`.hidden`, `.nw`) |
+| `B.04` | 573 | Type & marks | labels (`.lab`, `.note`, `.hand`) · ink · marks (`.brush`, `.loop`) |
+| `B.05` | 630 | Layout | the `.g` grid and its named lines |
+| `B.06` | 656 | Top bar | bar · theme switch |
+| `B.07` | 784 | Cover | `.mast`, `.cv-hero`, the shade, `.mast-echo`, every width |
+| `B.08` | 916 | Opening line | `.hl` |
+| `B.09` | 948 | Orbit | frame and lanes · contents · chip · one column |
+| `B.10` | 1379 | At a glance | placement · card · ≤ 999 / 640 / 380 / 300px · short landscape · facts as a list on hairlines |
+| `B.11` | 1809 | Letter | heading, columns, drop cap, desk photo |
+| `B.12` | 1902 | Features | parts · detail tables · spacing and type scale · hand-set words · phones and tablets · ≥ 1100px with F1 – F7 |
+| `B.13` | 2514 | Photo slots | `.snap` prints, tape, hatching, dark variants |
+| `B.14` | 2596 | Figure trays | tray · Fig. 1 dispatch race · Fig. 2 payslip · Fig. 5 form |
+| `B.15` | 3031 | Controls | labels, fields and dropdowns · sliders · buttons · quiet links · segmented control · chips · drawers |
+| `B.16` | 3614 | 3D stages | stage and labels · zoom keys |
+| `B.17` | 3837 | Browser tab | tab · staff tickets · Fig. 4 checkout and readouts · Fig. 4 tracker · Fig. 4 recent orders |
+| `B.18` | 4390 | Compact figures | launcher · sheet · ticket row (≤ 900px) |
+| `B.19` | 4833 | Next issue | the dark `.next` card and its buttons |
+| `B.20` | 4960 | Contact | `.con-h`, `.mail`, `.links` |
+| `B.21` | 5061 | Footer | |
+| `B.22` | 5096 | Motion & print | arrivals · print |
+| `B.23` | 5199 | Shared finishing | rounded small labels · sand underlines · accent ink |
+| `B.24` | 5260 | Portrait | `--me`, the photo as one embedded WebP |
 
 ### C · Page
 
 | Code | Line | Section | Anchor |
 |---|---:|---|---|
-| `C.01` | 1448 | Top bar | `header.bar` |
-| `C.02` | 1462 | Cover | `section.cover` |
-| `C.03` | 1473 | Opening line | `section.opening` |
-| `C.04` | 1480 | Orbit | `#orbit`, `#inside` |
-| `C.05` | 1516 | At a glance | `#glance` |
-| `C.06` | 1551 | Letter | `#letter` |
-| `C.07` | 1568 | Feature 01 · Dispatching under limits | `#f1`, Fig. 1 `#try-dispatch` |
-| `C.08` | 1620 | Feature 02 · Time, pay and the payslip | `#f2`, Fig. 2 `#try-payslip` |
-| `C.09` | 1664 | Feature 03 · Tables, menus and the order | `#f3`, Fig. 3 `#try-floor` |
-| `C.10` | 1720 | Feature 04 · Checkout to the shelf | `#f4`, Fig. 4 `#try-shop` |
-| `C.11` | 1786 | Feature 05 · WordPress, done properly | `#f5` (no demo) |
-| `C.12` | 1809 | Feature 06 · Interface decisions that matter | `#f6`, Fig. 5 `#try-ux` |
-| `C.13` | 1846 | Feature 07 · Agents, plugins and patterns | `#f7` |
-| `C.14` | 1869 | Next issue | `#next` |
-| `C.15` | 1889 | Contact | `#contact` |
-| `C.16` | 1904 | Footer | `footer` |
+| `C.01` | 5272 | Top bar | `header.bar` |
+| `C.02` | 5286 | Cover | `section.cover` |
+| `C.03` | 5297 | Opening line | `section.opening` |
+| `C.04` | 5304 | Orbit | `#orbit`, `#inside` |
+| `C.05` | 5340 | At a glance | `#glance` |
+| `C.06` | 5375 | Letter | `#letter` |
+| `C.07` | 5392 | Feature 01 · Dispatching under limits | `#f1`, Fig. 1 `#try-dispatch` |
+| `C.08` | 5444 | Feature 02 · Time, pay and the payslip | `#f2`, Fig. 2 `#try-payslip` |
+| `C.09` | 5488 | Feature 03 · Tables, menus and the order | `#f3`, Fig. 3 `#try-floor` |
+| `C.10` | 5544 | Feature 04 · Checkout to the shelf | `#f4`, Fig. 4 `#try-shop` |
+| `C.11` | 5610 | Feature 05 · WordPress, done properly | `#f5` (no demo) |
+| `C.12` | 5633 | Feature 06 · Interface decisions that matter | `#f6`, Fig. 5 `#try-ux` |
+| `C.13` | 5670 | Feature 07 · Agents, plugins and patterns | `#f7` |
+| `C.14` | 5693 | Next issue | `#next` |
+| `C.15` | 5713 | Contact | `#contact` |
+| `C.16` | 5728 | Footer | `footer` |
 
 ### D · Scripts
 
 | Code | Line | Script | Groups inside |
 |---|---:|---|---|
-| `D.01` | 1916 | Arrivals | collect · measure · one element · the loop |
-| `D.02` | 2122 | three.js r149 | vendor, minified, untouched |
-| `D.03` | 2133 | jsPDF 2.5.1 | vendor, minified, untouched |
-| `D.04` | 2536 | Page core | footer year and GitHub link · theme · cover chip (theme colours, scene, power lines, beads, physics, colours, orientation, size and loop) · custom dropdown · Fig. 1 · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 |
-| `D.05` | 3181 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
-| `D.06` | 4352 | Photo guard & control drawers | photo guard · control drawers |
-| `D.07` | 4409 | Pinned chip drawer | — |
-| `D.08` | 4437 | Compact figures | browser tabs → sheet · staff tickets |
-
-Every own script is an IIFE in ES5 style (`var`, `function`), with no globals except `window.Fly`.
+| `D.01` | 5739 | Arrivals | collect · measure · one element · the loop |
+| `D.02` | 6144 | three.js r149 | vendor, minified, untouched |
+| `D.03` | 6155 | jsPDF 2.5.1 | vendor, minified, untouched |
+| `D.04` | 6558 | Theme & footer | footer year and GitHub link · theme |
+| `D.05` | 6647 | Cover chip | theme colours · scene · power lines · beads · physics · colours · orientation · size and loop |
+| `D.06` | 7288 | Demos | custom dropdown · Fig. 1 dispatch simulator · Fig. 2 payslip · Fig. 2 receipt PDF · Fig. 5 form |
+| `D.07` | 7912 | 3D figures | helpers · theme colours · glow points · arc and path · Stage · turn, pan, zoom · zoom keys · materials · Fig. 3 · Fig. 4 |
+| `D.08` | 10765 | Photo guard | — |
+| `D.09` | 10781 | Control drawers | — |
+| `D.10` | 10907 | Pinned chip drawer | — |
+| `D.11` | 10955 | Compact figures | browser tabs → sheet · staff tickets |
 
 ---
 
@@ -153,7 +157,7 @@ Every own script is an IIFE in ES5 style (`var`, `function`), with no globals ex
 Ink on paper, one leaf-green accent used sparingly, and controls that look moulded out of the page
 itself. The reading parts stay editorial: serif headlines, light sans text, mono notes, a pencil hand.
 
-### Colour tokens (`B.02`, `B.25`, `B.29`)
+### Colour tokens (`B.02`)
 
 | Token | Light | Dark | Role |
 |---|---|---|---|
@@ -179,14 +183,14 @@ Any new dark rule needs both.
 | Instrument Serif | 400, 400 italic | `--serif` | headlines, ledes, quotes, numerals |
 | Jost | 300, 400, 500 | `--sans` | body text, labels |
 | DM Mono | 400 | `--mono` | notes, figure captions, detail tables |
-| Nunito | 600, 700 | `--ui` | everything you press (from `B.17`) |
+| Nunito | 600, 700 | `--ui` | everything you press (`B.15`) |
 | Caveat | 500 | `--hand` | the pencilled aside in the orbit |
 
 Headlines are spaced by hand: words carry classes such as `.t1`, `.t2`, `.sq`, `.wide`, `.l1`, `.l2`
-with their own `letter-spacing` (`B.10 › hand-set words`). `.ink` thickens a word with a hairline
+with their own `letter-spacing` (`B.12 › hand-set words`). `.ink` thickens a word with a hairline
 text shadow, like a stamp that spread.
 
-### Soft UI (`B.17`)
+### Soft UI (`B.02`, applied in each component)
 
 Every element computes its own light from `--surf`, the colour of whatever it sits on:
 
@@ -201,7 +205,7 @@ Every element computes its own light from `--surf`, the colour of whatever it si
 Things that are on or chosen fill with green; nothing glows. To put controls on a new surface, set
 `--surf` on the container and the shadows follow.
 
-### Grid (`B.07`)
+### Grid (`B.05`)
 
 Every section below the orbit is its own grid, `.g`, with twelve columns inside the frame and a bleed
 track to each screen edge. Named lines: `col N` (left edge of column N), `col-end`, `bleed-start`,
@@ -210,7 +214,9 @@ gap. Bleeds alternate down the page: the glance card runs off the right, the Fig
 left, the Next card off the right.
 
 Sections are spaced by eye, not by a scale: long pauses before the work and before the end, short
-ones between pairs (`B.07 › section rhythm`).
+ones between pairs. Each section's top margin sits with the section's own styles (`.glance` in
+`B.10`, `.letter` in `B.11`, `#f1` – `#f7` in `B.12 › spacing and type scale`, `#next` in `B.19`,
+`#contact` in `B.20`).
 
 ### Breakpoints
 
@@ -317,7 +323,7 @@ How it works:
 
 Exposes `window.Fly = { refresh(), settle(el?), settleTo(y) }` and sets `html.fly-ready`.
 
-### D.04 · Page core
+### D.04 – D.06 · Theme, cover chip and demos
 
 **Theme.** `data-theme` on `<html>` holds a manual choice, saved in `localStorage["theme"]`; without
 it the system preference rules. The switch keeps both `theme-color` metas in step. Where View
@@ -368,7 +374,7 @@ buttons and one useless error. "After" has plain labels with examples, errors be
 blur, fewer fields, one action, autofill hints, and a Bangladeshi mobile number check
 (`01[3-9]` plus eight digits, optional `+88`).
 
-### D.05 · 3D figures
+### D.07 · 3D figures
 
 **Stage.** One factory sets up each figure: renderer, a camera orbiting a target, HTML labels pinned to
 3D points, picking, and input.
@@ -420,20 +426,20 @@ van → one of four homes. One order is one object the whole way, so it can be f
   Placed, Paid, Picked, Packed, Out for delivery, Delivered.
 - Six products, orders per minute 6 – 90, gateway failure 0 – 40%, gateways switchable.
 
-### D.06 · Photo guard & control drawers
+### D.08 – D.09 · Photo guard & control drawers
 
 The cover and glance photos get no context menu and no drag. Each figure's settings fold into a
 `<details class="dock">` whose summary shows the current values in one line. Drawers open from
 701px and close below, until someone opens or closes one themselves. The chip, the Fig. 3 admin and
 the Fig. 4 admin drawers always start closed.
 
-### D.07 · Pinned chip drawer
+### D.10 · Pinned chip drawer
 
 When the chip is pinned (≥ 1100px wide and ≥ 680px tall) its drawer opens down over the chip; the chip
 moves down and, if it has to, shrinks to as little as 60% to stay in sight. Escape or a click outside
 closes it.
 
-### D.08 · Compact figures (≤ 900px)
+### D.11 · Compact figures (≤ 900px)
 
 **Browser tabs → sheets.** The tabs of Figs. 3 and 4 fold into a launcher (a small browser icon with
 a cursor that taps it when the address changes). Opening it raises the same tab as a sheet over a
@@ -458,17 +464,17 @@ spring into place one after another. A new table slides in from the right.
 
 | Name | Kind | Set by | Read by |
 |---|---|---|---|
-| `html.js` | class | `A.08`, `D.04` | `B.20` (hide `[data-fly]` until placed) |
-| `html.fly-ready` | class | `D.01` | `B.20` |
-| `html.sheet-on` | class | `D.08` | `B.24` (lock page scroll, pause the tracker pulse) |
-| `html[data-theme]` | attribute | `D.04` | `B.02`, `B.11`, `B.17`, `B.25`, the 3D colour readers |
+| `html.js` | class | `A.08`, `D.04` | `B.22` (hide `[data-fly]` until placed) |
+| `html.fly-ready` | class | `D.01` | `B.22` |
+| `html.sheet-on` | class | `D.11` | `B.17`, `B.18` (lock page scroll, pause the tracker pulse) |
+| `html[data-theme]` | attribute | `D.04` | `B.02`, `B.06`, `B.13`, `B.19`, the 3D colour readers |
 | `localStorage.theme` | storage | `D.04` | `D.04` |
-| `sheetchange` | `CustomEvent` on `document`, `detail.open` | `D.08` | `D.05` Stage |
+| `sheetchange` | `CustomEvent` on `document`, `detail.open` | `D.11` | `D.07` Stage |
 | `window.Fly` | object | `D.01` | available to any script |
-| `--surf` | CSS variable | `B.17`, containers | every soft control |
-| `#flTickets` contents | markup | `D.05` Fig. 3 rewrites it per order | `D.08` re-lays the row |
-| `.tab`, `.tab-body`, `.url` | markup | `C.09`, `C.10` | `D.08` moves the tab into a sheet |
-| `.chip-ctrls`, `.ctrls`, `.fields`, `#flCats`, `#shGws` | markup | `C` | `D.06` moves them into drawers |
+| `--surf` | CSS variable | `B.02`, containers | every soft control |
+| `#flTickets` contents | markup | `D.07` Fig. 3 rewrites it per order | `D.11` re-lays the row |
+| `.tab`, `.tab-body`, `.url` | markup | `C.09`, `C.10` | `D.11` moves the tab into a sheet |
+| `.chip-ctrls`, `.ctrls`, `.fields`, `#flCats`, `#shGws` | markup | `C` | `D.09` moves them into drawers |
 
 Element IDs the scripts depend on:
 
@@ -488,19 +494,19 @@ Element IDs the scripts depend on:
 
 - **The top bar is 99% opaque, not 100%.** When it counts as fully opaque, Chrome stops drawing the
   part of the pinned WebGL chip it thinks is behind the bar, and the chip vanishes early as the orbit
-  ends. (`B.04`)
+  ends. (`B.06`)
 - **Canvases never trap a scrolling finger.** On touch screens, up and down scrolls the page and
   sideways turns the figure (`touch-action: pan-y`). Only when a 3D figure is zoomed in does a
   one-finger drag pan it instead.
 - **Small accent text uses `--accent-ink`,** a deeper leaf, so it stays readable on the grain. The
-  lighter leaf stays on marks, the chip's glow and big numerals. (`B.29`)
+  lighter leaf stays on marks, the chip's glow and big numerals. (`B.23`)
 - **The photo slot's tilt lives on the inner card** (`.snap-in`), so the arrival motion on `.snap` can
-  never undo it. (`B.11`)
+  never undo it. (`B.13`)
 - **The sheet is a popover, not a `<dialog>`.** Opening a modal dialog makes the rest of the page
-  inert, and the browser restyles every element to do it, on the way in and out. (`D.08`)
+  inert, and the browser restyles every element to do it, on the way in and out. (`D.11`)
 - **The Fig. 4 checkout tab is built once and updated in place,** so keyboard focus is never lost.
 - **Resizing clears a WebGL canvas.** While a sheet covers a figure its loop does not draw, so the
-  Stage redraws once on resize. (`D.05`)
+  Stage redraws once on resize. (`D.07`)
 - **Theme colours reach WebGL by probing CSS.** A hidden span takes `color: var(--token)` and a 1×1
   canvas converts whatever the browser returns into RGB; the key of the current tokens is checked
   every 20 frames.
@@ -522,13 +528,13 @@ the `figcaption`. Slots: the desk in `C.06`, sketches in `C.12`, a process shot 
 shows "GitHub · Coming soon".
 
 **Change the accent.** `--brand` and `--accent-ink` in `B.02`, the dark `--accent` twice in `B.02`,
-and the chip's starting colour (`0x546634`) in `D.04`, which the live colour read replaces on the
+and the chip's starting colour (`0x546634`) in `D.05`, which the live colour read replaces on the
 first frame.
 
 **Add a feature.** Copy a `C.07`-style section with a new `id` (`f8`, heading `f8h`), add a link to
-`#inside` in `C.04`, give it a top margin in `B.07 › section rhythm` and a type scale in
-`B.10 › type scale per feature`. Without a wide composition it uses the shared phone and tablet
-layout; add one inside `B.10 › ≥ 1100px` if it deserves its own.
+`#inside` in `C.04`, give it a top margin and a type scale in `B.12 › spacing and type scale`.
+Without a wide composition it uses the shared phone and tablet layout; add one inside
+`B.12 › ≥ 1100px` if it deserves its own.
 
 **Make something arrive.** Add `data-fly` (or `data-fly="rise"`, `data-fly=".5"`,
 `data-fly-delay=".1"`). Not inside another `data-fly` element.
