@@ -685,7 +685,6 @@ br.d {
   text-decoration: none;
 }
 .bar .name i {
-  font-style: italic;
   letter-spacing: -0.02em;
 }
 .bar nav {
@@ -745,8 +744,6 @@ br.d {
   background: var(--face);
   color: var(--ink);
   font: 700 13.5px var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
   box-shadow: var(--raise-s);
   transition: box-shadow 0.2s;
 }
@@ -802,7 +799,6 @@ br.d {
 .mast {
   font: 400 clamp(36px, 11.6vw, 196px)/0.9 var(--serif);
   letter-spacing: -0.03em;
-  margin: 18px 0 0;
 }
 .cv-hero {
   position: relative;
@@ -862,9 +858,7 @@ br.d {
   font-size: min(clamp(36px, 11.6vw, 196px), calc((100vw - 2 * var(--gut) - 2 * var(--hp)) / 7.45));
 }
 .mast-echo {
-  display: block;
   margin: calc(var(--cut) - 0.9em) var(--hp) 0;
-  color: var(--ink);
   clip-path: inset(calc(0.9em - var(--cut)) -0.2em -0.2em -0.2em);
   pointer-events: none;
   -webkit-user-select: none;
@@ -1031,7 +1025,6 @@ br.d {
 .o-hand svg {
   display: block;
   width: clamp(110px, 10vw, 170px);
-  height: auto;
   margin: 6px 0 0 auto;
   overflow: visible;
 }
@@ -1068,7 +1061,6 @@ br.d {
 
 /* ── contents ────────────────────────────────────────────────────────────── */
 .inside a {
-  display: block;
   text-decoration: none;
   text-wrap: balance;
 }
@@ -1084,7 +1076,6 @@ br.d {
     transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .inside .t {
-  display: inline;
   font: 400 clamp(24px, 2.3vw, 40px)/1.12 var(--serif);
   letter-spacing: -0.014em;
   text-wrap: balance;
@@ -1097,7 +1088,6 @@ br.d {
   background-size: 100% 0.32em;
 }
 .inside .lab {
-  max-width: none;
   text-wrap: balance;
 }
 .con-h,
@@ -1161,21 +1151,17 @@ br.d {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px 26px;
-  margin: 6px 0 14px;
 }
 .chip-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
 }
 .chip-status {
   font: 300 14px/1.45 var(--sans);
-  color: var(--ink);
 }
 .chip figcaption {
   margin: 12px 0 0;
-  display: flex;
   justify-content: space-between;
   gap: 12px;
   width: 100%;
@@ -1335,7 +1321,6 @@ br.d {
     order: 3;
     margin-top: 14px;
     max-width: 560px;
-    align-self: center;
   }
   .orbit-flow .inside {
     order: 4;
@@ -1477,7 +1462,6 @@ br.d {
 }
 .gl-body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   grid-template-areas: "id" "facts" "stack";
   gap: clamp(22px, 2.6vw, 30px) clamp(26px, 4vw, 52px);
   padding: clamp(4px, 1vw, 10px) clamp(16px, 3.4vw, 40px) clamp(16px, 3.4vw, 40px);
@@ -1527,7 +1511,6 @@ br.d {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
 }
 .gl-acts .btn {
   padding: 11px 20px;
@@ -1583,7 +1566,6 @@ br.d {
   padding: 9px 14px;
   border-radius: 999px;
   background: var(--face);
-  color: var(--ink);
   box-shadow: var(--raise-s);
 }
 .gl-grp .lab {
@@ -1672,7 +1654,6 @@ br.d {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    margin-top: 16px;
   }
   .gl-acts .btn {
     padding: 12px 6px;
@@ -1689,7 +1670,6 @@ br.d {
   }
   .gl-stack {
     padding-top: 16px;
-    gap: 14px;
   }
   .gl-grp {
     display: block;
@@ -1738,7 +1718,6 @@ br.d {
   }
   .gl-facts {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0;
     background: var(--paper);
     border-radius: 14px;
     padding: 2px 12px;
@@ -1777,6 +1756,12 @@ br.d {
   }
 }
 
+@media (max-width: 300px) {
+  .gl-facts > div {
+    padding: 9px 0;
+  }
+}
+
 /* ═════════════════════════════════════════════════════════════════════════════
    B.11  LETTER
    ══════════════════════════════════════════════════════════════════════════ */
@@ -1788,7 +1773,6 @@ br.d {
   font: 400 15px/1.4 var(--sans);
   letter-spacing: 0;
   text-transform: none;
-  color: var(--muted);
 }
 #letH {
   grid-row: 2;
@@ -1938,7 +1922,6 @@ br.d {
 .side dt {
   font: 400 11.5px/1.75 var(--mono);
   letter-spacing: 0.02em;
-  text-transform: none;
   color: var(--muted);
 }
 .side dd {
@@ -2013,7 +1996,6 @@ br.d {
   display: inline;
   padding: 0;
   border: 0;
-  margin: 0;
   font: inherit;
   letter-spacing: inherit;
 }
@@ -2034,8 +2016,6 @@ br.d {
 }
 #f7 .side dt {
   font: 400 11.5px/1.4 var(--mono);
-  letter-spacing: 0.02em;
-  color: var(--muted);
 }
 #f7 .side dd {
   margin: 4px 0 0;
@@ -2255,7 +2235,6 @@ br.d {
     grid-row: 4;
   }
   #f1 .insert {
-    grid-column: col 1 / col-end;
     grid-row: 5;
   }
   #f2 .f-top {
@@ -2287,7 +2266,6 @@ br.d {
     margin-top: clamp(56px, 6.6vw, 96px);
   }
   #f3 .f-top {
-    grid-column: col 1 / col-end;
     border-top: 0;
     padding-top: 0;
   }
@@ -2314,7 +2292,6 @@ br.d {
     grid-row: 4;
   }
   #f3 .insert {
-    grid-column: col 1 / col-end;
     grid-row: 5;
     margin-top: clamp(56px, 5.6vw, 80px);
     padding-bottom: clamp(64px, 7vw, 110px);
@@ -2327,7 +2304,6 @@ br.d {
     z-index: 1;
   }
   #f4 .f-top {
-    grid-column: col 1 / col-end;
     border-top-color: var(--hair);
   }
   #f4 h2 {
@@ -2395,7 +2371,6 @@ br.d {
     grid-column: col 6 / col-end;
     grid-row: 5;
     text-align: right;
-    margin-top: clamp(56px, 6vw, 96px);
   }
   #f6 .f-top {
     grid-column: col 1 / col 8;
@@ -2414,7 +2389,6 @@ br.d {
   #f6 .side {
     grid-column: col 2 / col 6;
     grid-row: 3;
-    margin-top: clamp(30px, 3vw, 44px);
   }
   #f6 .snap-sketch {
     grid-column: col 2 / col 5;
@@ -2555,7 +2529,6 @@ br.d {
   --surf: var(--paper2);
   border-top: 0;
   border-radius: 28px;
-  box-shadow: none;
 }
 .insert-h {
   display: flex;
@@ -2567,7 +2540,6 @@ br.d {
 .insert-h span:first-child {
   font: 400 12px/1.4 var(--mono);
   letter-spacing: -0.01em;
-  color: var(--ink);
 }
 .insert-h span:last-child {
   font: 400 12px/1.4 var(--mono);
@@ -2579,7 +2551,6 @@ br.d {
   font: 400 11.5px/1.4 var(--mono);
   letter-spacing: 0.03em;
   text-transform: none;
-  color: var(--muted);
 }
 .stage-hint.lab {
   font-size: 11px;
@@ -2600,7 +2571,6 @@ br.d {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
   gap: 18px 34px;
-  margin-bottom: 22px;
 }
 .runrow {
   display: flex;
@@ -2869,13 +2839,11 @@ br.d {
     11px Arial,
     sans-serif;
   color: #000;
-  letter-spacing: 0;
 }
 .form.before .row {
   display: flex;
   gap: 4px;
   align-items: center;
-  margin: 0;
 }
 .form.before label {
   font:
@@ -2888,7 +2856,6 @@ br.d {
 }
 .form.before input,
 .form.before select {
-  display: inline-block;
   width: auto;
   margin: 0;
   padding: 1px 3px;
@@ -2915,8 +2882,6 @@ br.d {
   border: 1px solid #777;
   background: #ddd;
   color: #000;
-  letter-spacing: 0;
-  text-transform: none;
   cursor: pointer;
 }
 .form.before .err {
@@ -2982,7 +2947,6 @@ select {
   display: block;
   width: 100%;
   color: var(--ink);
-  text-transform: none;
 }
 input:focus,
 select:focus {
@@ -2991,8 +2955,6 @@ select:focus {
 }
 select {
   appearance: none;
-  background-size: 5px 5px;
-  background-repeat: no-repeat;
 }
 select option {
   background: var(--paper);
@@ -3007,11 +2969,9 @@ select option {
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
-  border: 0 !important;
 }
 .csel {
   position: relative;
-  display: block;
   margin-top: 10px;
 }
 .csel-btn {
@@ -3021,7 +2981,6 @@ select option {
   justify-content: space-between;
   gap: 12px;
   color: var(--ink);
-  text-transform: none;
   text-align: left;
   cursor: pointer;
 }
@@ -3122,7 +3081,6 @@ select,
   background: var(--surf);
   box-shadow: var(--sink-s);
   font: 600 16px var(--ui);
-  letter-spacing: 0;
   margin-top: 10px;
 }
 input:focus,
@@ -3138,7 +3096,6 @@ select {
   background-position:
     calc(100% - 24px) 55%,
     calc(100% - 19px) 55%;
-  padding-right: 40px;
 }
 .csel-btn {
   margin-top: 0;
@@ -3214,10 +3171,8 @@ input[type="range"]::-moz-range-thumb {
 .btn {
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
   font: 700 14.5px var(--ui);
   letter-spacing: 0.01em;
-  text-transform: none;
   padding: 14px 26px;
   border: 0;
   border-radius: var(--r);
@@ -3253,8 +3208,6 @@ input[type="range"]::-moz-range-thumb {
 .btn.solid {
   background: var(--gface);
   color: var(--on-gface);
-  border: 0;
-  box-shadow: var(--raise);
 }
 .btn.solid:active {
   box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.28);
@@ -3275,26 +3228,10 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-/* ── quiet links ─────────────────────────────────────────────────────────── */
-.soonlink {
-  background: none;
-  border: 0;
-  color: var(--muted);
-  padding: 0 0 3px;
-  cursor: not-allowed;
-  opacity: 0.8;
-  font: 600 13.5px var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
-  border-bottom: 0;
-}
-
 /* ── segmented control ───────────────────────────────────────────────────── */
 .seg {
   display: inline-flex;
   margin-bottom: 22px;
-  border: 0;
-  background: none;
   gap: 14px;
   padding: 4px;
 }
@@ -3302,8 +3239,6 @@ input[type="range"]::-moz-range-thumb {
   border: 0;
   cursor: pointer;
   font: 700 14px var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
   padding: 11px 24px;
   border-radius: 999px;
   color: var(--muted);
@@ -3316,7 +3251,6 @@ input[type="range"]::-moz-range-thumb {
 .seg button[aria-pressed="true"] {
   background: var(--gface);
   color: var(--on-gface);
-  box-shadow: var(--raise-s);
 }
 
 @media (max-width: 360px) {
@@ -3337,8 +3271,6 @@ input[type="range"]::-moz-range-thumb {
   display: inline-flex;
   align-items: center;
   font: 700 13.5px var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
   padding: 8px 16px 8px 8px;
   border: 0;
   border-radius: 999px;
@@ -3366,7 +3298,6 @@ input[type="range"]::-moz-range-thumb {
 .toggles button[aria-pressed="true"] {
   border-color: var(--ink);
   color: var(--ink);
-  box-shadow: var(--raise-s);
 }
 .toggles button[aria-pressed="true"]::before {
   border-color: var(--accent);
@@ -3406,7 +3337,6 @@ input[type="range"]::-moz-range-thumb {
 .toggles.pay button[aria-pressed="true"] {
   color: var(--on-gface);
   background: var(--gface);
-  box-shadow: var(--raise-s);
 }
 
 @media (max-width: 300px) {
@@ -3442,7 +3372,6 @@ input[type="range"]::-moz-range-thumb {
   min-height: 46px;
   padding: 10px 16px;
   cursor: pointer;
-  border-radius: inherit;
 }
 .dock > summary::-webkit-details-marker {
   display: none;
@@ -3454,7 +3383,6 @@ input[type="range"]::-moz-range-thumb {
 .dock-t {
   flex: none;
   font: 700 13.5px var(--ui, var(--sans));
-  color: var(--ink);
 }
 .dock-t::before {
   content: "";
@@ -3606,10 +3534,8 @@ input[type="range"]::-moz-range-thumb {
 }
 .scene-side {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-content: start;
-  min-width: 0;
 }
 .scene3 > * {
   min-width: 0;
@@ -3742,7 +3668,6 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 6px;
   padding: 12px 14px;
-  border-bottom: 0;
 }
 .tab-bar i {
   width: 26px;
@@ -3800,7 +3725,6 @@ input[type="range"]::-moz-range-thumb {
 .tab-body .note {
   margin: 2px 0 6px;
   font: 300 13px/1.45 var(--sans);
-  color: var(--muted);
 }
 .mi {
   display: flex;
@@ -3837,7 +3761,6 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 10px;
   font: 300 14px var(--sans);
-  border-top: 0;
   padding: 12px 18px 18px;
 }
 .tab-foot .btn {
@@ -3884,7 +3807,6 @@ input[type="range"]::-moz-range-thumb {
     margin-left: 0;
   }
   .tab-bar {
-    min-width: 0;
     overflow: hidden;
   }
 }
@@ -3941,7 +3863,6 @@ input[type="range"]::-moz-range-thumb {
 }
 .tk ul {
   list-style: none;
-  margin: 0;
   padding: 0;
 }
 .tk li {
@@ -3966,8 +3887,6 @@ input[type="range"]::-moz-range-thumb {
   padding: 0 0 2px;
   cursor: pointer;
   font: 700 12.5px var(--ui);
-  letter-spacing: 0;
-  text-transform: none;
   border-bottom: 0;
 }
 
@@ -4049,16 +3968,13 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-@media (max-width: 220px) {
-  .nums {
-    gap: 14px;
+@media (max-width: 460px) {
+  .shnums {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
 @media (max-width: 300px) {
-  .shnums {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
   .shnums span {
     overflow-wrap: anywhere;
   }
@@ -4070,7 +3986,6 @@ input[type="range"]::-moz-range-thumb {
   margin: 0;
   padding: 0;
   counter-reset: s;
-  border-top: 0;
 }
 .steps li {
   counter-increment: s;
@@ -4107,9 +4022,6 @@ input[type="range"]::-moz-range-thumb {
     3px 3px 7px var(--lo),
     -3px -3px 7px var(--hi);
 }
-.steps li.now {
-  font-weight: 400;
-}
 .steps li.now::before {
   border-color: var(--accent);
   animation: pulse 1.4s ease-in-out infinite;
@@ -4127,7 +4039,6 @@ input[type="range"]::-moz-range-thumb {
 .steps-log {
   margin: 6px 0 0;
   font: 400 italic 17px/1.4 var(--serif);
-  color: var(--ink);
   min-height: 48px;
 }
 
@@ -4381,7 +4292,6 @@ input[type="range"]::-moz-range-thumb {
   }
   .tp-sub {
     font: 300 15.5px/1.3 var(--sans);
-    color: var(--ink);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -4822,21 +4732,17 @@ html.sheet-on .steps li.now::before {
   grid-row: 1;
   margin: 0;
   font: 400 clamp(16px, 1.3vw, 19px)/1.45 var(--sans);
-  color: var(--ink);
   max-width: 34ch;
 }
 .mail {
   grid-row: 2;
   justify-self: start;
-  display: inline-block;
   font: 400 clamp(30px, 6.2vw, 116px)/1.05 var(--serif);
   letter-spacing: -0.028em;
   padding-bottom: 6px;
   margin-top: clamp(14px, 1.6vw, 24px);
   overflow-wrap: anywhere;
-  word-break: normal;
   text-decoration: none;
-  border-bottom: 0;
   background: var(--pencil) no-repeat 0 100%/0 0.28em;
   transition: background-size 0.55s cubic-bezier(0.3, 0.9, 0.3, 1.15);
 }
@@ -4868,7 +4774,6 @@ html.sheet-on .steps li.now::before {
   text-decoration: none;
   font: 400 16px/1 var(--sans);
   letter-spacing: 0.01em;
-  text-transform: none;
   padding: 10px 0 7px;
   border: 0;
   border-bottom: 1px solid var(--rule);
@@ -4881,10 +4786,6 @@ html.sheet-on .steps li.now::before {
   display: inline-block;
   margin-left: 0.35em;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.links .soonlink {
-  font: 400 15px var(--sans);
-  padding: 10px 0 7px;
 }
 .mail:hover,
 .mail:focus-visible {
@@ -5080,11 +4981,9 @@ label,
 /* ── sand underlines ─────────────────────────────────────────────────────── */
 .cols strong,
 .why li b {
-  box-shadow: none;
   font-weight: 400;
   text-decoration: underline 1.5px var(--sand);
   text-underline-offset: 0.22em;
-  text-decoration-skip-ink: auto;
 }
 
 /* ── accent ink ──────────────────────────────────────────────────────────── */
@@ -5158,8 +5057,8 @@ label,
         <div class="chip-view" id="chipHost"><canvas id="chipCanvas" tabindex="0" role="img" aria-label="Interactive 3D chip. Drag to rotate. Arrow keys turn it, Q and E roll it."></canvas></div>
         <div class="chip-ui" id="chipUi">
           <div class="chip-ctrls">
-            <label>Rotate X <output id="oRx">0°</output><input id="rx" type="range" min="-180" max="180" value="14"></label>
-            <label>Rotate Y <output id="oRy">0°</output><input id="ry" type="range" min="-180" max="180" value="-28"></label>
+            <label>Rotate X <output id="oRx">14°</output><input id="rx" type="range" min="-180" max="180" value="14"></label>
+            <label>Rotate Y <output id="oRy">-28°</output><input id="ry" type="range" min="-180" max="180" value="-28"></label>
             <label>Rotate Z <output id="oRz">0°</output><input id="rz" type="range" min="-180" max="180" value="0"></label>
             <label>Supply <output id="oSup">0.5× gravity</output><input id="sup" type="range" min="0" max="4.4" step="0.1" value="1.1"></label>
           </div>
@@ -5541,7 +5440,7 @@ label,
   <!-- ═════════════════════════════════════════════════════════════════════════
        C.14  NEXT ISSUE
        ═════════════════════════════════════════════════════════════════════ -->
-  <section class="next-sec g" id="next" aria-labelledby="nextH">
+  <section class="g" id="next" aria-labelledby="nextH">
     <div class="next" data-fly="rise">
       <div>
         <span class="lab">Not out yet</span>
@@ -5561,13 +5460,12 @@ label,
   <!-- ═════════════════════════════════════════════════════════════════════════
        C.15  CONTACT
        ═════════════════════════════════════════════════════════════════════ -->
-  <section class="contact g" id="contact" aria-labelledby="conH">
+  <section class="g" id="contact" aria-labelledby="conH">
     <p class="con-h" id="conH" data-fly>Say hello. I&rsquo;m open to software roles, and to projects where performance and reliability matter.</p>
     <a class="mail" href="mailto:armanafridirahman@gmail.com" data-fly=".6"><span class="m1">armanafridirahman</span><wbr><span class="at">@</span><span class="m2">gmail.com</span></a>
     <div class="links" data-fly=".5">
       <a href="https://linkedin.com/in/arman-afridi-rahman" rel="noopener">LinkedIn</a>
-      <a class="hidden" id="ghLink" href="#" rel="noopener">GitHub</a>
-      <button class="soonlink" id="ghSoon" type="button" disabled aria-disabled="true">GitHub · Coming soon</button>
+      <a href="https://github.com/armanafridirahman" rel="noopener">GitHub</a>
     </div>
   </section>
 
@@ -5652,7 +5550,6 @@ label,
         rr: 0,
         cx: 0,
         w: 0,
-        cw: 1,
         gone: false,
         dx: 0,
         dy: 0,
@@ -5693,7 +5590,7 @@ label,
     return t ? t.getBoundingClientRect().top + sY() + vh * 1.2 : -1;
   }
   function geom(r) {
-    var wide = r.w > 0.64 * r.cw,
+    var wide = r.w > 0.64 * vw,
       dx = 0;
     if (mode !== "rise" && !r.rise && r.pull) {
       dx = (vw / 2 - r.cx) * r.pull;
@@ -5704,7 +5601,7 @@ label,
     r.dy =
       mode === "travel" ? clamp(vh * 0.06, 28, 72) * (wide ? 1.2 : 1) : mode === "drift" ? 40 : 22;
     r.rot =
-      mode === "travel" && dx && !wide && r.w < 0.45 * r.cw && r.h < 0.6 * vh
+      mode === "travel" && dx && !wide && r.w < 0.45 * vw && r.h < 0.6 * vh
         ? (dx > 0 ? -1 : 1) * r.tiltMag
         : 0;
     r.minX = Math.min(0, 2 - r.l);
@@ -5739,7 +5636,6 @@ label,
       r.rr = b.right;
       r.cx = ink.left + ink.width / 2;
       r.w = ink.width;
-      r.cw = vw;
       r.gone = !b.width && !b.height;
     }
     hashTop = first ? targetTop(location.hash) : -1;
@@ -5983,19 +5879,11 @@ label,
      ═══════════════════════════════════════════════════════════════════════ -->
 <script>
 (function () {
-  /* ── footer year, GitHub link ──────────────────────────────────────────── */
-  var GITHUB_USER = "armanafridirahman";
-
+  /* ── footer year ───────────────────────────────────────────────────────── */
   var $ = function (id) {
     return document.getElementById(id);
   };
   $("yr").textContent = new Date().getFullYear();
-  if (GITHUB_USER) {
-    var g = $("ghLink");
-    g.href = "https://github.com/" + GITHUB_USER;
-    g.classList.remove("hidden");
-    $("ghSoon").classList.add("hidden");
-  }
 
   /* ── theme ─────────────────────────────────────────────────────────────── */
   var root = document.documentElement,
@@ -6801,7 +6689,6 @@ label,
     }
     function choose(i) {
       sel.selectedIndex = i;
-      refresh();
       sel.dispatchEvent(new Event("input", { bubbles: true }));
       sel.dispatchEvent(new Event("change", { bubbles: true }));
       close();
@@ -8417,9 +8304,11 @@ label,
     function setOrganised(on) {
       if (on === organised) return;
       organised = on;
-      var order = cards.slice().sort(function (a, b) {
-        return on ? a.cat - b.cat || (a.slot.y < b.slot.y ? 1 : -1) : Math.random() - 0.5;
-      });
+      var order = on
+        ? cards.slice().sort(function (a, b) {
+            return a.cat - b.cat || (a.slot.y < b.slot.y ? 1 : -1);
+          })
+        : cards;
       order.forEach(function (c, k) {
         c.delay = reduce ? 0 : on ? 0.05 * k + c.cat * 0.12 : Math.random() * 0.35;
       });
@@ -8717,8 +8606,6 @@ label,
       var b = document.createElement("button");
       b.type = "button";
       b.innerHTML = "T" + t.n + " <small>· " + t.cap + "</small>";
-      b.setAttribute("aria-pressed", "false");
-      b.setAttribute("aria-label", "Scan the QR code on table " + t.n + ", " + t.cap + " seats");
       b.addEventListener("click", function () {
         stopGuest();
         selectTable(ti);
@@ -9894,7 +9781,7 @@ label,
       h0 +=
         '<button type="button" class="mi" data-p="' +
         i +
-        '" aria-pressed="false"><span>' +
+        '"><span>' +
         esc(p[0]) +
         "<small></small></span><span>" +
         tk(p[1]) +
@@ -9905,7 +9792,7 @@ label,
       h0 +=
         '<button type="button" data-g="' +
         i +
-        '" aria-pressed="false">' +
+        '">' +
         esc(g.name) +
         "</button>";
     });
