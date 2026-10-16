@@ -69,7 +69,7 @@ Work in five phases. Do not skip a phase and do not start one before the previou
 | Phase | You do | Gate to pass before moving on |
 |---|---|---|
 | **0 · Read** | Read this file, then File A §0–§6 and Appendix A completely. Skim §7–§18 headings so you know where things are. | You can state, without looking, the five typefaces and their jobs, the paper and ink colours, what `--surf` does, and the section order of the page. |
-| **1 · Interview** | Ask the questions in §B3, in rounds. | You have the minimum set (§B3.4) or the person has said "use what you have". |
+| **1 · Interview** | Ask the questions in §B3, in rounds. | You have the minimum set (§B3.5) or the person has said "use what you have". |
 | **2 · Plan** | Fill the content model (§A3), choose layouts, figures and the signature object (§B9), draft all copy (§B10). Show the plan. | The person has confirmed the plan, or corrected it and confirmed the correction. |
 | **3 · Build** | Build in the fixed order of §B5, one step at a time, running each step's check. | Every step's check passes. |
 | **4 · Prove** | Run the acceptance tests (§A18 and §B13). Fix and re-run until all pass. | All tests pass, or each remaining failure is listed with its reason in the delivery note. |
@@ -98,7 +98,7 @@ instead. Never claim a check passed if you did not perform it.
 
 1. Your name exactly as it should be printed on the cover. Should one word be in italics? (default: the
    second word of three, or none for a two-word name)
-2. What you do, in two to four words (for example "Product designer", "Backend engineer").
+2. What you do, in two to four words, as you would put it on a business card.
 3. Where you are based. May the cover show the city and coordinates rounded to one decimal? (default:
    city only)
 4. How you work: remote, on-site, hybrid, open to relocation.
@@ -113,8 +113,9 @@ instead. Never claim a check passed if you did not perform it.
    open source, or significant coursework. For each one, tell me:
    a. its field in one or two words; b. what it does, in a sentence; c. the hardest constraint you
    worked under; d. what *you* did; e. one result with a number if you have one; f. the tools;
-   g. whether a visitor could **try** a small piece of it in the browser: a simulation, a calculator,
-   a before/after comparison, or a 3D model of how something flows.
+   g. whether a visitor could **try** a small piece of it in the browser: two approaches compared side
+   by side, a tool that turns inputs into a file, a before/after of something you designed, or a 3D
+   model of the system or of how something moves through it.
 9. Which of them is the one you most want a stranger to see? (It becomes Feature 01.)
 
 **Round 3 · The rest**
@@ -128,7 +129,25 @@ instead. Never claim a check passed if you did not perform it.
 14. Accent colour: sampled from your photo (default), or a colour you prefer?
 15. The 3D object in the orbit represents your craft. I suggest **[the archetype you picked from the §A15 table, by §B9.3]**. Keep it or choose another?
 
-### 3.3 People with little work to show
+### 3.3 No person, no page
+
+The page is always built **for a real person, from what that person tells you**. Neither File A nor this
+file contains anyone's content: no name, no work, no copy you could reuse. Their examples are patterns
+and `{{placeholders}}`, never sample material.
+
+- If you were given these files and no person's details, your first message is the Round 1 questions.
+  Do not build.
+- Never invent a person, a project, an employer, a client, a result, a number, a date, a quote or a link to
+  "show what it would look like". Not as an example, not as a draft, not with a disclaimer.
+- If you are explicitly asked for an empty template, build it with visible bracketed slots in every text
+  position (`[Feature 01 headline]`, `[One result, with a number if you have one]`), the default accent,
+  no portrait (the variants in §A3.7), and figures that are empty trays labelled `[Fig. 1, your figure]`.
+  The slots name the field; they never suggest content.
+- Never copy wording from File A or this file into the page as if it were the person's. The only fixed
+  words on a Folio page are the structural labels File A defines ("Fig. N — try it", "No. 01", "Next issue",
+  section and button labels).
+
+### 3.4 People with little work to show
 
 Never invent work. If the person has fewer than three pieces:
 
@@ -138,7 +157,7 @@ Never invent work. If the person has fewer than three pieces:
 - If even that is not possible, build three features anyway from the strongest material and tell the
   person which ones are thin and what would make them stronger.
 
-### 3.4 The minimum set
+### 3.5 The minimum set
 
 You may start Phase 2 once you have: the name, the role, the e-mail, and **at least three** pieces of
 work with a–f answered. Everything else has a default or a documented variant. If the person says
@@ -190,7 +209,7 @@ Do not reorder: later steps depend on earlier tokens, grid and contracts.
 | 13 | Figure trays and controls, then each figure's behaviour | §12, §13 | Every control works by keyboard; drawers follow the width rule; readouts never shift layout. |
 | 14 | 3D stages, then the 3D figures | §14 | Plain wheel scrolls the page; drag turns; loops stop off screen. |
 | 15 | Orbit and the signature object | §8, §15 | The object pins at ≥ 1100 × 680, turns with scroll until touched, words pass in the lanes. |
-| 16 | Compact figures (≤ 900px): launchers, sheets, ticket rows | §13 | Sheet traps focus, Escape closes it, focus returns, page does not scroll under it. |
+| 16 | Compact figures (≤ 900px): launchers, sheets, log rows | §13 | Sheet traps focus, Escape closes it, focus returns, page does not scroll under it. |
 | 17 | Dark mode pass, print pass | §17 | Every surface, mark and 3D colour correct in dark; print preview is ink on paper. |
 | 18 | Accessibility and performance pass | §17 | §B13 all green. |
 
@@ -209,7 +228,7 @@ Each rule is checkable. Numbers in brackets point to the part of File A that def
   derived by the method in §A4.
 - **R2** No `#fff`, `#000`, `white` or `black` as a surface or text colour anywhere. The page is `--paper`
   with its grain; text is `--ink` or `--muted`. (Exceptions are the literal values File A itself uses
-  inside `color-mix()` recipes, shade gradients, print colours, and the deliberately bad "before" form of archetype A3, §A12.)
+  inside `color-mix()` recipes, shade gradients, print colours, and the deliberately dated "before" version of archetype A3, §A12.)
 - **R3** One accent. It appears **only** where §A4 lists it. Anything that is "on" or chosen fills with
   `--ink`, not with the accent.
 - **R4** Small text in the accent colour uses `--accent-ink`, never `--accent`.
@@ -320,8 +339,10 @@ If you notice yourself reaching for one of these, stop and re-read §A1.
 - **F10** Hover effects that scale, lift or tilt cards and images (the photo-slot straighten in §A10 is the one exception).
 - **F11** Parallax backgrounds, scroll-jacking, smooth-scroll libraries, cursor followers, magnetic
   buttons, typewriter text, marquees, text scramble, particle fields, confetti, Lottie, page-load spinners.
-- **F12** Red error text (outside the A3 "before" form, which is bad on purpose), toast pop-ups, modal pop-ups on load, cookie banners, chat widgets, newsletter prompts.
+- **F12** Red error text (outside the A3 "before" version, which is bad on purpose), toast pop-ups, modal pop-ups on load, cookie banners, chat widgets, newsletter prompts.
 - **F13** Lorem ipsum, invented metrics, invented clients, invented testimonials, stock photos, AI-generated portraits.
+- **F19** Invented people or sample portfolios: building for a made-up person, filling empty fields with plausible
+  work, or reusing any example wording from File A or this file as the person's copy (§B3.3).
 - **F14** React, Vue, Svelte, jQuery, Tailwind, Bootstrap, GSAP, any npm build. Google Fonts or any CDN at runtime.
 - **F15** Dark mode made with `filter: invert()`, or dark mode that dims photos.
 - **F16** `Math.random()` in page motion (arrivals, layout). Randomness belongs only inside simulations.
@@ -375,11 +396,11 @@ Ask "what would a visitor understand in thirty seconds by touching it?" and pick
 
 | The work is mainly about… | Archetype (§A12) |
 |---|---|
-| Choosing between two strategies under a limit (throughput, cost, latency, risk) | **A1 · Race** |
-| Turning inputs into a document, a quote, an estimate or a report | **A2 · Calculator → document** |
+| A choice between two approaches whose difference shows when both run on the same input | **A1 · Compare** |
+| Something that takes inputs and produces a file a visitor can download | **A2 · Inputs → file** |
 | Design quality, usability, clarity, accessibility, a redesign | **A3 · Before / after** |
-| A place, a layout, a physical or spatial system people move through and act in | **A4 · 3D scene + browser tab** |
-| A flow with stages, hand-offs, failures and retries | **A5 · 3D flow + tracker** |
+| A system with parts that are easier to understand when seen in space | **A4 · 3D model + panel** |
+| A process in which items move through stages | **A5 · 3D flow + tracker** |
 | Writing, research, strategy, leadership, or anything better told than touched | **A0 · No figure** |
 
 Limits: at most **two** 3D figures on the page (each costs a WebGL context and the visitor's attention);
@@ -390,7 +411,7 @@ the person's confidential data.
 ### 9.3 Signature object for the person's craft
 
 Use the §A15 archetype table. Match on the person's role first, their strongest work second. If nothing
-fits, keep the default archetype from §A15 and say why in the plan. The beads always mean something true
+fits, choose the closest row and say why in the plan; never default to the worked example in §A15. The beads always mean something true
 about the craft (flow, attention, load, signal), and the status sentence says it in plain words.
 
 ### 9.4 When content is missing
@@ -416,20 +437,21 @@ about the craft (flow, attention, load, signal), and the status sentence says it
   "leverage", "synergy", "world-class", "rockstar", "ninja", no exclamation marks, no emoji.
 - Prefer concrete nouns and numbers the person gave you. If a sentence would need a number you do not
   have, rewrite the sentence.
-- Buttons are verbs ("Run both", "Reset", "Download PDF"), never "Click here" or "Learn more".
-- Figure notes are frank: "simulated, not real traffic", "made-up data", "the download is real".
+- Buttons are a verb, or a verb and its object ("Run both", "Reset"), never "Click here" or "Learn more".
+- Figure notes are frank about what is simulated and what is real, in six words or fewer (§A12.7).
 - Keep every text inside the length limits of §A3. If it does not fit, cut words; never shrink type.
 - Never invent facts. Draft from the person's answers, mark anything you inferred with `[check]` in the
   plan, and remove the marks only after they confirm.
 
 ### 10.2 Headline grammar
 
-- 2 to 6 words. One **hinge** word or short phrase in italics: the word that turns the meaning ("Shipping
-  *under* pressure", "Data that *stays* honest"). Never italicise the first word unless it is the hinge.
+- 2 to 6 words. One **hinge** word or short phrase in italics: the word that turns the meaning. Pattern:
+  `{plain words} *{hinge}* {plain words}`, where the hinge is usually a preposition, a verb or an adjective
+  in the middle, not a noun at either end. Never italicise the first word unless it is the hinge.
 - At most one `.ink` word per headline, on the noun that carries the weight. At most one brush mark on the
   page's opening line and one on the glance name (§A5 rarity budget).
 - Feature top lines carry a spoken aside in italic serif: a half-sentence the person might say out loud
-  about the work ("the one that had to work offline").
+  about the work, in their own words, taken from what they told you about it.
 - Pull quotes are one sentence the person would stand behind, 4 to 12 words, with one upright word.
 
 ---
