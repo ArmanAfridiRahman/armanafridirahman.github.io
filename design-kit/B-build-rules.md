@@ -126,7 +126,7 @@ instead. Never claim a check passed if you did not perform it.
     a reader expect from you? Two or three sentences each are enough; I will draft and you edit.
 13. What are you working on next? (It becomes the "next issue" card. default: "Open to new work" variant.)
 14. Accent colour: sampled from your photo (default), or a colour you prefer?
-15. The 3D object in the orbit represents your craft. I suggest **{{suggested archetype}}** (§B9.3). Keep it or choose another?
+15. The 3D object in the orbit represents your craft. I suggest **[the archetype you picked from the §A15 table, by §B9.3]**. Keep it or choose another?
 
 ### 3.3 People with little work to show
 
@@ -161,7 +161,9 @@ Before writing any code, present the plan as one message with these parts, in th
 5. **The accent**: the two hex values (light, dark) and where they came from (§A4).
 6. **Defaults used** and **questions left**.
 
-Ask the person to confirm or correct. Apply every correction, then show only what changed. Start Phase 3
+If you were told the plan is already confirmed (for example, answers handed to you in advance), skip the wait, keep the inferred-copy list in the delivery note instead of `[check]` marks, and build.
+
+Otherwise ask the person to confirm or correct. Apply every correction, then show only what changed. Start Phase 3
 only after a clear confirmation.
 
 ---
@@ -207,14 +209,15 @@ Each rule is checkable. Numbers in brackets point to the part of File A that def
   derived by the method in §A4.
 - **R2** No `#fff`, `#000`, `white` or `black` as a surface or text colour anywhere. The page is `--paper`
   with its grain; text is `--ink` or `--muted`. (Exceptions are the literal values File A itself uses
-  inside `color-mix()` recipes, shade gradients and print colours.)
+  inside `color-mix()` recipes, shade gradients, print colours, and the deliberately bad "before" form of archetype A3, §A12.)
 - **R3** One accent. It appears **only** where §A4 lists it. Anything that is "on" or chosen fills with
   `--ink`, not with the accent.
 - **R4** Small text in the accent colour uses `--accent-ink`, never `--accent`.
 - **R5** Sand appears only in hand marks, "now" crescents, dot separators, hanging quote marks and emphasis
   underlines (§A4, §A5).
 - **R6** Only controls are moulded. Plates, trays, cards, photos, text and drawings are flat: no
-  `box-shadow` on them. Taped prints keep their own print shadow (§A10). The bar has no shadow.
+  `box-shadow` on them. The exceptions are exactly the ones File A specifies: taped prints keep their print
+  shadow (§A10), stack pills are raised (§A9) and a figure's result card is raised (§A12). The bar has no shadow.
 - **R7** Soft shadows come only from the `--surf` light model. To put controls on a new surface, set
   `--surf` (and, for the inverse card, `--hiMix` / `--loMix`) on the container. Never hand-write a
   shadow colour.
@@ -304,7 +307,7 @@ Each rule is checkable. Numbers in brackets point to the part of File A that def
 
 If you notice yourself reaching for one of these, stop and re-read §A1.
 
-- **F1** Gradient fills, gradient text, mesh or "aurora" backgrounds. (The photo shades and fades in File A are the only gradients.)
+- **F1** Gradient fills, gradient text, mesh or "aurora" backgrounds. The only gradients are the ones File A writes out: the photo shades and fades, and the small CSS drawings made with gradients (theme-switch dot, slider dot, switch knobs, select chevron, drawer glyph, "now" crescent, print hatching).
 - **F2** Glassmorphism, `backdrop-filter`, frosted panels, translucent overlays over content.
 - **F3** Neon, glows, bloom, coloured shadows (the 3D glow beads are the one exception, §A14).
 - **F4** Drop shadows on cards, sections, images or text. Neumorphic cards or panels.
@@ -317,7 +320,7 @@ If you notice yourself reaching for one of these, stop and re-read §A1.
 - **F10** Hover effects that scale, lift or tilt cards and images (the photo-slot straighten in §A10 is the one exception).
 - **F11** Parallax backgrounds, scroll-jacking, smooth-scroll libraries, cursor followers, magnetic
   buttons, typewriter text, marquees, text scramble, particle fields, confetti, Lottie, page-load spinners.
-- **F12** Red error text, toast pop-ups, modal pop-ups on load, cookie banners, chat widgets, newsletter prompts.
+- **F12** Red error text (outside the A3 "before" form, which is bad on purpose), toast pop-ups, modal pop-ups on load, cookie banners, chat widgets, newsletter prompts.
 - **F13** Lorem ipsum, invented metrics, invented clients, invented testimonials, stock photos, AI-generated portraits.
 - **F14** React, Vue, Svelte, jQuery, Tailwind, Bootstrap, GSAP, any npm build. Google Fonts or any CDN at runtime.
 - **F15** Dark mode made with `filter: invert()`, or dark mode that dims photos.
@@ -470,6 +473,10 @@ These rules exist because long single passes drift. Follow them even if you feel
 ---
 
 ## 13 · Phase 4 · Proof before delivery
+
+**Measure, do not trust estimates.** Where File A gives an estimate rule (em widths per character, line
+lengths in `ch`, breakpoint values tuned to a reference name), measure the real text in the browser and use
+the measured value. Record each re-derived value in the delivery note.
 
 Run File A §18's acceptance tests, then this checklist. Every line must be true, or listed in the
 delivery note with the reason.
