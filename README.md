@@ -560,3 +560,5 @@ three.js r149 APIs (`BufferGeometry`, `EdgesGeometry`, `ShaderMaterial`, `Raycas
 | `favicon.svg`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | icons and the mask icon |
 | `site.webmanifest` | installable app metadata, paper-coloured |
 | `robots.txt`, `sitemap.xml` | crawling: allow all, one URL with two images |
+| `design-kit/A-design-language.md` | the page's design language as a portable specification, with no personal content |
+| `design-kit/B-build-rules.md` | the rules a builder follows when using that specification for someone else's portfolio |
