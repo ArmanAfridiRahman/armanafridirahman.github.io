@@ -103,7 +103,7 @@ hard to see; "Adapting" says how to re-tune the part for different content.
 | 10 | Feature articles & photo slots | The shared anatomy, layout templates L1–L7, pull quotes, taped prints. |
 | 11 | Next issue, contact & footer | The inverse card, the e-mail line, the colophon. |
 | 12 | Interactive figure kit | Trays, controls, drawers, readouts, figure archetypes A0–A5. |
-| 13 | Browser-tab mock & compact figures | The tab mock, launchers, sheets and ticket rows at ≤ 900px. |
+| 13 | Browser-tab mock & compact figures | The tab mock, launchers, sheets and log rows at ≤ 900px. |
 | 14 | 3D stages & scene technique | The Stage engine, labels, materials, glow, flights and paths. |
 | 15 | The signature object | The hand-turnable object in the orbit and its archetypes. |
 | 16 | Motion system | Arrivals, every animation, easing palette, reduced motion. |
@@ -160,7 +160,7 @@ It reads top to bottom as a document, never as a widget gallery or an app shell.
 | Opening line | one display statement | `section.opening` | The thesis, `{{opening.line}}`: one stamped word, one italic word on a brush swipe (§7) |
 | Contents ("Inside") | the orbit | `section#orbit` › `nav#inside` | The signature object (fig. 0) holds the middle while contents stops `01 … N` pass in the side lanes (§8, §15) |
 | At a glance | one bleeding card | `section#glance` | The whole issue for the thirty-second reader: portrait band, name, role, pitch, three actions, six facts, stack (§9) |
-| Editor's letter | the note before the work | `section#letter` | Voice and stance: a ringed word, a drop cap, two newspaper columns, a taped print (§9) |
+| Editor's letter | the editor's note | `section#letter` | Voice and stance: a ringed word, a drop cap, two newspaper columns, a taped print (§9) |
 | Features No. 01–N | case-study spreads | `article#f1 … #fN` | One idea each: the same seven parts, a different composition per spread (§10) |
 | Figure plates | tray inside a feature | `.insert` | "Fig. N — try it": a working model of the feature's idea, with an honest note on what is simulated (§12, §13, §14) |
 | Pull quotes | display italic | `.quote` | The feature's principle in one sentence; 0–4 per issue, typically 3–4 (§3.4, §10) |
@@ -293,7 +293,7 @@ assets/vendor/{{pdfLib}}.js   only if a figure makes a file (e.g. jsPDF 2.5.1 UM
 Root files serve browsers, crawlers and previews, not the page. Each is specified here, in the Folio style:
 
 - **`og-card.jpg`**, 1200 × 630 JPEG (≤ ≈ 150 KB), the social preview: flat `--paper` `#e9e6de` ground (grain optional), no photo, no gradient; `{{fullName}}` in the serif (Instrument Serif 400, ink `#151412`, the cover's tracking, one line, ≈ 120–150px, left-aligned on a 72px margin); `{{role}}` beneath in DM Mono 400, ≈ 28px, `--muted` `#54514a`; a 1px `--rule` top line as on a feature. Nothing else: no logo, no URL, no green.
-- **Icons** all come from one SVG monogram, `favicon.svg` (`viewBox="0 0 64 64"`; the initials, or one simple glyph of the signature object, drawn as strokes): ink `#151412` on a `--paper` `#e9e6de` square, with a `prefers-color-scheme: dark` rule that re-inks it `#eeebe3` on `#1c1b18`. `icon-192.png`, `icon-512.png` and `apple-touch-icon.png` (180) are that SVG's light rule rendered on an opaque paper square with ≈ 12% padding; no transparency, no rounded corners baked in (the OS rounds them).
+- **Icons** all come from one SVG monogram, `favicon.svg` (`viewBox="0 0 64 64"`; the person's initials drawn as ink strokes, never a glyph of the signature object or any other emblem): ink `#151412` on a `--paper` `#e9e6de` square, with a `prefers-color-scheme: dark` rule that re-inks it `#eeebe3` on `#1c1b18`. `icon-192.png`, `icon-512.png` and `apple-touch-icon.png` (180) are that SVG's light rule rendered on an opaque paper square with ≈ 12% padding; no transparency, no rounded corners baked in (the OS rounds them).
 - **`portrait.jpg`**, 440 × 550 JPEG crop of `{{portrait.src}}` around `{{portrait.focal}}`, for JSON-LD only (A.06).
 - **`site.webmanifest`**: `name` `"{{fullName}} — Portfolio"`, `short_name` `{{shortName}}`, `start_url` and `scope` `"./"`, `display` `standalone`, `background_color` and `theme_color` = `--paper` `#e9e6de`, icons 192, 512 and the SVG (`purpose: "any"`).
 
@@ -480,7 +480,7 @@ Head-only keys extend §3: `siteUrl` (no trailing slash), `summary` (one paragra
 - **One concern, one IIFE**, each in its own classic `<script>`. Why: a failure in one never stops the others.
 - ES5 style (`var`, `function`, two-space indent, double quotes, 100 columns), or a strict modern equivalent file-wide, never mixed. `type="module"` and `defer` **MUST NOT** be used. Why: both postpone execution and break the D order.
 - Each opens with `var $ = function (id) { return document.getElementById(id); };` and **MUST** return silently if its host id is missing.
-- Nothing global but the vendors' (`THREE`, the PDF global); scripts couple only through 2.8. Expandos (`el._fly`, `select._csel`) are allowed.
+- Nothing global but the vendors' (`THREE`, a file library's global if a figure makes a PDF); scripts couple only through 2.8. Expandos (`el._fly`, `select._csel`) are allowed.
 - `localStorage` and `setPointerCapture` sit in `try/catch`. Scroll/touch listeners are passive, except Ctrl/⌘-wheel zoom (§14). User strings pass `esc()` (`& < > "`) before `innerHTML`.
 - Feature checks, never user-agent checks:
 
@@ -503,7 +503,7 @@ function lazy(src) {
       var s = document.createElement("script");
       s.src = src;
       s.onload = ok;
-      s.onerror = function () { libs[src] = null; s.remove(); fail(); };  // retry later
+      s.onerror = function () { libs[src] = null; s.remove(); fail(); };  // next intent loads afresh
       document.head.appendChild(s);
     });
   return libs[src];                       // one request for warm-up and click
@@ -554,7 +554,7 @@ Layers couple only through these names. A new coupling **MUST** be added to this
 | `portrait.webp`; seven faces | preload | ≈ 201 KB; ≈ 102 KB | — |
 | Nunito 600, Caveat 500 | first use | ≈ 32 KB | — |
 | `three.min.js` r149 | end of body | 608 KB | ≈ 152 KB |
-| PDF library | first intent | ≈ 364 KB | ≈ 115 KB |
+| PDF library (only if a figure makes a PDF) | first intent | ≈ 364 KB | ≈ 115 KB |
 | `og-card.jpg`, `portrait.jpg` | crawlers only | ≈ 202 KB | — |
 
 First load ≈ 1.26 MB raw (0.53 MB gzipped), no third-party request; grain, marks and glyphs are inline SVG. A build **SHOULD** stay within about 10% of each line.
@@ -629,7 +629,7 @@ Notation: `w` words, `c` characters with spaces, `?` optional (`null` selects th
 | `orbit.keyPhrase` | exact substring of `lede`, 2–4 w | `.stand b` |
 | `orbit.aside` | ≤ 40 c, invites the reader to touch the object; two lines split after an em dash; lowercase, no full stop | `.o-hand .hand` |
 | `orbit.figNote` | 2–4 sentences, 35–55 w: what the object shows and what its moving parts mean | `.sig-note` under `fig. 0 — {object name}` |
-| `orbit.signatureObject` | an archetype from §15 | the stage (§15) |
+| `orbit.signatureObject` | the archetype for the person's field, from the §15.9 table (never the §15.3.3 worked example) | the stage (§15) |
 
 The contents stops are derived: one per feature, titled with the plain text of its headline (20–35 c; add up to 3 words only if the headline means nothing out of context). The contents label is 2–4 w, e.g. "In this issue".
 
@@ -660,7 +660,7 @@ The contents stops are derived: one per feature, titled with the plain text of i
 | Key | Limits and rules |
 |---|---|
 | `no` | two digits = position. Shown `No. 0N`; bare `0N` beside an aside; L5 shows the giant numeral instead |
-| `aside?` | 3–8 w, lowercase, no full stop; on the biggest figure, the feature without one, the last one |
+| `aside?` | 3–8 w, lowercase, no full stop; a half-sentence the person would say aloud about that feature; on 2–3 features (§3.4), never two neighbours |
 | `field` | 1–2 w, ≤ 18 c |
 | `headline` | 2–6 w, ≤ 32 c, segments in reading order: ≤ 1 `italic` (the hinge, ≤ 3 w), ≤ 1 `ink`, never the same segment; `brush` always `false`. L3 sets its italic segment, which must be last, as the second line |
 | `lede` | 1–2 sentences, 12–30 w |
@@ -746,41 +746,41 @@ Never lorem ipsum, a stock photo, an avatar, initials in a circle, invented work
 | Links | e-mail only; the glance keeps `mail` and `work` |
 | Result numbers | state the result without one |
 | Work to touch | a figure models the *idea* of one piece of work with invented, labelled data (A1 or A3 fits almost anything); the rest use A0 (L5, L7) |
-| Fewer than three pieces | `B-build-rules.md` §3.3 |
+| Fewer than three pieces | `B-build-rules.md` §3.4 |
 | Facts | 4 or 2, never padded |
 | Quotes | fewer; the template drops the row (§10) |
 | Letter | omit it and its bar link |
 | Next project | `next.mode: "open"`, or omit the card |
 | A photo for a slot | one rule for every slot (letter, L6, next): keep an honest placeholder — hatched print captioned `{what it will show} — photo to come` — **only** if the person intends to supply that photo; otherwise drop the slot and its markup |
 
-**`open` next card.** Same anatomy. `kicker` states availability ("Taking on work"); `headline` two words ("Your *move.*"); `body` the kind of work, from when, in what arrangement; `built.note` "good fit", `built.items` the kinds of work; `button` a verb ("Write to me") on `<a class="btn" href="mailto:{{email}}">`, using the card's enabled-button rule (§11).
+**`open` next card.** Same anatomy. `kicker` states availability (`{{next.kicker}}`); `headline` two words ("{Word} *{word.}*"); `body` the kind of work, from when, in what arrangement; `built.note` names the list (`{{next.built.note}}`), `built.items` the kinds of work; `button` a verb (`{{next.button}}`) on `<a class="btn" href="mailto:{{email}}">`, using the card's enabled-button rule (§11).
 
 ### 3.8 Patterns
 
-Examples are invented: a bike-share network, tide tables for small boats, a museum audio guide.
+Patterns are structural. Every example below is a template, never a line to reuse: fill it from the person's own work and words.
 
-| Text | Pattern | Example |
+| Text | Pattern | Example shape |
 |---|---|---|
-| Opening line | `{Subject} that {**verb**} {object} *{last.}*` | Maps that **keep** pace with the *tide.* |
-| Feature headline | `{Noun phrase} *{hinge}* {rest}` | Bikes *where* people wake up · Tide tables *for* small boats |
-| Spoken aside | `the one {that / where / without} {…}` | the one that ran on a ferry |
-| Lede | one claim, one number | A plan for 300 docks that moves bikes before the morning rush, not after it. |
-| Pull quote | italic, `turn` upright | A good guide knows when to *stop* talking. |
-| Glance aside | to a hurried reader | in case you are in a hurry |
+| Opening line | `{Subject} that {**verb**} {object} *{last.}*` | {Noun phrase} that **{verb}** {object} *{hinge word.}* |
+| Feature headline | `{Noun phrase} *{hinge}* {rest}` | {Headline with *one* hinge word} |
+| Spoken aside | a half-sentence said aloud, lowercase, no full stop | {aside about this piece of work} |
+| Lede | one claim, one number | {What was made} {for whom}, {one number the person gave}. |
+| Pull quote | italic, `turn` upright | {Principle sentence with one} upright {turn}. |
+| Glance aside | to a hurried reader | {note to a reader in a hurry} |
 
 ### 3.9 Figure microcopy
 
-| Element | Shape | Example |
+| Element | Shape | Example shape |
 |---|---|---|
-| Header, left | `Fig. {n} — try it` on the first figure, `Fig. {n}` after | Fig. 2 |
-| Header note | ≤ 6 lowercase words: what is invented, what is real | made-up docks, real routing rule |
-| Title | `From {input} to {output}`, `{A} against {B}`, or three verbs | Rush hour, two ways |
-| Readout label | 1–2 w; values raw integers, time `{n}s` | Moved · Empty docks · Time |
-| Drawer summary | current values joined by ` · ` | 300 bikes · 4 crews · 5% no-shows |
-| Object status | `{Measure}: starting.`, then `{Measure}: {n} of {m} {units}. {State}.`, ≤ 60 c; state words by threshold (§15) | Bikes docked: 7 of 12. Filling up. |
-| Status line | one sentence per action: the consequence, not the click | Dock 4 is closed. Its bikes go to the next two. |
-| Verdict | claim, counter-claim, moral (≤ 8 w); computed figures in `<b>` | Greedy took 40 min but left **18%** of docks empty. Planned took 55 min and left **2%**. The slow plan is the one riders feel. |
-| Empty state | italic serif: `{nothing yet}. {do this} to see {that}.` | No trips yet. Pick a dock to start one. |
+| Header, left | `Fig. {n} — try it` on the first figure, `Fig. {n}` after | Fig. {n} |
+| Header note | ≤ 6 lowercase words: what is invented, what is real | {invented what}, real {what} |
+| Title | `From {input} to {output}`, `{A} against {B}`, or three verbs | {A} against {B} |
+| Readout label | 1–2 w; values raw integers, time `{n}s` | {Done} · {Other} · Time |
+| Drawer summary | current values joined by ` · ` | {v1} {unit} · {v2} {unit} · {v3}% |
+| Object status | `{Measure}: starting.`, then `{Measure}: {n} of {m} {units}. {State}.`, ≤ 60 c; state words by threshold (§15) | {Measure}: {n} of {m} {units}. {State}. |
+| Status line | one sentence per action: the consequence, not the click | {Part} is {state}. {What follows from it}. |
+| Verdict | claim, counter-claim, moral (≤ 8 w); computed figures in `<b>` | {A} took {tA}s and gave **{xA}**. {B} took {tB}s and gave **{xB}**. {Moral}. |
+| Empty state | italic serif: `{nothing yet}. {do this} to see {that}.` | {Nothing yet}. {Do this} to see {that}. |
 
 The verdict's claim **MUST** hold over the whole input range, or the template branches. Why: a fixed moral beside numbers that contradict it undoes the figure's honesty.
 
@@ -877,7 +877,7 @@ Why two tones per hue: light `--accent` and `--sand` fail as 11–13px labels on
 Only the accent changes per person (`{{accent.light}}`, `{{accent.dark}}`). It is measured from `{{portrait.src}}`, never guessed; with no portrait or no way to read pixels, use the default pair `#546634` / `#a9b77c`.
 
 ```text
-SAMPLE   once, offline
+SAMPLE   once, at build time
   downscale the portrait to 64 px wide; convert pixels to OKLCH (L 0..1, C, h°)
   keep 0.30 ≤ L ≤ 0.80, C ≥ 0.03, 105° ≤ h ≤ 285°     coloured mid-tones, olive to blue-violet
   fewer than 2% of pixels left → default pair; stop
@@ -1034,7 +1034,7 @@ A plate sets its background and `--surf` to the same token: `.insert { backgroun
 
 - Disabled is lower relief, not faded: moulded edge, legible text, never a flat grey ghost.
 - Hover changes no background except the primary's. Backgrounds snap; `box-shadow` and `color` transition `0.2s` (§16).
-- Drawers, zoom capsule: `--raise-s`; listbox, tab frame, statement card: `--raise`; 3D well, grooves: `--sink-s`.
+- Drawers, zoom capsule: `--raise-s`; listbox, tab frame, result card: `--raise`; 3D well, grooves: `--sink-s`.
 
 ### 4.7 Surfaces
 
@@ -1059,7 +1059,7 @@ Fixed colours: print hatch `#ebe7de` / `#25231f` with lines `rgba(40, 34, 26, 0.
 | Soft rectangle | `16px` (`--r`) | push buttons (never pills), drawers |
 | Small | `5`–`15px` | grab bar 5; groove, scrollbar thumb 8; slider track 10; options, readout cards 12; list and tracker rows 14; launcher icon 15 |
 | Well | `20px`, `22px` | row cards (20); 3D well and canvas, listbox, launcher row, cover ≤ 620px, left-bleed tray ≤ 760px (22) |
-| Plate | `26px`, `28px` | cover, browser-tab frame, statement card (26); trays, glance card (28; 24 ≤ 760px) |
+| Plate | `26px`, `28px` | cover, browser-tab frame, result card (26); trays, glance card (28; 24 ≤ 760px) |
 | Big plate | `32px` | inverse card (24 ≤ 760px) |
 | None | `0` | prints, tape, rules, bar |
 
@@ -1452,7 +1452,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 400; margin: 0; }
 /* ── taps and focus ── */
 html { -webkit-tap-highlight-color: transparent; }
 button, a, label, select, input[type="range"], canvas,
-.csel-btn, .csel-opt, .mi, .toggles, .seg, .zoom, .runrow, .tab-foot {
+.csel-btn, .csel-opt, .opt-row, .toggles, .seg, .zoom, .runrow, .tab-foot {
   -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
 }
 :focus:not(:focus-visible) { outline: none; }
@@ -1650,14 +1650,14 @@ Pauses are set by eye, in pairs, not from a scale. Each section owns its top spa
 | `(max-width: 1099px), (max-height: 679px)` | orbit one column (§8) |
 | `(min-width: 761px) and (max-width: 1099px)` | tablet placements (§9, §10) |
 | `(max-width: 999px)` | glance cover 2.5 : 1, actions under pitch, stack groups as rows (§9) |
-| `(max-width: 900px)` CSS+JS | tab → launcher + sheet, tickets → spring row (§13); stage and side stack (§14); next card one column, print bottom-right (§11) |
+| `(max-width: 900px)` CSS+JS | tab → launcher + sheet, log cards → spring row (§13); stage and side stack (§14); next card one column, print bottom-right (§11) |
 | `(max-width: 900px) and (min-width: 701px)` | 3D stage `4/3` (§14) |
 | `(max-width: 800px)` | two-panel figures stack (§12) |
 | `(min-width: 761px)` | feature body in 2 columns (§10) |
 | `(max-width: 760px)` | bar keeps one link (§7); phone placements; glance and next `col 1 / bleed-end`, radius 24; balanced headlines (§9–§11) |
 | `(min-width: 760px)` JS | arrivals drift (≤ ±48px); below, rise only (§16) |
 | `(min-width: 701px)` JS | drawers open by default; ≤ 700 closed with a summary (§12) |
-| `(max-width: 700px)` | stage `1/1` (`.sq` `4/5`), smaller labels (§14); race lanes stack (§12) |
+| `(max-width: 700px)` | stage `1/1` (`.sq` `4/5`), smaller labels (§14); compare lanes stack (§12) |
 | `(max-width: 640px)` | glance cover 1.75 : 1, actions a 3-cell grid (§9) |
 | `(max-width: 620px)` · `(min-width: 621px)` | cover portrait, radius 22; opening `clamp(46px, 14.6vw, 66px)` (§7); contents 2 columns (§8); readouts → cards, rows → tiles, pill strip scrolls, tracker → stepper with its text line, activity 3 rows (§12, §13); colophon left (§11) |
 | `(max-width: 460px)` | details label 84px (§10); tighter control grids, stretched run-row buttons, fields 1 column, tab footer wraps, readouts 2 columns (§12, §13) |
@@ -1665,7 +1665,7 @@ Pauses are set by eye, in pairs, not from a scale. Each section owns its top spa
 | `(max-width: 360px)` | body 15.5px; details rows stack; control grids 1 column; smaller `.btn`, `.seg` padding |
 | `(max-width: {B − 1}px)` | bar: name and theme pill only; B is measured per §7.1.9 (359px is the value for the reference name length) |
 | `(max-width: 300px)` | body 14.5px/1.6; `.lab, label` tracking 0.1em; glance and orbit contents 1 column; tab glyphs and launcher pill hidden |
-| `(max-width: 240px)` · `(max-width: 220px)` | statement-table total on one line, then cells wrap (§12) |
+| `(max-width: 240px)` · `(max-width: 220px)` | result-table total on one line, then cells wrap (§12) |
 | `(max-height: 520px) and (orientation: landscape)` | bar static, `scroll-padding-top: 0`; cover `min-height: 78svh`; glance cover 3.4 : 1; signature view `max-width: min(520px, 78svh)`; stage `max-height: 82svh` |
 | `(hover: hover)` | print lift, contents-number tilt, contact-link hover |
 | `(pointer: coarse)` | range thumb 20px, `margin-top: -5px`; toggles `9px 12px`; zoom keys 40px (§12, §14) |
@@ -2545,7 +2545,7 @@ Band: `role="img"`, `{{portrait.alt}}`, guarded like the cover (§7.3.8). Sand (
 
 #### 9.2.1 Purpose
 
-A note before the work: a serif statement with two hand-set words, two columns under a drop cap, a taped print awaiting a photo. Optional (§3.7).
+The editor's note: a serif statement with two hand-set words, two columns under a drop cap, a taped print awaiting a photo. Optional (§3.7).
 
 #### 9.2.2 Anatomy
 
@@ -3282,7 +3282,7 @@ A figure proves one claim by touch: caption, a few values, one button, one sente
 .insert-h { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; }
 .insert-h span { font: 400 12px/1.4 var(--mono); letter-spacing: -0.01em; }
 .insert-h span:last-child { color: var(--muted); }
-.insert .lab, .tk-h { font: 400 11.5px/1.4 var(--mono); letter-spacing: 0.03em; text-transform: none; }
+.insert .lab, .log-h { font: 400 11.5px/1.4 var(--mono); letter-spacing: 0.03em; text-transform: none; }
 .insert h3 { font: 400 clamp(26px, 6.4vw, 54px)/1.02 var(--serif); letter-spacing: -0.02em; margin: 10px 0 12px; }
 .cap { font: 400 clamp(14.5px, 3.6vw, 16px)/1.6 var(--sans); color: var(--muted); margin: 0 0 24px; max-width: 62ch; }
 .ctrls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 18px 34px; }
@@ -3302,8 +3302,8 @@ All in `--ui`; every control is a `999px` pill except 16px push buttons.
 #### 12.2.1 Labels and live values
 
 ```html
-<label for="figNCap"><span id="figNCapL">{Label}</span> <output id="figNCapO" for="figNCap">20</output>
-  <input id="figNCap" type="range" min="5" max="100" value="20" aria-labelledby="figNCapL"></label>
+<label for="figNKnob"><span id="figNKnobL">{Label}</span> <output id="figNKnobO" for="figNKnob">20</output>
+  <input id="figNKnob" type="range" min="5" max="100" value="20" aria-labelledby="figNKnobL"></label>
 ```
 
 ```css
@@ -3382,7 +3382,7 @@ function choose(i) {
   sel.dispatchEvent(new Event("input", { bubbles: true }));
   sel.dispatchEvent(new Event("change", { bubbles: true })); close(); btn.focus();
 }
-function typeAhead(k) {                                      // "€ EUR" matches "e"
+function typeAhead(k) {                                      // "· Option" matches "o"
   buf += k.toLowerCase(); clearTimeout(bufT); bufT = setTimeout(function () { buf = ""; }, 600);
   for (var i = 0; i < items.length; i++)
     if (items[i].textContent.toLowerCase().replace(/^[^a-z0-9]+/, "").indexOf(buf) === 0) { open(); hi(i); break; }
@@ -3509,7 +3509,7 @@ setInterval(function () { docks.forEach(function (k) { if (!k.d.open) k.upd(); }
 ```
 
 - Verb title ("Adjust", "Edit inputs", "Admin") after a three-line accent glyph. Summary: values with units joined by `" · "`, state last (`… · paused`), ≤ 40 characters. `contain: inline-size` keeps it from widening the column.
-- Primary drawers open ≥ 701px, closed below; `shut` ones (signature figure, A4/A5 admin) start closed. Popover: §15.
+- Primary drawers open ≥ 701px, closed below; `shut` ones (signature figure, A4/A5 settings) start closed. Popover: §15.
 
 ### 12.4 Readouts, groove, verdict, status line
 
@@ -3531,100 +3531,105 @@ setInterval(function () { docks.forEach(function (k) { if (!k.d.open) k.upd(); }
 
 ### 12.5 Guided demo and auto-play
 
-`Simulate` runs a script through the user's own functions. Its `setTimeout` handles are kept; `stopDemo()` clears them and re-enables the button, and **every** user handler calls it first: the user wins. Timing: prerequisite step + 2200ms, lead-in 1300ms, step gap `clamp(2600 / steps, 170, 520)`ms, commit + 500ms (4–6s in all); reduced motion caps each wait at 120ms. Auto-play once, 900ms after the stage is first > 35% visible (§14), only if untouched, idle and motion is allowed.
+A demo button (`{Demo verb}`) runs a script through the user's own functions. Its `setTimeout` handles are kept; `stopDemo()` clears them and re-enables the button, and **every** user handler calls it first: the user wins. Timing: prerequisite step + 2200ms, lead-in 1300ms, step gap `clamp(2600 / steps, 170, 520)`ms, commit + 500ms (4–6s in all); reduced motion caps each wait at 120ms. Auto-play once, 900ms after the stage is first > 35% visible (§14), only if untouched, idle and motion is allowed.
 
 ### 12.6 Figure archetypes
 
-Chosen by B §9.2; each at most once; at most two 3D besides the signature object; data invented, labelled.
+Chosen by B §9.2; each at most once; at most two 3D besides the signature object; data invented, labelled. An archetype is an interaction shape, never a subject: what a figure is about, its data model, its nouns and its default numbers all come from the person's own work (§3). Every `{…}` below is filled from that work.
 
-| | Work is about | Required parts | Note pattern |
+| | Interaction shape | Required parts | Note pattern |
 |---|---|---|---|
-| A1 Race | two strategies under one limit | drawer, run, two lanes, verdict | `simulated {units}, real {rule}` |
-| A2 Calculator → document | inputs → a document | fields, statement, download | `invented figures, real {file}` |
-| A3 Before/after | design quality | switch, foil, good form, rationale | `{version one} is wrong by design` |
-| A4 3D scene + tab | a place people act in | Simulate, stage, pickers, tab, list | `three.js, invented {data}` |
-| A5 3D flow + tracker | stages, hand-offs, retries | stage, tab, tracker, 6 readouts, list | `three.js · simulated {flow}` |
+| A1 Compare | two approaches run side by side on the same input | drawer, run, two lanes, verdict | `simulated {what}` |
+| A2 Inputs → file | inputs → an on-screen result and a real file | fields, result card, download | `invented figures, real {file}` |
+| A3 Before/after | a dated version and a considered version of one component | switch, foil, considered version, rationale | `{version one} is wrong by design` |
+| A4 3D model + panel | a system whose parts read best in space | stage, part pickers, tab, log | `three.js, invented {data}` |
+| A5 3D flow + tracker | items moving through the stages of a process | stage, tab, tracker, 6 readouts, log | `three.js · simulated {flow}` |
 | A0 No figure | better told than touched | none | none |
 
-#### 12.6.1 A1 · Race
+#### 12.6.1 A1 · Compare
+
+Two approaches run side by side on the same input. A drawer holds the inputs; one run button starts both lanes; each lane shows a progress groove and three numerals; one verdict sentence closes the run.
 
 ```html
-<div class="race">
-  <div class="lane"><h4>{Strategy A}</h4><small>{its rule}</small>
+<div class="compare">
+  <div class="lane"><h4>{Approach A}</h4><small>{its rule}</small>
     <div class="track" aria-hidden="true"><i class="d" id="figNad" style="width:0"></i><i class="f" id="figNaf" style="width:0"></i></div>
-    <div class="nums"><span>{Outcome}<b id="figNadn">0</b></span><span>{Loss}<b id="figNafn">0</b></span><span>Time<b id="figNat">0s</b></span></div></div>
+    <div class="nums"><span>{Done}<b id="figNadn">0</b></span><span>{Other}<b id="figNafn">0</b></span><span>Time<b id="figNat">0s</b></span></div></div>
   <div class="lane">…ids figNb…</div>
 </div>
 ```
 
 ```css
-.race { display: grid; grid-template-columns: 1fr 1fr; }
+.compare { display: grid; grid-template-columns: 1fr 1fr; }
 .lane { padding: 4px 30px 4px 0; }
 .lane + .lane { padding: 4px 0 4px 30px; border-left: 1px solid var(--rule); }
 .lane h4 { font: 400 26px/1.1 var(--serif); margin: 0 0 2px; letter-spacing: -0.01em; }
 .lane small { display: block; font: 400 14px var(--sans); color: var(--muted); margin-bottom: 14px; }
-@media (max-width: 700px) { .race { grid-template-columns: 1fr; } .lane { padding-right: 0; }
+@media (max-width: 700px) { .compare { grid-template-columns: 1fr; } .lane { padding-right: 0; }
   .lane + .lane { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); margin-top: 20px; padding-top: 20px; } }
-@media (max-width: 620px) { .race { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+@media (max-width: 620px) { .compare { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
   .lane, .lane + .lane { padding: 0; border: 0; margin: 0; }
   .lane h4 { font-size: 17px; line-height: 1.15; margin-bottom: 8px; } .lane small { display: none; }
-  .race .nums { gap: 4px 12px; margin-top: 10px; } .race .nums span { font-size: 10.5px; letter-spacing: 0.04em; } .race .nums b { font-size: 22px; } }
+  .compare .nums { gap: 4px 12px; margin-top: 10px; } .compare .nums span { font-size: 10.5px; letter-spacing: 0.04em; } .compare .nums b { font-size: 22px; } }
 ```
 
 ```text
-TICK_MS = 45 (one simulated second, ≈ 22 Hz); lane = {init(params), step(), t, done, ok, lost}; ids {P}d {P}f {P}dn {P}fn {P}t
-run(): reset(); run.disabled = true; read inputs ONCE; every TICK_MS each unfinished lane t++, step()
-  widths = count / total × 100 + "%"; unfinished work shows as loss once its lane stops
-  both done → clear, re-enable, verdict "{A} … {tA}s but only <b>{pA}%</b> ({lost} lost). {B} … {tB}s, <b>{pB}%</b>. {moral}"
+TICK_MS = 45 (one simulated step, ≈ 22 Hz); lane = {init(params), step(), t, finished, done, other}; ids {P}d {P}f {P}dn {P}fn {P}t
+run(): reset(); run.disabled = true; read inputs ONCE; both lanes init from the same input; every TICK_MS each unfinished lane t++, step()
+  widths: .d = done / total × 100 + "%", .f = other / total × 100 + "%"
+  both finished → clear, re-enable, verdict "{A} … {tA}s, <b>{xA}</b> {measure}. {B} … {tB}s, <b>{xB}</b>. {moral}"
 ```
 
-Units are Bernoulli trials (`Math.random() >= p`). Ranges **MUST** keep the claim true everywhere, else the verdict branches (§3.9); defaults finish in 1–6s. The `≤ 700` rule stacks the lanes, and the later `≤ 620` rule overrides it, so they are stacked only at 621–700; ≤ 620 they pair again, compact: gap 12px, no rule, `h4` 17px, `small` hidden, labels 10.5px, numerals 22px.
+`step()` is the approach's rule, written from the person's own work: one call is one simulated step, and it moves part of the input into the lane's two quantities, `{done}` (the main outcome, drawn in ink) and `{other}` (the part the verdict argues about, drawn in accent; §12.4). A rule **MAY** draw random numbers; both lanes then draw from one sequence seeded per run, so they see the same input. Ranges **MUST** keep the claim true everywhere, else the verdict branches (§3.9); defaults finish in 1–6s. The `≤ 700` rule stacks the lanes, and the later `≤ 620` rule overrides it, so they are stacked only at 621–700; ≤ 620 they pair again, compact: gap 12px, no rule, `h4` 17px, `small` hidden, labels 10.5px, numerals 22px.
 
-#### 12.6.2 A2 · Calculator → document
+#### 12.6.2 A2 · Inputs → file
+
+Inputs produce an on-screen result card and a real downloadable file built from the same values.
 
 ```html
-<div class="calc"><div class="fields">…paired fields + a currency select…</div>
-  <div><div class="slip"><div class="head"><span>{DOC TITLE}</span><span>{name}</span></div><table>
-    <tr><td>{Item}, {qty} × {rate}</td><td>{CUR} 1,000.00</td></tr>…<tr class="total"><td>{Total}</td><td aria-live="polite"></td></tr></table></div>
-    <div class="runrow" style="margin:16px 0 0"><button class="btn solid" id="figNPdf" type="button">Download {doc} (PDF)</button></div></div></div>
+<div class="io"><div class="fields">…paired fields…</div>
+  <div><div class="result"><div class="head"><span>{Result title}</span><span>{name}</span></div><table>
+    <tr><td>{Row label}</td><td>{value}</td></tr>…<tr class="total"><td>{Total label}</td><td aria-live="polite"></td></tr></table></div>
+    <div class="runrow" style="margin:16px 0 0"><button class="btn solid" id="figNFile" type="button">Download {file} ({type})</button></div></div></div>
 ```
 
 ```css
-.calc { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
-.slip { padding: clamp(14px, 4vw, 24px) clamp(12px, 4vw, 26px); border: 0; border-radius: 26px; background: var(--surf); box-shadow: var(--raise); }
-.slip .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); margin-bottom: 6px; }
-.slip .head span:first-child, .slip tr.total td:first-child { font: 700 11px var(--ui); letter-spacing: 0.06em; text-transform: uppercase; }
-.slip .head span:last-child { font: 400 italic 24px var(--serif); }
-.slip table { width: 100%; border-collapse: collapse; font-size: 15px; }
-.slip td { padding: 9px 0; border-bottom: 1px solid var(--hair); vertical-align: baseline; }
-.slip td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.slip tr.total td { border-bottom: 0; padding-top: 16px; border-top: 1px solid var(--ink); }
-.slip tr.total td:last-child { font: 400 clamp(26px, 7vw, 40px)/1 var(--serif); letter-spacing: -0.01em; }
-@media (max-width: 800px) { .calc { grid-template-columns: 1fr; gap: 26px; } }
-@media (max-width: 460px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+.io { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+.result { padding: clamp(14px, 4vw, 24px) clamp(12px, 4vw, 26px); border: 0; border-radius: 26px; background: var(--surf); box-shadow: var(--raise); }
+.result .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); margin-bottom: 6px; }
+.result .head span:first-child, .result tr.total td:first-child { font: 700 11px var(--ui); letter-spacing: 0.06em; text-transform: uppercase; }
+.result .head span:last-child { font: 400 italic 24px var(--serif); }
+.result table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.result td { padding: 9px 0; border-bottom: 1px solid var(--hair); vertical-align: baseline; }
+.result td:last-child { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.result tr.total td { border-bottom: 0; padding-top: 16px; border-top: 1px solid var(--ink); }
+.result tr.total td:last-child { font: 400 clamp(26px, 7vw, 40px)/1 var(--serif); letter-spacing: -0.01em; }
+@media (max-width: 800px) { .io { grid-template-columns: 1fr; gap: 26px; } }
+@media (max-width: 460px) { .io { grid-template-columns: minmax(0, 1fr); } }
 ```
 
-≤ 300px: name 18px, table 13px; ≤ 240px: total 24px nowrap; ≤ 220px: amounts wrap, 12px.
+≤ 300px: name 18px, table 13px; ≤ 240px: total 24px nowrap; ≤ 220px: values wrap, 12px.
 
 ```text
 num = parseFloat, finite and > 0 else 0 (silent); JS clamps mirror HTML min/max; name = trim() || "{noun}"
-last = {name, cur, inputs, derived}: one snapshot, so screen and file never disagree
+last = {name, inputs, derived}: one snapshot, so screen and file never disagree
 every "input" → set cells (rows built once) by textContent, name escaped; only the total cell is live
-money = cur + " " + n.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-file: lazy loader (§2.7) warms jsPDF on first pointerenter/focus; click → then(save, () => window.print())
-save: h = draw(new jsPDF({unit: "mm", format: [80, 400]}))                 // pass 1: measure on a tall probe
-      doc = new jsPDF({unit: "mm", format: [80, Math.ceil(h)]}); draw(doc)  // pass 2: cut to fit
-      title "{Doc} (invented data)"; "{doctype}-{slug}-{YYYY}-{MM}.pdf", slug = kebab of safe(name, 30) || "{fallback}"
-draw: Courier on a narrow roll, 80 wide, margin 6, returns y + 6; dashes [0.9, 0.9], dot leaders [0.15, 0.85], working 7.5pt grey;
-      title, "{INVENTED DATA}" stamp, meta, items, subtotal, adjustments, double rule, total 11 bold, grey honesty lines
+fmt: one number style for screen and file (fixed decimals, tabular figures); units and rows come from the person's work
+file: its type and layout come from the person's work; it is built from `last` only
+  text formats (CSV, JSON, SVG, ICS, …): a Blob saved through a temporary <a download>
+  PDF: lazy loader (§2.7) warms the library on first pointerenter/focus; click → then(save, () => window.print())
+  name "{kind}-{slug}.{ext}", slug = kebab of safe(name, 30) || "{fallback}"
+stamp: title "{Title} (sample data)"; a visible "{SAMPLE DATA}" stamp; a grey honesty line: made up in the browser
 ```
 
-Labels show their working; `−` (U+2212) on screen, ASCII `-`, ISO codes, `"en-US"` and `?` beyond Latin-1 in the file. The note says the download is real; stamp and footer say the data is not.
+Labels show their working. In a PDF built with the standard fonts, write ASCII `-` for the `−` (U+2212) shown on screen and `?` beyond Latin-1. The note says the download is real; stamp and honesty line say the data is not.
 
 #### 12.6.3 A3 · Before/after
 
+A deliberately dated "before" version and a considered "after" version of **one component from the person's work** (a form, a table, a settings panel, a page section and so on), plus a numbered rationale list.
+
 ```html
-<div class="seg" role="group" aria-label="{Form} version"><button type="button" id="figNBefore" aria-pressed="false">Before</button>
+<div class="seg" role="group" aria-label="{Component} version"><button type="button" id="figNBefore" aria-pressed="false">Before</button>
   <button type="button" id="figNAfter" aria-pressed="true">After</button></div>
 <div class="uxwrap"><div id="figNHost"></div><ul class="why" id="figNWhy"></ul></div>
 ```
@@ -3642,24 +3647,26 @@ Labels show their working; `−` (U+2212) on screen, ASCII `-`, ISO codes, `"en-
 .why li b { font-weight: 400; text-decoration: underline 1.5px var(--sand); text-underline-offset: 0.22em; } /* B.23 */
 ```
 
-- `show(which)` sets both buttons, rebuilds form and rationale, enhances only the good form's selects; opens on "after".
-- **Foil** `form.form.before[aria-label="{Form}, before"]`, hard-coded, light even in dark mode: Arial 11px `#000` on `#e9e9e9`, `border: 2px outset #d0d0d0`, padding 8px, gap 2px; flex rows gap 4px, labels `min-width: 70px`; fields `1px solid #777` on `#fff`, padding `1px 3px`, `appearance: auto`, `flex: 1`, **`border-radius: 0; box-shadow: none`** (else the pill rule leaks in and it looks designed); buttons `2px 8px` on `#ddd`; error `red`. Shows 5–7 of: cryptic abbreviations, seven equal fields, `type="text"` everywhere, a `--` first option, letter codes, three identical buttons, one generic error (`role="alert"`). Keeps `label for`: bad UX, not broken access.
-- **Good form** (`novalidate`): 3–4 fields, labels saying what and why, example placeholders, `autocomplete`, `inputmode`, a pre-selected default, one verb + object `.btn.solid`, an `.err` per field (`aria-describedby`, `aria-invalid`), `.okmsg[role=status]`.
-- **Validation:** on `blur` only; submit runs all, then focuses the first invalid field. Messages instruct with an example and a reason ("Add {parts} so {who} can {act}."), never "invalid", never red.
+`.form`, `.err` and `.okmsg` are used only when the component is a form.
+
+- `show(which)` sets both buttons, rebuilds the component and the rationale, enhances only the considered version's selects; opens on "after".
+- **Foil** (`.before[aria-label="{Component}, before"]`, a `form.form.before` if the component is a form), hard-coded, light even in dark mode, in a dated system look: Arial 11px `#000` on `#e9e9e9`, `border: 2px outset #d0d0d0`, padding 8px, gap 2px; flex rows gap 4px, labels `min-width: 70px`; fields and cells `1px solid #777` on `#fff`, padding `1px 3px`, `appearance: auto`, `flex: 1`, **`border-radius: 0; box-shadow: none`** (else the pill rule leaks in and it looks designed); buttons `2px 8px` on `#ddd`; error `red`. Shows 5–7 dated habits that fit the component: cryptic abbreviations, everything at one weight and size, no grouping, a `--` first option, letter codes, three identical buttons, one generic error (`role="alert"`). Keeps every accessible name (`label for` on fields): bad UX, not broken access.
+- **Considered version:** the same content, regrouped and relabelled: labels saying what and why, a sensible default, one verb + object `.btn.solid` where there is an action. If the component is a form (`novalidate`): 3–4 fields, example placeholders, `autocomplete`, `inputmode`, an `.err` per field (`aria-describedby`, `aria-invalid`), `.okmsg[role=status]`.
+- **Validation** (if the component is a form): on `blur` only; submit runs all, then focuses the first invalid field. Messages instruct with an example and a reason ("{What to add} so {what it enables}."), never "invalid", never red.
 - **Rationale:** one `<li><span><b>{2–5 word lead}</b> {reason}.</span></li>` per fix.
 
-#### 12.6.4 A4 · 3D scene + browser tab
+#### 12.6.4 A4 · 3D model + panel
 
-Use for a place people act in. Run row above (`{Primary}`, label flips with state · `Simulate {a user}` · `Reset`); `.scene3` = `.stage` + `.scene-side` (`.toggles` in a shut drawer · `.toggles.pick` stations · `.tab`, §13); then `.tk-h` + `ol.tickets`, status `.verdict`.
+A hairline 3D model of the person's system with selectable parts. Run row above (`{Verb}` · `Reset`; a guided-demo button `{Demo verb}` **MAY** join it, §12.5); `.scene3` = `.stage` + `.scene-side` (`.toggles` in a shut drawer · `.toggles.pick` parts · `.tab`, §13); then `.log-h` + `ol.log.log-cards` (a short log list under the scene, one card per recorded action), status `.verdict`.
 
-Each scene action has an HTML twin; scene labels are `aria-hidden`. A 3D pick calls `stopDemo()`, selects, fires `want` (§2.8); ≤ 900px the sheet opens 520ms later, closes 480ms after the primary action (§13). No WebGL: buttons disabled.
+Every selectable part in the scene is mirrored by an HTML control in the side panel, and every panel control has its part in the scene; scene labels are `aria-hidden`. A 3D pick calls `stopDemo()`, selects the part, mirrors it in the panel and fires `want` (§2.8); ≤ 900px the sheet opens 520ms later (§13.4). No WebGL: buttons disabled.
 
 #### 12.6.5 A5 · 3D flow + tracker
 
-`.scene3` = `.stage.sq` + `.scene-side` (`.tab` built once · `ol.steps` · `.steps-now` · `.steps-log`, §13); one shut drawer: `.ctrls` (rate, failure), route `.toggles`, `.runrow` (`Pause`/`Run`, `Reset`); six readouts; `.tk-h` + `ol.orders`; status `.verdict`.
+Items move through the stages of a process in 3D, with a step tracker, readouts and a log list. `.scene3` = `.stage.sq` + `.scene-side` (`.tab` built once · `ol.steps` · `.steps-now` · `.steps-log`, §13); one shut drawer: `.ctrls` (one or two ranges that shape the flow, named and bounded from the person's process), route `.toggles`, `.runrow` (`Pause`/`Run`, `Reset`); six readouts; `.log-h` + `ol.log.log-lines`; status `.verdict`.
 
-- One token per item keeps one logical position through every change of form; halo, tracker, log and row all read it. Spotlight: the user's item, else the newest; a finished user item holds 4000ms.
-- Spawn accumulator starts at 0.92 (first item at once); rate 6–90/min (30), failure 0–40% (8%); > 4 tries → retry in 2.2s. DOM ≤ 4 Hz; 6 recent rows; a readout **MAY** prove a guarantee by staying 0.
+- One token per item keeps one logical position through every change of form; halo, tracker, log and row all read it. Spotlight: an item the reader picked, else the newest; a finished picked item holds 4000ms.
+- Spawn accumulator starts at 0.92 (first item at once). DOM ≤ 4 Hz; 6 recent rows; a readout **MAY** prove a guarantee by staying 0.
 - Pause freezes moves, not rendering; the user's action resumes. Reduced motion starts paused; Reset → `setRun(!reduce)`.
 
 #### 12.6.6 A0 · No figure
@@ -3670,23 +3677,23 @@ No tray; L5 (giant numeral, §10.6.5) or L7. Also for the weaker of two features
 
 - Override `--surf`, never `--face` or shadows (§4.6.3). Never rebuild focused controls. Only verdict, status and total cell are live.
 - Note ≤ 6 words (≈ 28 characters at 390); title 3–5 words, else clamp max ≈ 44px. `.ctrls` 210px fits ≈ 34-character labels, else 240px. Two-line verdict: `min-height: calc(2 * 1.3em)`.
-- A1: swap step rules, keep lane API. A2: even field count. A3: a form from the person's domain.
+- A1: swap `step()` rules, keep the lane API. A2: even field count; the file type follows the work. A3: a component from the person's work. A4: every part has a panel twin. A5: name the stages after the person's process.
 
 ---
 
 ## 13 · Browser-tab mock & compact figures (≤900px)
 
-A 3D figure's side panel is a browser window moulded from the tray; ≤ 900px it folds into a launcher that grows into a bottom sheet; receipts become a spring row. Owns B.17, B.18, D.10. CSS is exact; buttons are reset (`border:0;background:none;padding:0;font:inherit;cursor:pointer;text-align:left`) unless stated.
+A 3D figure's side panel is a browser window moulded from the tray; ≤ 900px it folds into a launcher that grows into a bottom sheet; log cards become a spring row. Owns B.17, B.18, D.10. CSS is exact; buttons are reset (`border:0;background:none;padding:0;font:inherit;cursor:pointer;text-align:left`) unless stated.
 
 ### 13.1 The browser-tab mock
 
-Purpose: the user's side of the model (the scene is the operator's): a raised window, sunk URL pill, body set like a page.
+Purpose: the panel side of the model, what a person using the system would see (the scene shows the system itself): a raised window, sunk URL pill, body set like a page.
 
 ```html
 <div class="tab" id="figNTab"><div class="tab-bar"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><span class="url" id="figNUrl">{app.example/path}</span></div>
   <div class="tab-body" id="figNList" aria-live="polite"><p class="empty">{What to do first.}</p>
-    <button type="button" class="mi" data-i="7" aria-pressed="false"><span><em>2×</em>{Item}<small>{Sub-line}</small></span><span>{12.50} +</span></button></div>
-  <div class="tab-foot"><span id="figNTotal">{No items yet}</span><button class="btn solid" id="figNGo" type="button" disabled>{Verb}</button></div></div>
+    <button type="button" class="opt-row" data-i="7" aria-pressed="false"><span><em>{n}×</em>{Item}<small>{Sub-line}</small></span><span>{value} +</span></button></div>
+  <div class="tab-foot"><span id="figNSum">{Empty-state summary}</span><button class="btn solid" id="figNGo" type="button" disabled>{Verb}</button></div></div>
 ```
 
 ```css
@@ -3700,12 +3707,12 @@ Purpose: the user's side of the model (the scene is the operator's): a raised wi
 .tab-body .empty{margin:24px 0;font:400 italic 21px/1.3 var(--serif);color:var(--muted)}
 .tab-body h6{margin:12px 0 2px;font:400 11px var(--sans);text-transform:uppercase}
 .tab-body h6:first-child{margin-top:2px}
-.mi{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ink);font:300 15px/1.35 var(--sans);text-align:left;cursor:pointer;border-bottom-color:color-mix(in srgb,var(--ink) 8%,transparent)}
-.mi span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.mi em{font-style:normal;margin-right:6px}
-.mi small{display:block;font:400 10.5px/1.4 var(--sans);text-transform:uppercase;color:var(--muted)}
-.mi.sel{padding-left:12px;border-radius:14px;background:var(--face);box-shadow:var(--raise-s)}
-.mi:disabled{opacity:.45;cursor:not-allowed}
+.opt-row{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ink);font:300 15px/1.35 var(--sans);text-align:left;cursor:pointer;border-bottom-color:color-mix(in srgb,var(--ink) 8%,transparent)}
+.opt-row span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.opt-row em{font-style:normal;margin-right:6px}
+.opt-row small{display:block;font:400 10.5px/1.4 var(--sans);text-transform:uppercase;color:var(--muted)}
+.opt-row.sel{padding-left:12px;border-radius:14px;background:var(--face);box-shadow:var(--raise-s)}
+.opt-row:disabled{opacity:.45;cursor:not-allowed}
 .tab-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;font:300 14px var(--sans);padding:12px 18px 18px}
 .tab-foot .btn{padding:11px 20px}
 @media (max-width:620px){.tab{min-height:0}.tab-body .empty{margin:14px 0}}
@@ -3718,16 +3725,16 @@ Purpose: the user's side of the model (the scene is the operator's): a raised wi
 
 ### 13.2 Panel sub-patterns
 
-**Ticket cards** are receipts: `li.tk[data-t="{numeric key}"]` holding `.tk-top`, `.tk-more`, `ul`, `.sum` with `button[data-close]`; ink rule under the title, hairline over the total. Empty `.none` rows (full width, block): italic serif, muted, 20px / 19px.
+**Log cards** (A4, `ol.log.log-cards`): one card per recorded action, `li.log-card[data-k="{numeric key}"]` holding `.log-top`, `.log-more`, `ul`, `.sum` with `button[data-close]`; ink rule under the title, hairline over the summary line. Empty `.none` rows (full width, block): italic serif, muted, 20px / 19px.
 
 ```css
-.tickets{list-style:none;margin:10px 0 0;padding:0;min-height:230px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
-.tickets li.tk{padding:12px 14px;font:300 14px/1.5 var(--sans);border-radius:20px;background:var(--face);box-shadow:var(--raise-s)}
-.tk-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
-.tk-top b{font:400 22px/1 var(--serif)}.tk-top span{font:400 10.5px var(--sans);text-transform:uppercase}
-.tk ul{list-style:none;padding:0}.tk li{display:flex;justify-content:space-between;gap:10px}
-.tk .sum{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:6px;border-top:1px solid var(--hair)}
-.tk .sum b{font:400 20px var(--serif)}.tk .sum button{padding:0 0 2px;font:700 12.5px var(--ui)}
+.log-cards{list-style:none;margin:10px 0 0;padding:0;min-height:230px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:12px}
+.log-cards li.log-card{padding:12px 14px;font:300 14px/1.5 var(--sans);border-radius:20px;background:var(--face);box-shadow:var(--raise-s)}
+.log-top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
+.log-top b{font:400 22px/1 var(--serif)}.log-top span{font:400 10.5px var(--sans);text-transform:uppercase}
+.log-card ul{list-style:none;padding:0}.log-card li{display:flex;justify-content:space-between;gap:10px}
+.log-card .sum{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:6px;border-top:1px solid var(--hair)}
+.log-card .sum b{font:400 20px var(--serif)}.log-card .sum button{padding:0 0 2px;font:700 12.5px var(--ui)}
 ```
 
 **Tracker** (`ol.steps` of six `li`, `p.steps-now`, `p.steps-log`): sunk → raised → accent.
@@ -3753,20 +3760,20 @@ html.sheet-on .steps li.now::before{animation-play-state:paused}
 
 One 50% keyframe: the disc breathes, never glows. Reduced-motion rule:. On phones `.steps-now` ("Step 2 of 6 · {label}") restores hidden labels. N steps: `repeat(N,…)`.
 
-**Recent activity** (`li[.fol]`: `b` id, `span` item, `span` "{First → Final}", `em.st0…st5`; six rows):
+**Log lines** (A5, `ol.log.log-lines`; `li[.fol]`: `b` id, `span` item, `span` "{First → Final}", `em.st0…st5`; six rows):
 
 ```css
-.orders{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--ink);min-height:246px}
-.orders li{display:grid;grid-template-columns:64px minmax(0,1.2fr) minmax(0,1.6fr) auto;gap:4px 14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);font:300 14.5px/1.4 var(--sans)}
-.orders li.fol{box-shadow:inset 2px 0 0 var(--accent);padding-left:10px}
-.orders b{font:400 18px var(--serif)}.orders span:nth-of-type(2){color:var(--muted)}
-.orders em{font:400 10.5px var(--sans);font-style:normal;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-@media (max-width:620px){.orders{min-height:132px}.orders li{grid-template-columns:auto 1fr auto}.orders span:nth-of-type(2){grid-column:1/-1;order:5;font-size:13px}.orders li:nth-child(n + 4){display:none}}
+.log-lines{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--ink);min-height:246px}
+.log-lines li{display:grid;grid-template-columns:64px minmax(0,1.2fr) minmax(0,1.6fr) auto;gap:4px 14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--hair);font:300 14.5px/1.4 var(--sans)}
+.log-lines li.fol{box-shadow:inset 2px 0 0 var(--accent);padding-left:10px}
+.log-lines b{font:400 18px var(--serif)}.log-lines span:nth-of-type(2){color:var(--muted)}
+.log-lines em{font:400 10.5px var(--sans);font-style:normal;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+@media (max-width:620px){.log-lines{min-height:132px}.log-lines li{grid-template-columns:auto 1fr auto}.log-lines span:nth-of-type(2){grid-column:1/-1;order:5;font-size:13px}.log-lines li:nth-child(n + 4){display:none}}
 ```
 
 The followed row's bar is an inset shadow. Why: the box never shifts.
 
-**≤ 620.** Readouts (`.nums.shnums`, §12) become raised mini cards: `repeat(3,minmax(0,1fr)) !important`, gap 8px, `span` padding 8px 10px, radius 12px, `--face` + `--raise-s`, 10.5px label, `b` 22px (34px wide); ≤ 460 two columns. A built-once picker (`#figNPick`) becomes two-column tiles (gap 8px; `h6`, `.toggles` span `1/-1`): `.mi{flex-direction:column;gap:2px;padding:9px 11px;border-radius:12px;font-size:14px}` raised; `.sel` adds `inset 0 0 0 1.5px var(--accent)`, so size holds. Pick-one pills (`#figNStations`) become a sideways strip (`flex-wrap:nowrap;overflow-x:auto;padding:6px 4px 10px`, no scrollbar, buttons `flex:none`). Why: padding keeps shadows.
+**≤ 620.** Readouts (`.nums.shnums`, §12) become raised mini cards: `repeat(3,minmax(0,1fr)) !important`, gap 8px, `span` padding 8px 10px, radius 12px, `--face` + `--raise-s`, 10.5px label, `b` 22px (34px wide); ≤ 460 two columns. A built-once picker (`#figNPick`) becomes two-column tiles (gap 8px; `h6`, `.toggles` span `1/-1`): `.opt-row{flex-direction:column;gap:2px;padding:9px 11px;border-radius:12px;font-size:14px}` raised; `.sel` adds `inset 0 0 0 1.5px var(--accent)`, so size holds. Pick-one pills (`#figNParts`) become a sideways strip (`flex-wrap:nowrap;overflow-x:auto;padding:6px 4px 10px`, no scrollbar, buttons `flex:none`). Why: padding keeps shadows.
 ### 13.3 Side panel in lock-step with a scene
 
 1. **MUST** build focusable controls once, then update in place (`textContent`, `disabled`, `classList.toggle`, `aria-pressed`); only read-only lists use `innerHTML`. Why: rebuilds kill focus.
@@ -3777,8 +3784,8 @@ The followed row's bar is an inset shadow. Why: the box never shifts.
 ### 13.4 Compact system (≤900)
 
 ```css
-.tab-pop,.tk-more,.tk-count{display:none}
-@media (max-width:900px){.has-pop>.tab{display:none}.tk-count{display:inline;margin-left:.6em;color:var(--accent)}}
+.tab-pop,.log-more,.log-count{display:none}
+@media (max-width:900px){.has-pop>.tab{display:none}.log-count{display:inline;margin-left:.6em;color:var(--accent)}}
 ```
 
 `cmp` (`max-width:900px`) and `still` (reduced motion) are live; widening calls `done()`.
@@ -3879,25 +3886,25 @@ function dEnd(){ if(!drag) return; var d=drag; drag=null; if(d.dy>90||(d.dy>16&&
 - **Chooser.** An `.empty` body gets a clone of the outside chooser, `.toggles.tp-pick[role=group]` (`margin:4px 0 14px`, buttons `padding:10px 18px`, no `::before`); clones call `src.click()`.
 - **Coupling.** `sheetchange` makes stages simulate without drawing (§14). A 3D pick fires `want` on the `.tab`; the sheet opens **520ms** later; a `go` click inside closes it **480ms** later. Why: a pick never teleports; the scene reacts first, the result lands before the sheet leaves. API: `sheet({tab,status,go,pick?,name,sub})`.
 
-### 13.5 Ticket row (≤900)
+### 13.5 Log row (≤900)
 
 ```css
 @media (max-width:900px){
-.tk-scroll{--ip:clamp(12px,3.4vw,32px);margin:6px calc(-1 * var(--ip)) 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
-.tk-scroll::-webkit-scrollbar{display:none}
-.tk-scroll>.tickets{--tkw:min(236px,76vw);position:relative;display:block;margin:0;padding:8px var(--ip) 16px;min-height:0;overflow:hidden}
-.tk-scroll li.tk{position:absolute;left:0;top:0;width:var(--tkw);display:flex;flex-direction:column;overflow:hidden;padding:12px 14px;transform-origin:50% 30%;backface-visibility:hidden}
-.tk-scroll .tk-top{flex:none}
-.tk-scroll li.tk ul{display:none;flex:0 1 auto;min-height:0;overflow:hidden;margin:0 0 8px}
-.tk-scroll li.tk.open ul,.tk-scroll li.tk.closing ul{display:block}
-.tk-scroll .tk .sum{flex:none;margin-top:auto;padding-top:8px}
-.tk-scroll .tk-more{display:flex;align-items:center;gap:7px;width:100%;margin:4px 0 8px;padding:7px 10px 7px 12px;border-radius:12px;background:var(--surf);box-shadow:var(--sink-s);font:600 12.5px/1.35 var(--ui);color:var(--muted)}
-.tk-more i{flex:none;width:7px;height:7px;margin:0 3px 3px 0;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg);transition:transform .25s}
-.tk.open .tk-more i{transform:rotate(-135deg) translate(-2px,-2px)}
-.tk-more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}}
+.log-row{--ip:clamp(12px,3.4vw,32px);margin:6px calc(-1 * var(--ip)) 0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none}
+.log-row::-webkit-scrollbar{display:none}
+.log-row>.log-cards{--lcw:min(236px,76vw);position:relative;display:block;margin:0;padding:8px var(--ip) 16px;min-height:0;overflow:hidden}
+.log-row li.log-card{position:absolute;left:0;top:0;width:var(--lcw);display:flex;flex-direction:column;overflow:hidden;padding:12px 14px;transform-origin:50% 30%;backface-visibility:hidden}
+.log-row .log-top{flex:none}
+.log-row li.log-card ul{display:none;flex:0 1 auto;min-height:0;overflow:hidden;margin:0 0 8px}
+.log-row li.log-card.open ul,.log-row li.log-card.closing ul{display:block}
+.log-row .log-card .sum{flex:none;margin-top:auto;padding-top:8px}
+.log-row .log-more{display:flex;align-items:center;gap:7px;width:100%;margin:4px 0 8px;padding:7px 10px 7px 12px;border-radius:12px;background:var(--surf);box-shadow:var(--sink-s);font:600 12.5px/1.35 var(--ui);color:var(--muted)}
+.log-more i{flex:none;width:7px;height:7px;margin:0 3px 3px 0;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transform:rotate(45deg);transition:transform .25s}
+.log-card.open .log-more i{transform:rotate(-135deg) translate(-2px,-2px)}
+.log-more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}}
 ```
 
-`.tk-more[aria-expanded][aria-controls]` holds `b` count (700, ink), `.tk-p` ellipsis preview (`flex:1;min-width:0`), `.tk-l` "Show less" (replaces it when `.open`), `i[aria-hidden]`. The row bleeds to the tray edge; the next card peeks at 320px wide.
+`.log-more[aria-expanded][aria-controls]` holds `b` count (700, ink), `.log-p` ellipsis preview (`flex:1;min-width:0`), `.log-l` "Show less" (replaces it when `.open`), `i[aria-hidden]`. The row bleeds to the tray edge; the next card peeks at 320px wide.
 
 ```text
 G 12 · K 240 · C 23 · SWIRL 520 · height 380/36 · stagger 0.045s · new card +48px, fade 320ms ease-out · dt 0.001–0.032
@@ -3931,7 +3938,7 @@ A 3D figure (archetypes A4 and A5, §12.6) is ink drawn on the page. A transpare
 <div class="scene3">
   <div class="stage" id="figNHost">                <!-- .stage.sq: scenes deep rather than wide -->
     <canvas id="figNCanvas" tabindex="0" role="img"
-      aria-label="A 3D {scene}: {what is where}. Drag or use the arrow keys to turn it, plus and minus to zoom. Click a {station} to {act}."></canvas>
+      aria-label="A 3D {scene}: {what is where}. Drag or use the arrow keys to turn it, plus and minus to zoom. Click a {part} to {act}."></canvas>
     <div class="tags" id="figNTags" aria-hidden="true"></div>
     <span class="stage-hint lab" aria-hidden="true">Fig. {{n}} · Drag to turn · pinch or +/− to zoom</span>
     <!-- Stage() appends div.zoom last -->
@@ -4002,7 +4009,7 @@ Effective rule (B.23 overrides B.16). Markup is `<b>{Name}</b>{status}`, with a 
 | `t.off` | Use |
 |---|---|
 | `translate(-50%,-100%)` (default) | object names, point 0.3–0.6 above the object's top |
-| `translate(0,8px)` | zone labels hanging below-right of a floor corner |
+| `translate(0,8px)` | zone labels hanging below-right of a base corner |
 | `translate(-100%,-50%)` | row markers, left of the point |
 
 Project to NDC; if `z > 1` or `|x|`/`|y| > 1.3`, `visibility:hidden`. Why 1.3: labels past the frame are clipped by `overflow:hidden`, so they slide out instead of blinking. No occlusion or collision handling: keep names ≤ 12 characters, statuses two or three words.
@@ -4048,7 +4055,7 @@ Yaw 0 is on +z looking toward −z, and pitch is the elevation. The narrow 30° 
 
 | Scene | Threshold | Wide | Tall |
 |---|---|---|---|
-| square-ish room (`.stage`) | `a < 1.1` | yaw −0.2, pitch 0.6, target (0, 0.85, −0.5), fit [4.85, 3.05] | yaw −0.12, pitch 0.72, target (0, 0.6, −0.3), fit [4.95, 3.5] |
+| square-ish model (`.stage`) | `a < 1.1` | yaw −0.2, pitch 0.6, target (0, 0.85, −0.5), fit [4.85, 3.05] | yaw −0.12, pitch 0.72, target (0, 0.6, −0.3), fit [4.95, 3.5] |
 | long flow (`.stage.sq`) | `a < 0.9` | yaw −0.04, pitch 0.92, target (0.3, 0, −0.5), fit [5.45, 2.8] | yaw 1.5, pitch 0.98, target (0.3, 0, −0.2), fit [3.55, 5.0] |
 
 On a portrait box, turn a long scene about 90° so its long axis runs down the screen, swap the fit extents and raise the pitch a little.
@@ -4147,7 +4154,7 @@ Why: the span resolves the token as the cascade sees it now, and the 1×1 canvas
 ```js
 function Mats(){var m={
   ink:new THREE.LineBasicMaterial({transparent:true,opacity:0.8}),     // object edges
-  soft:new THREE.LineBasicMaterial({transparent:true,opacity:0.32}),   // walls, furniture, zones
+  soft:new THREE.LineBasicMaterial({transparent:true,opacity:0.32}),   // walls, secondary parts, zones
   faint:new THREE.LineBasicMaterial({transparent:true,opacity:0.12}),  // floor grid
   acc:new THREE.LineBasicMaterial({transparent:true,opacity:0.85}),    // live / chosen
   fill:new THREE.MeshBasicMaterial({transparent:true,opacity:0.85,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1})};
@@ -4162,7 +4169,7 @@ Further helpers:
 - `floorGrid(x0,x1,z0,z1,step,mat)` builds an inclusive grid with a 1e-6 epsilon.
 - `rect(x0,x1,z0,z1,y)` returns the 8 points of a floor outline.
 
-Fill faces are `--paper2`, one step deeper than the `--paper` well (the tray-on-page step), and about 15% see-through. `polygonOffset` lets the edges win. Edge thresholds are 1° for boxes and 30° for cylinders, discs and rings, so only rims draw. WebGL lines are one device pixel wide: hairlines at DPR 2. Halos are `ghost(0)` accent shapes, a ring `RingGeometry(R,R+0.05,72)` at y 0.006 over a disk at y 0.004. Their opacity eases `a += (target−a)·min(1,5dt)` toward ring 0/0.45/0.9 and disk 0/0.05/0.1 for none/selected/occupied. An arrival flash adds `flash·0.15` (decay 2/s).
+Fill faces are `--paper2`, one step deeper than the `--paper` well (the tray-on-page step), and about 15% see-through. `polygonOffset` lets the edges win. Edge thresholds are 1° for boxes and 30° for cylinders, discs and rings, so only rims draw. WebGL lines are one device pixel wide: hairlines at DPR 2. Halos are `ghost(0)` accent shapes, a ring `RingGeometry(R,R+0.05,72)` at y 0.006 over a disk at y 0.004. Their opacity eases `a += (target−a)·min(1,5dt)` toward ring 0/0.45/0.9 and disk 0/0.05/0.1 for none/selected/active. An arrival flash adds `flash·0.15` (decay 2/s).
 
 ### 14.9 Glow, arc, path
 
@@ -4182,12 +4189,12 @@ var mat=new THREE.ShaderMaterial({uniforms:{uColor:{value:new THREE.Color()},uSc
 
 ### 14.10 Scenes from primitives
 
-- **Kit.** Boxes, cylinders, hex prisms (`CylinderGeometry(r,r,h,6)`), rings and planes. Draw each as `solid()`, or as edges only in `soft` for secondary furniture. Use raw `lines()` for posts, rails, roofs, crosses, and the strokes that draw "text" on a panel.
-- **Room.** `floorGrid(-5,5,-4.5,4,0.5,M.faint)` plus at most a back-wall outline in `soft`: an open drafting box about 10 × 8 units.
+- **Kit.** Boxes, cylinders, hex prisms (`CylinderGeometry(r,r,h,6)`), rings and planes. Draw each as `solid()`, or as edges only in `soft` for secondary parts. Use raw `lines()` for posts, rails, roofs, crosses, and the strokes that draw "text" on a panel.
+- **Base.** `floorGrid(-5,5,-4.5,4,0.5,M.faint)` plus at most a back-wall outline in `soft`: an open drafting box about 10 × 8 units.
 - **Zones** are `rect(…, y)` outlines lifted 0.003–0.01 (halos 0.004–0.006), so nothing z-fights the grid. Draw the active zone in `ink` and the rest in `soft`.
 - **No lights.** Use only `Basic` materials and the glow shader; hierarchy is line opacity.
-- **Textures** are tiny canvas textures only. A 512×128 slip face with `--paper`, an 8px accent spine and the page `--sans` by name gets `anisotropy=4` and is redrawn on `document.fonts.ready` and on theme. A pixel tile uses `NearestFilter`, with its bits generated once.
-- **Economy.** One scaled unit box per gauge (`scale.y = max(0.02, 0.36·level/MAX)`, grown from its base). One `LineSegments` per rack system. Shared geometries and pooled meshes. Scale from 0.001, never 0 (singular matrix).
+- **Textures** are tiny canvas textures only. A 512×128 label face with `--paper`, an 8px accent spine and the page `--sans` by name gets `anisotropy=4` and is redrawn on `document.fonts.ready` and on theme. A pixel tile uses `NearestFilter`, with its bits generated once.
+- **Economy.** One scaled unit box per gauge (`scale.y = max(0.02, 0.36·level/MAX)`, grown from its base). One `LineSegments` per repeated structure. Shared geometries and pooled meshes. Scale from 0.001, never 0 (singular matrix).
 
 ### 14.11 Motion techniques
 
@@ -4205,9 +4212,9 @@ c.g.quaternion.slerp(tq,1-Math.exp(-dt*4.5));
 
 Objects loop in transit and land dead still. Trail: 7 points back `0.03·v`, alpha `min(1,|v|/3)·f²·0.8`, size `0.13·(1−0.5j/7)`, only above speed 0.25. Stagger: sort `0.05k + 0.12·group` s, scatter `random·0.35` s. A disabled group goes to alpha 0.16 (`min(1,6dt)`) and drops 0.12.
 
-**Arc flights with comets.** `arc(from,to,h,ease(u))`, with h 1.6 across a room or 0.35–0.8 for short legs. The copy billboards (`lookAt(camera.position)`) and shrinks `1−0.6e`. The trail re-samples the same curve: 9 points at `e − j·0.035`, alpha `0.95·f²`, size `0.15·(1−0.5j/9)`. Start each flight at −0.16 s × index and create its mesh lazily. On landing, the object pops in: `s += 6dt`, scale `1−(1−s)³`.
+**Arc flights with comets.** `arc(from,to,h,ease(u))`, with h 1.6 across the whole model or 0.35–0.8 for short legs. The copy billboards (`lookAt(camera.position)`) and shrinks `1−0.6e`. The trail re-samples the same curve: 9 points at `e − j·0.035`, alpha `0.95·f²`, size `0.15·(1−0.5j/9)`. Start each flight at −0.16 s × index and create its mesh lazily. On landing, the object pops in: `s += 6dt`, scale `1−(1−s)³`.
 
-**Path walking.** Walkers move at 2.1 u/s and a carrier at 2.3 u/s. Stops are arc-length marks: clamp at the next one, dwell 0.7 s. The walker trail is 5 samples at 0.07, lifted 0.07, alpha `(1−j/6)·0.5`, size 0.08. Moving labels mutate `t.p`.
+**Path walking.** Path movers move at 2.1 u/s and a container mover at 2.3 u/s. Stops are arc-length marks: clamp at the next one, dwell 0.7 s. The path-mover trail is 5 samples at 0.07, lifted 0.07, alpha `(1−j/6)·0.5`, size 0.08. Moving labels mutate `t.p`.
 
 **Move scheduler.** One list of `{kind,o,g,from,to,h,t,dur,done}`, stepped in reverse so `done()` can push the next leg. Negative `t` delays a move. Time is `running ? dt : 0`, so pause is a time scale and halos keep breathing. The kinds:
 
@@ -4231,9 +4238,9 @@ Legs take 0.7–1.0 s, transfers 0.5–0.55 s with a `−k·0.12` stagger. A que
 
 ### 14.12 One object the whole way
 
-Each token keeps a logical `o.pos` that every motion kind updates, while its look changes: comet, solid, hidden in a carrier, solid, fade. One follow halo stays on it: `glow.add(pos.x, pos.y+0.06, pos.z, 0.55+0.25·sin 6T, 0.42)`. While the token is hidden, the halo rides the carrier at y 0.62 (alpha `0.5+…`, size 0.4). Tracker, log and row (§13) read the same record.
+Each token keeps a logical `o.pos` that every motion kind updates, while its look changes: comet, solid, hidden in a container mover, solid, fade. One follow halo stays on it: `glow.add(pos.x, pos.y+0.06, pos.z, 0.55+0.25·sin 6T, 0.42)`. While the token is hidden, the halo rides the container at y 0.62 (alpha `0.5+…`, size 0.4). Tracker, log and row (§13) read the same record.
 
-**Spotlight hand-over:** `if (mine || !f || (f.done && (!f.mine || now − f.doneAt > 4000))) followed = o`. The user's own item always takes the spotlight. Otherwise a new item takes over only once the followed one finishes, and the user's finished item holds it for 4 s.
+**Spotlight hand-over:** `if (picked || !f || (f.done && (!f.picked || now − f.doneAt > 4000))) followed = o`. An item the reader picked always takes the spotlight. Otherwise a new item takes over only once the followed one finishes, and a finished picked item holds it for 4 s.
 
 ### 14.13 Reduced motion and versions
 
@@ -4254,11 +4261,11 @@ Ship three.js r149 (`assets/vendor/`); its raw colour values make probed sRGB ma
 
 ## 15 · The signature object
 
-Fig. 0 of the issue: one hand-turnable hairline 3D object pinned in the orbit (§8), chosen to stand for the person's craft. A technical drawing, not a render: ink lines on a transparent canvas, one accent on what is alive, beads that obey gravity as you turn it, and a plain sentence saying what happens. Hooks use the `sig` prefix; `{{orbit.signatureObject}}` names the archetype (15.9).
+Fig. 0 of the issue: one hand-turnable hairline 3D object pinned in the orbit (§8), chosen to stand for the person's craft. A technical drawing, not a render: ink lines on a transparent canvas, one accent on what is alive, beads that obey gravity as you turn it, and a plain sentence saying what happens. Hooks use the `sig` prefix; `{{orbit.signatureObject}}` names the archetype chosen by field (15.9).
 
 ### 15.1 Purpose
 
-It gives the reader something to *do* and shows the craft without claiming it. One per page; the only thing that glows (§4). The canonical archetype, the default for software and hardware people, is an **integrated-circuit package**: a slab outline, pins on every side, five orthogonally routed power lines from top-edge pins down to a core, and a layered core that brightens as power arrives.
+It gives the reader something to *do* and shows the craft without claiming it. One per page; the only thing that glows (§4). The object **MUST** be chosen from the person's field with the §15.9 table; there is no default object. Every object shares one structure: a flat-ish hairline body, 3–7 orthogonally routed channels that carry beads to one sink, and a sink that brightens as beads arrive. §15.3.3 shows the geometry technique on an abstract worked example, a square slab with five routed channels; it stands for no field and **MUST NOT** be shipped as a person's object.
 
 ### 15.2 Anatomy
 
@@ -4316,30 +4323,30 @@ obj = new THREE.Group(); obj.rotation.order = "ZXY"; scene.add(obj);
 
 Why 30° at z 8.3: half-height at z 0 is `8.3·tan 15° = 2.224`, so the ±1.5 object fills 67% of the view, near-axonometric. WebGL lines are 1 device pixel (0.5 CSS px at DPR 2): that *is* the hairline. **MUST NOT** use fat lines; hierarchy is opacity, never width.
 
-#### 15.3.3 Canonical geometry (integrated-circuit archetype)
+#### 15.3.3 Geometry technique (worked example: a slab with routed channels)
 
-Authored on a **400 × 400 design grid** (y down, centre 200,200), converted with `U = 100`: `px(x) = (x − 200)/U`, `py(y) = −(y − 200)/U`. `H = 0.07` (half-thickness), `ZL = 0.078` (trace layer). All layers but pins and mark are drawn on **both faces**. Why: every orientation shows a complete drawing, and the parallax of the doubled copies is the only depth cue.
+The worked example shows how any §15.9 object is authored; replace its parts with the chosen object's, keeping the grid, the layer stack and the channel rules. Authored on a **400 × 400 design grid** (y down, centre 200,200), converted with `U = 100`: `px(x) = (x − 200)/U`, `py(y) = −(y − 200)/U`. `H = 0.07` (half-thickness), `ZL = 0.078` (trace layer). All layers but ports and mark are drawn on **both faces**. Why: every orientation shows a complete drawing, and the parallax of the doubled copies is the only depth cue.
 
 | z (front; back mirrored) | Layer | Size | Material |
 |---|---|---|---|
 | ±0.07 | slab `BoxGeometry(2.6, 2.6, 0.14)`: mesh + `EdgesGeometry` | design 70…330 | fill + ink |
-| 0 | pins | 20 units out | ink |
-| ±ZL | passive traces · power lines · mark (front) | — | soft · accent · ink |
+| 0 | ports (short stubs on every edge) | 20 units out | ink |
+| ±ZL | passive traces · live channels · mark (front) | — | soft · accent · ink |
 | ±(ZL + 0.004) | bead sprites | — | points |
 | ±(H + 0.015) | plate, edges of `BoxGeometry(1.64, 1.64, 0.03)` | 118…282 | soft |
-| ±(H + 0.025) | core die, edges of `BoxGeometry(0.8, 0.8, 0.05)` | 160…240 | ink |
+| ±(H + 0.025) | core outline, edges of `BoxGeometry(0.8, 0.8, 0.05)` | 160…240 | ink |
 | ±(H + 0.052) / ±(H + 0.054) | sink fill `PlaneGeometry(0.8, 0.8)` / dot `PlaneGeometry(0.2, 0.2)` | — | core fill / dot |
 | ±(H + 0.07) | sink glow (2 sprites) | — | points |
 
 ```js
-PINS = [82 + 19·i for i in 0..12]                    // 13 per side, pitch 19 (row centred on 196, kept as shipped)
-POWER = [120, 158, 196, 234, 272]                    // top-edge pins that carry the live lines
-pins: top non-power [p,70]→[p,50]; bottom [p,330]→[p,350]; left [70,p]→[50,p]; right [330,p]→[350,p]   // 47, ink, z 0
-passive (soft, ±ZL): for k = 0..5, i = [1,3,4,7,9,11][k] (i = pin index, k = position in the list): p = 82+19i; a = 84+9(k%3); t = clamp(p + (k%2 ? -22 : 22), 128, 272)
+PORTS = [82 + 19·i for i in 0..12]                   // 13 per side, pitch 19 (row centred on 196)
+LIVE = [120, 158, 196, 234, 272]                     // top-edge ports that start the live channels
+ports: top non-live [p,70]→[p,50]; bottom [p,330]→[p,350]; left [70,p]→[50,p]; right [330,p]→[350,p]   // 47, ink, z 0
+passive (soft, ±ZL): for k = 0..5, i = [1,3,4,7,9,11][k] (i = port index, k = position in the list): p = 82+19i; a = 84+9(k%3); t = clamp(p + (k%2 ? -22 : 22), 128, 272)
   bottom [p,330][p,316−9(k%3)][t,316−9(k%3)][t,282]; left [70,p][a,p][a,t][118,t]; right [330,p][316−9(k%3),p][316−9(k%3),t][282,t]
 mark (ink, front only): [78,78][104,78][78,104][78,78]           // open triangle: tells the faces apart after a flip
 DEFS = [{p:120,t:170,a:118},{p:158,t:185,a:106},{p:196,t:200,a:94},{p:234,t:215,a:106},{p:272,t:230,a:118}]
-line path: [p,50] → [p,70] → [p,a] → [t,a] → [t,160]               // accent, ±ZL; the pin itself is accent
+line path: [p,50] → [p,70] → [p,a] → [t,a] → [t,160]               // accent, ±ZL; the port itself is accent
 ```
 
 Routing: orthogonal only; landings 15 apart, centred; jog rows in a V so routes nest without crossings. Lengths 1.60 / 1.37 / 1.14 / 1.29 / 1.52 world. Precompute per line `P`, `len`, `cum`, unit `tan`, `L`; `pointAt(s)` clamps to `[0, L]`. 19 draw calls; nothing rebuilt after init.
@@ -4348,8 +4355,8 @@ Routing: orthogonal only; landings 15 apart, centred; jog rows in a V so routes 
 
 | Name | Type | Token | Opacity | Draws |
 |---|---|---|---|---|
-| ink | `LineBasicMaterial` | `--ink` | **0.85** | slab edges, pins, die, mark |
-| accent | `LineBasicMaterial` | `--accent` | **0.55** | the five live lines |
+| ink | `LineBasicMaterial` | `--ink` | **0.85** | slab edges, ports, core outline, mark |
+| accent | `LineBasicMaterial` | `--accent` | **0.55** | the five live channels |
 | soft | `LineBasicMaterial` | `--ink` | **0.42** | plate, passive traces |
 | fill | `MeshBasicMaterial` | `--paper2` | **0.55**, `depthWrite: false` | slab body |
 | core fill | `MeshBasicMaterial`, `DoubleSide` | `--accent` | `0.08 + 0.55·bright` | sink square |
@@ -4364,7 +4371,7 @@ Fills never write depth, so they never hide a line. The slab reads a shade deepe
 ```text
 dir = v ≥ 0 ? 1 : −1;  gap = 0.012 + min(|v|·0.022, 0.05)        // trail stretches with speed
 for t in 0..6: pos = pointAt(s − dir·t·gap)                       // trail always behind the motion
-  parked: alpha = (t == 0 ? 0.4 : 0), size 0.06                   // dim dot waiting at the pin tip
+  parked: alpha = (t == 0 ? 0.4 : 0), size 0.06                   // dim dot waiting at the port tip
   moving: alpha = 0.95·(1 − t/7)²,  size = 0.085·(1 − 0.55·t/7)
   write at z = +(ZL+0.004) and −(ZL+0.004)
 sink glow ×2 at z = ±(H+0.07): alpha 0.55·bright, size 0.2 + 0.7·bright
@@ -4379,7 +4386,7 @@ substeps: n = max(1, ceil(dt / 0.004)); h = dt / n                              
 per bead: if parked: wait −= h; if wait ≤ 0 → on, s = 0.0005, v = V0
   acc = D − G·ty[seg(s)] − FR·v;  v += acc·h;  s += v·h                              // semi-implicit Euler
   s ≥ L → arrived:  E += 1, lastArrive = T, park, wait = 0.2 + 0.5·rand
-  s ≤ 0 → slid back: lastReturn = T, park, wait = 0.15 + 0.35·rand                  // it keeps retrying
+  s ≤ 0 → slid back: lastReturn = T, park, wait = 0.15 + 0.35·rand                  // it launches again
 initial wait = 0.15 + 0.13·line + 0.55·bead + 0.3·rand                               // left-to-right cascade, three waves
 ```
 
@@ -4404,7 +4411,7 @@ else "{Measure}: {flowing} of {N} {units}. {State}."
 State: flowing ≥ 0.8·N → {full}; ≥ 1 → {partial}; drained → {draining}; else → {stalled}
 ```
 
-Canonical: `{Measure}` names the core, `{units}` the lines; states *Flowing · Partly flowing · Draining back · Stalled*. Write `textContent` only on change (no re-announcing). `T` advances only while the loop runs, so "recent" never goes stale.
+In every object: `{Measure}` names the sink, `{units}` the channels; states *Flowing · Partly flowing · Draining back · Stalled*. Write `textContent` only on change (no re-announcing). `T` advances only while the loop runs, so "recent" never goes stale.
 
 #### 15.3.9 Theme, sizing, loop
 
@@ -4417,7 +4424,7 @@ Canonical: `{Measure}` names the core, `{units}` the lines; states *Flowing · P
 
 | State | Look |
 |---|---|
-| Starting (< 1.6 s) | dim dots parked at the pin tips, faint core |
+| Starting (< 1.6 s) | dim dots parked at the channel starts, faint sink |
 | Flowing | bright dotted strings on every vertical run, doubled; solid glowing core |
 | Partly / draining / stalled | fewer strings; beads slow, stop, slide back; core fades |
 | Dragging | `cursor: grabbing`; scroll yaw suspended |
@@ -4472,28 +4479,34 @@ Reset:  held = false; rot = REST; vel = 0; supply 1.1; readouts   // yaw eases t
 6. **DPR is set once**; re-apply on a `(resolution)` change **MAY** be added.
 7. **Transparent sort veils back-face inner layers** under the slab fill but not the two-face traces. Part of the look; `renderOrder` only for a uniform back face.
 
-### 15.9 Adapting: other archetypes
+### 15.9 Archetypes by field
 
-Pick an artefact that (a) reads as a flat-ish wireframe, (b) has channels carrying something to one sink, (c) gives gravity a story. Same 400 grid, 3–7 orthogonal channels (1.1–1.6 world, fanning in, no crossings), same constants and grammar.
+The object **MUST** be an archetype from this table: match the person's field first, their strongest work second; if no row fits, take the closest and keep every invariant below. Every object is an artefact that (a) reads as a flat-ish wireframe, (b) has channels carrying something to one sink, (c) gives gravity a story. Same 400 grid, 3–7 orthogonal channels (1.1–1.6 world, fanning in, no crossings), same constants and grammar (§15.3.3 shows the technique). The status sentence follows §15.3.8 with the row's `{Measure}` and `{units}`.
 
-| Craft | Structure (hairline) | Beads | Rule (at rest flowing; then) | Status |
-|---|---|---|---|---|
-| Architect | floor plan, wall outlines, door ticks as pins, stair core sink | people walking corridors | tip the plan and uphill corridors empty | "Stair core: 4 of 5 corridors reaching it. Partly walking." |
-| Data scientist | node graph: 5 sources, 2 hidden layers, one output | records on edges | invert and records slide back to sources | "Output: 5 of 5 inputs feeding it. Feeding." |
-| Data engineer / data platform | pipeline DAG: 5 source taps as pins, stage boxes (ingest, transform, validate) on orthogonal edges, warehouse sink | records moving stage to stage | backpressure: tip the DAG and an uphill stage backs up, records queue at its inlet, then slide back to the source | "Warehouse: 4 of 5 pipelines loading. Partly loading." |
-| Designer | 4 offset artboards at z steps, swatches on the edge | components entering the main frame | upside down, the frame sheds them | "Main frame: 2 of 4 layers composing. Partly composing." |
-| Musician | body outline, 6 strings, frets as pins, sound-hole sink | vibrations down each string | neck tilted up, notes fade back | "Sound hole: 6 of 6 strings ringing. Ringing." |
-| Writer | bound book open, page edges as pins, spine sink | lines drifting to the spine | tipped, lines slip back to the margin | "Spine: 3 of 5 chapters binding in. Partly binding." |
-| Mechanical engineer | gear train (30° edge threshold), shafts, galleries to a sump | oil | rolled over, oil drains back | "Sump: 4 of 4 galleries returning oil. Circulating." |
-| Photographer | lens barrel: 5 element rings, aperture blades, sensor sink | light on converging rays | pointed up, rays stall | "Sensor: 5 of 7 rays landing. Partly exposed." |
-| Product manager | 4 roadmap rails, milestone ticks, release-gate sink | work items | tilted, items roll back a milestone | "Release gate: 3 of 4 tracks landing. Partly landing." |
-| Researcher | burettes, tubing routed to a flask sink | drops | inverted, tubing drains to the reservoirs | "Flask: 4 of 4 lines dripping. Filling." |
+| Field | Object (hairline) | Channels → sink | Beads | When tipped | `{Measure}` · `{units}` |
+|---|---|---|---|---|---|
+| Designer | 4 offset artboards at z steps, swatches on the edge | layer edges → main frame | components | upside down, the frame sheds them | main frame · layers |
+| Data / analytics | node graph: 5 sources, 2 hidden layers, one output | weighted edges → output node | records | inverted, records slide back to the sources | output · inputs |
+| Backend | 5 service boxes on an orthogonal bus | links → one shared store | requests | an uphill link stalls and drains back | store · services |
+| Frontend | page wireframe: header, columns, cards | component slots → one root | pieces of layout | tilted, pieces fall out of their slots | root · components |
+| Mobile | phone outline with a grid of screen tiles | screen paths → home bar | taps | turned over, taps drift back to the tiles | home bar · screens |
+| Security | lock body with 5 tumbler shafts | shafts → the cylinder core | signals | turned, the shafts drop their beads | core · tumblers |
+| Writer | bound book open, page edges as ports | ruled lines → spine | lines of text | tipped, lines slide back to the margin | spine · chapters |
+| Researcher | burettes and tubing on a stand | tubes → flask | drops | inverted, tubing drains to the reservoirs | flask · lines |
+| Architect | floor plan, wall outlines, door ticks as ports | corridors → stair core | people | tip the plan and uphill corridors empty | stair core · corridors |
+| Hardware / mechanical | gear train (30° edge threshold) with shafts | oil galleries → sump | oil | rolled over, oil drains back | sump · galleries |
+| Product | 4 roadmap rails with milestone ticks | rails → release gate | work items | tilted, items roll back a milestone | release gate · tracks |
+| Teacher | tiered room seen from above: 5 aisles, a lectern | aisles → lectern | questions | tipped, questions roll back up the aisles | lectern · aisles |
+| Photographer | lens barrel: 5 element rings, aperture blades | converging rays → sensor | light | pointed up, rays stall | sensor · rays |
+| Musician | body outline, 6 strings, frets as ports | strings → sound hole | vibrations | neck tilted up, notes fade back | sound hole · strings |
 
-Every archetype **MUST** keep:
+The beads **MUST** stand for something true about the field (flow, attention, load, signal), never for a claim about the person's own results. The object's name in `{{orbit.signatureObject}}` is the plain noun ("{object noun}"), never a product or brand.
+
+Every object **MUST** keep:
 
 - Hairline only (tiers 0.85 / 0.55 / 0.42, `--paper2` fill 0.55 without depth write); unlit, depth from two faces and the 30° lens.
 - One accent, on live channels, beads and sink only.
-- World-space physics `supply − G·ty − FR·v`, ≤ 4 ms substeps, default 0.5 G, slide back and retry.
+- World-space physics `supply − G·ty − FR·v`, ≤ 4 ms substeps, default 0.5 G, slide back and launch again.
 - Scroll coupling ±12° with `hold()` and Reset; ≤ 1 draw call for glow; energy sink; four-state "n of N" sentence.
 - Theme probing, offscreen pause, DPR cap 2, readable fallback.
 
@@ -4508,7 +4521,7 @@ This chapter owns the scroll arrivals. Every other moving part is listed in the 
 ### 16.1 Principles
 
 1. **Motion explains place and causality.** Text arrives *from the screen centre* and settles into its column. A sheet grows out of the launcher that opened it. A theme spreads from the button that was pressed. Why: motion that says neither where nor why is decoration.
-2. **Springs for travel, tweens for state.** Anything that crosses distance (arrivals, ticket cards, scene objects) is a damped spring that carries velocity. Colour, shadow and caret changes are CSS transitions of 0.2–0.55s.
+2. **Springs for travel, tweens for state.** Anything that crosses distance (arrivals, log cards, scene objects) is a damped spring that carries velocity. Colour, shadow and caret changes are CSS transitions of 0.2–0.55s.
 3. **Only `transform` and `opacity` animate.** The exceptions are `background-size` (pencil underlines) and `box-shadow` (moulded presses). Why: no layout, no reflow.
 4. **Forward-only on scroll.** Progress ratchets. Scrolling back never sends anything out again. Why: what was read stays put.
 5. **Deterministic.** Page (DOM) motion **MUST NOT** use `Math.random`. Per-element character comes from a hash of the element's index, so every visit moves identically. Scene simulations inside stages (§14) **MAY** use it.
@@ -4806,7 +4819,7 @@ Test vectors for a port: `jit(0,1) = 0.182916` gives k 154.907; `jit(0,2) = 0.02
 | Theme reveal | View Transition; old/new root `animation: none`, z 1/2; new root `clip-path: circle(0 → farthest corner)` from the button centre, **700ms**. No API or reduced motion → instant | §7.2.6 |
 | Signature object | scroll yaw ±12°, `yaw += ((t−0.5)·24 − yaw)·min(1, 4dt)`; fling `0.0006^dt`; make-room on `.sig-view` | §8.4, §15.6 |
 | Sheet | dismiss at 90px, or 16px at 0.5px/ms; opens 520ms after a 3D pick, closes 480ms after a commit | §13.4 |
-| Ticket springs | K 240, C 23 (ζ ≈ 0.74) + SWIRL 520 fading over the last 180px; height 380/36; stagger 0.045s; tilt `clamp(vx·0.0028, ±3.5)°`, scale ≤ 1.035 | §13.5 |
+| Log-row springs | K 240, C 23 (ζ ≈ 0.74) + SWIRL 520 fading over the last 180px; height 380/36; stagger 0.045s; tilt `clamp(vx·0.0028, ±3.5)°`, scale ≤ 1.035 | §13.5 |
 | Card flights, flow field | k 10, c 5.2 + swirl `min(1, d/1.6)·5.5` fading on arrival; arc flights with comets; pop-in `1−(1−s)³` | §14.11 |
 
 ### 16.4 Motion inventory
@@ -4825,7 +4838,7 @@ RM = reduced motion. "Same" = kept (short, user-initiated, no travel).
 | Object idle turn | scroll while pinned | WebGL `rotation.y` | τ 0.25s | first-order lag | off |
 | Make room | drawer while pinned | `.sig-view` `transform` | 0.55s | `cubic-bezier(0.3, 1.15, 0.5, 1)` | instant |
 | Photo-slot lift | hover `.snap` | `.snap-in` tilt × 0.4, `translateY(-3px)` | 0.5s | `cubic-bezier(0.34, 1.56, 0.64, 1)` | none |
-| Race bars | demo tick | `width` | 0.05s | `linear` | none |
+| Compare bars | run tick | `width` | 0.05s | `linear` | none |
 | Dropdown / drawer caret | toggle | `transform` 45° → −135° | 0.2s | `ease` | none |
 | Buttons, segments, pills, zoom keys, ×, `.tbtn`, launcher | hover / press | `box-shadow`, `color` (`background` on "Open") | 0.2s | `ease` | same |
 | Scene labels | state | `color`, `opacity` 1/.38/0 | 0.3s | `ease` | same |
@@ -4834,9 +4847,9 @@ RM = reduced motion. "Same" = kept (short, user-initiated, no travel).
 | Sheet open | launcher | pane `transform`, `opacity` (1 at 30%); scrim | 440/380ms; 300ms | `cubic-bezier(.2,.85,.25,1)`; `ease` | 160ms fade |
 | Sheet close | ×, Escape | pane `transform`, `opacity` held to 55%; scrim | 340/260ms; 300ms | `cubic-bezier(.4,0,.2,1)` / `cubic-bezier(.4,0,1,1)`; `ease` | instant |
 | Sheet drag, spring-back | grab, bar | `translate3d`; scrim `max(0.2, 1 − dy/480)` | direct; 240ms | `cubic-bezier(.2,.85,.25,1)` | no spring-back |
-| Ticket flights | open, close, add | `transform`, `height` | spring | spring + swirl | snap |
-| New ticket / list reveal | add / open | `opacity`; `opacity` [0, 0 @ 25%, 1] | 320ms; 380ms | `ease-out`; `linear` | none |
-| Ticket caret, scroll-in | toggle | `transform`; `scrollLeft` | 0.25s; UA | `ease`; `smooth` | none; `auto` |
+| Log-card flights | open, close, add | `transform`, `height` | spring | spring + swirl | snap |
+| New log card / list reveal | add / open | `opacity`; `opacity` [0, 0 @ 25%, 1] | 320ms; 380ms | `ease-out`; `linear` | none |
+| Log-card caret, scroll-in | toggle | `transform`; `scrollLeft` | 0.25s; UA | `ease`; `smooth` | none; `auto` |
 | Scene motions (§14), guided demo (§12.5) | simulation; button or auto | WebGL; scripted | legs 0.5–1.1s; demo 4–6s | springs, cubic | snap, flights 0.01s; waits ≤ 120ms |
 | Email underline, domain | hover, focus | `background-size` → 0.28em; `color` | 0.55s; 0.25s | `cubic-bezier(0.3, 0.9, 0.3, 1.15)` | same |
 | Link row | hover | `border-color`, `color`; arrow `translate(2px,-2px)` | 0.2s; 0.3s | `ease`; back-out | same |
@@ -4854,7 +4867,7 @@ RM = reduced motion. "Same" = kept (short, user-initiated, no travel).
 | `cubic-bezier(.4,0,.2,1)` | standard in-out | theme reveal, close into the launcher |
 | `cubic-bezier(.4,0,1,1)` | accelerate away | sheet drop |
 | `ease`, `ease-out`, `ease-in-out`, `linear` | defaults | state, scrim, pulse, bars |
-| `1 − (1 − p)³` / damped spring (JS) | ease-out cubic / carries velocity | arrivals, scene arcs, tickets |
+| `1 − (1 − p)³` / damped spring (JS) | ease-out cubic / carries velocity | arrivals, scene arcs, log cards |
 
 Durations: 0.2s state; 0.25–0.3s colour, carets, arrows; 0.4–0.55s underlines and overshoots; 0.7s theme; 0.9s cover. New motion **SHOULD** use this scale and this table.
 
@@ -4924,7 +4937,7 @@ Canvases `preventDefault` only handled keys and never capture Tab.
 - The only politeness level is `aria-live="polite"`. Use `role="alert"` only for a blocking form error, and `role="status"` for a submit confirmation.
 - Announce **outcomes, not ticks**. A verdict is written once per run. A tab body or status sentence is written only when its text changes (`if (el.textContent !== s)`).
 - A line that changes several times a second (the signature status, 4 Hz) **MUST NOT** be live. A recomputed table **SHOULD NOT** be live. Make a one-line total live instead. Why: the table would be re-read on every keystroke.
-- Every live or late-filled region **MUST** reserve its height. Status lines `min-height: 2.6em`; `.steps-log` 48px; the records list 246px (132px ≤ 620px); the ticket list 230px; the verdict, error and success lines 32px, 20px and 30px.
+- Every live or late-filled region **MUST** reserve its height. Status lines `min-height: 2.6em`; `.steps-log` 48px; the log lines 246px (132px ≤ 620px); the log cards 230px; the verdict, error and success lines 32px, 20px and 30px.
 
 #### 17.1.6 Names and labels
 
@@ -4955,7 +4968,7 @@ The core pairs are in §4.3. The additional pairs:
 | Swapped accent on the card | 8.55 | 6.96 | ring and hover (§11) |
 
 - Text under 18px **MUST** use `--accent-ink` or `--sand-ink`, never `--accent` or `--sand` (§4.4).
-- Colour **MUST NEVER** be the only signal. "On" states are an ink fill (`--gface`) plus `aria-pressed`. Tracker states are a press depth (sunk, raised, filled) plus order and the text line. Late statuses use accent ink *and* their wording. A followed row gets an inset bar, not just a tint. The verdict is a sentence.
+- Colour **MUST NEVER** be the only signal. "On" states are an ink fill (`--gface`) plus `aria-pressed`. Tracker states are a press depth (sunk, raised, filled) plus order and the text line. Warning statuses use accent ink *and* their wording. A followed row gets an inset bar, not just a tint. The verdict is a sentence.
 - `.ink` drops its text-shadow under `forced-colors: active` and inside `::selection`.
 
 #### 17.1.9 Reduced motion
@@ -4969,12 +4982,12 @@ Under `prefers-reduced-motion: reduce` nothing is hidden and nothing moves by it
 | Cover photo `cvIn` | 0.9s fade and scale | `animation: none` |
 | Arrivals `[data-fly]` | springs | visible from first paint; script never starts; `stop()` if switched on mid-visit |
 | Signature object | scroll-linked turn; `.sig-view` 0.55s move | no scroll turn; `transition: none` |
-| Drawer `.dock-c`, bars `.track i`, chevrons `.tk-more i`, `.csel-caret` | transitions | `transition: none` |
+| Drawer `.dock-c`, bars `.track i`, chevrons `.log-more i`, `.csel-caret` | transitions | `transition: none` |
 | Tracker pulse `.steps li.now::before` | 1.4s infinite | `animation: none` |
 | Print hover lift `.snap-in` | 0.5s | `transition: none` |
 | Launcher hint (cursor, ring) | 2 × 1.5s | `animation: none`; `hint()` returns early |
 | Sheet | grows 440 ms / slides 380 ms; closes 340 / 260 ms | 160 ms fade; instant close; instant snap-back |
-| Ticket cards | springs, swirl, stagger | snapped |
+| Log cards | springs, swirl, stagger | snapped |
 | Stage idle drift, auto-demo | after 6 s / 900 ms | off; auto-running figures start paused |
 
 Scripts read `matchMedia("(prefers-reduced-motion: reduce)")`. Scripts that act continuously (arrivals, the signature object) **MUST** also listen for `change` on it.
@@ -4993,7 +5006,7 @@ Scripts read `matchMedia("(prefers-reduced-motion: reduce)")`. Scripts that act 
 - Every `@font-face` uses `font-display: swap` and `font-synthesis: none`.
 - `html.js` is set by the head script, before `<style>`. The saved theme is applied there too, inside try/catch, so there is no flash.
 - End of `body`: arrivals first, then three.js, then the rest. Why: `fly-ready` lands before 608 KB is parsed.
-- Any other heavy library (the PDF library) **MUST** load on intent. Start the load on the button's first `pointerenter` or `focus`, memoise it as a Promise, forget it and remove the `<script>` on error, and fall back to `window.print()` (§2.7).
+- Any other heavy library (e.g. a PDF library for an A2 file) **MUST** load on intent. Start the load on the button's first `pointerenter` or `focus`, memoise it as a Promise, forget it and remove the `<script>` on error, and fall back to `window.print()` (§2.7).
 
 #### 17.2.2 Frame and DOM rules
 
@@ -5015,7 +5028,7 @@ Scripts read `matchMedia("(prefers-reduced-motion: reduce)")`. Scripts that act 
 | Portrait WebP | ≤ 210 KB |
 | Fonts | 9 faces ≈ 137 KB; 7 preloaded ≈ 102 KB |
 | three.js r149 | 608 KB / ≈ 152 KB gzip |
-| PDF library | ≈ 364 KB, never on first load |
+| PDF library (if any) | ≈ 364 KB, never on first load |
 | First load | ≈ 1.26 MB raw / 0.53 MB gzip; no third-party request |
 | LCP (portrait), mid phone, 4G | ≤ 2.5 s |
 | CLS | ≤ 0.02 |
@@ -5125,7 +5138,7 @@ Print is one column of ink on white: no controls, decoration, WebGL or photos, a
 - `.zoom` and `.tab-pop` in the first rule are: controls mean nothing on paper. So is the closing token block: dark-theme ink (`#eeebe3`) would print near-invisible on white. `:is()` gives it specificity 0,2,0, and because it comes later it beats both dark blocks.
 - `beforeprint → settleAll()` lands every arrival in JS as well (§16). Why: the `!important` reset covers paper, the settle covers the screen after printing.
 - The orbit flattens to one column with 12px between lane items. The pinned object, its controls, the pencil aside, prints and the name's echo are dropped: they are WebGL, decorative or duplicate, and the echo would print the name twice. The cover keeps the name in `#111` and drops the photo. `.next` loses its slab and turns its translucent-paper text to ink.
-- The PDF fallback `window.print()` prints the whole page under this sheet. A build **MAY** isolate one card with a flag class set before printing and removed on `afterprint`.
+- The file fallback `window.print()` prints the whole page under this sheet. A build **MAY** isolate one card with a flag class set before printing and removed on `afterprint`.
 
 ---
 
@@ -5149,8 +5162,8 @@ Bands follow §6.5. "Short landscape" is `(max-height: 520px) and (orientation: 
 | Feature articles `article#fN` | seven compositions L1–L7, `br.d` breaks on, type at caps | same compositions (§10) | one tablet pattern in DOM order: full-width top line, body 2 columns, details half-width under an ink rule; L2 still right-aligned, L3 still stepped, L4 still bleeds left | one column in DOM order; headlines at clamp minimums (36–48px), balanced; details full width; quotes from `col 2` | details label 104 → 84px (≤ 460), rows stacked (≤ 360) | unchanged |
 | Figure tray `.insert` | footprint per layout; radius 28; L4 bleeds left | same | full frame; L4 still bleeds | full frame, L4 radius `0 22px 22px 0`; drawers closed with a one-line summary (≤ 700) | run-row buttons stretch, fields 1 column (≤ 460); control grids 1 column, smaller `.btn`/`.seg` padding (≤ 360) | unchanged |
 | 3D stage `.stage` | well 7 : 6 (`.sq` 1 : 1), side panel beside it | same | ≤ 900: stage and side panel stack; 4 : 3 (701–900) | ≤ 700: 1 : 1 (`.sq` 4 : 5), scene re-framed tall, labels 8.5 / 13px | host < 300px: `.tiny` keys, no caption | `max-height: 82svh` |
-| Tab mock, ticket row | inline tab; ticket grid | same | ≤ 900: launcher row → bottom sheet; tickets a sideways spring row | same | tab footer wraps (≤ 460); tab glyphs and launcher pill hidden (≤ 300) | sheet `max-height` from `100svh` |
-| Readouts, tracker, two-panel figures | inline readouts; vertical tracker | same | two-panel figures stack (≤ 800) | ≤ 620: readouts as raised cards, tracker a 6-dot stepper with its text line | readouts 2 columns (≤ 460); statement total one line (≤ 240), then wraps (≤ 220) | unchanged |
+| Tab mock, log row | inline tab; log-card grid | same | ≤ 900: launcher row → bottom sheet; log cards a sideways spring row | same | tab footer wraps (≤ 460); tab glyphs and launcher pill hidden (≤ 300) | sheet `max-height` from `100svh` |
+| Readouts, tracker, two-panel figures | inline readouts; vertical tracker | same | two-panel figures stack (≤ 800) | ≤ 620: readouts as raised cards, tracker a 6-dot stepper with its text line | readouts 2 columns (≤ 460); result total one line (≤ 240), then wraps (≤ 220) | unchanged |
 | Photo slots `.snap` | tilted, taped, in an empty quadrant | same; hover lift on `(hover: hover)` | beside or under the text block it belongs to | after its text, inset 8px so the tilted corner clears the edge | unchanged | unchanged |
 | Next issue `section#next` | ink card `col 2 / bleed-end`, radius `32px 0 0 32px`; print across the top edge; headline 146px at 1920 | headline ≈ 109px at 1440 | ≤ 900: one column, print bottom-right, clipped by the card edge | card `col 1 / bleed-end`, radius 24; print 112px; headline ≈ 49px | unchanged | unchanged |
 | Contact `section#contact` | address 116px at 1920, may enter the bleed | address from `col 2`, ≈ 89px | all parts `col 1 / col-end`; address ≈ 51px | address 30px, one line at ≥ 360 | ≤ 300: address breaks before `@` (`<wbr>`), never scrolls | unchanged |
@@ -5283,7 +5296,7 @@ document.documentElement.scrollWidth <= innerWidth;           // must be true
 |---|---|---|
 | 16 | No pure white or black is rendered | T-colour returns `[]`; screenshots sampled show no `#ffffff` / `#000000` outside photos |
 | 17 | Accent pixels are < 1% of any single 1440 × 900 viewport outside photos and 3D canvases (a per-viewport ceiling; §4.4.3's < 0.1% is the whole-page average) | screenshot, mask photos and canvases, count pixels within ΔE 6 of `--accent` / `--accent-ink` |
-| 18 | Only these have a `box-shadow`: moulded controls and plates in the `--raise`/`--sink` family (wells, drawers, statement card), taped prints, the open bottom sheet, focus rings on thumbs and fields, the tracker pulse and the followed-row inset bar. The bar, trays, cards and photos have none | T-shadow list reviewed against this sentence |
+| 18 | Only these have a `box-shadow`: moulded controls and plates in the `--raise`/`--sink` family (wells, drawers, result card), taped prints, the open bottom sheet, focus rings on thumbs and fields, the tracker pulse and the followed-row inset bar. The bar, trays, cards and photos have none | T-shadow list reviewed against this sentence |
 | 19 | No `backdrop-filter`, no gradient `background` except photo washes, the glance band fade and drawer glyph strokes | search computed `background-image` |
 | 20 | Grain appears on page and bar only | sample a tray: zero variance; sample the page: per-pixel deviation ≈ 20 around paper |
 | 21 | Both themes pass contrast: body ≥ 7 : 1, secondary ≥ 4.5 : 1, small accent and sand text use the `-ink` tones | axe or a contrast checker on each text style; compare with §4.3 |
@@ -5322,7 +5335,7 @@ document.documentElement.scrollWidth <= innerWidth;           // must be true
 | 39 | With WebGL unavailable each 3D figure shows a sentence and its controls are hidden or disabled | `--disable-webgl` or a blocked context |
 | 40 | No console errors or warnings on load, on scroll, on theme switch and while running every figure | console at 390 and 1440 |
 | 41 | CLS ≤ 0.02; the LCP element is the preloaded portrait (the cover name may paint earlier as FCP), ≤ 2.5s on a mid phone over 4G | Lighthouse mobile, three runs, median |
-| 42 | No request leaves the origin at runtime; the PDF library loads only on intent | Network tab filtered to third-party: empty; PDF script absent until the button is hovered or focused |
+| 42 | No request leaves the origin at runtime; a file library (if any) loads only on intent | Network tab filtered to third-party: empty; the library script absent until the download button is hovered or focused |
 | 43 | Sizes stay within ≈ 10% of the §17.2.3 budgets | Network tab totals, raw and gzip |
 | 44 | Print output is one column of ink on white with all arrivals visible and no controls | print preview |
 | 45 | The page contains no placeholder syntax or filler: no `{{`, no lorem ipsum, no example names | search the served HTML |
@@ -5667,7 +5680,7 @@ Stage first, then text in reading order (§8.3.3). `aside[0]`/`[1]`: `orbit.asid
     </div>
   </section>
 
-  <!-- C.06  LETTER  ·  before the work, a note -->
+  <!-- C.06  LETTER  ·  the editor's note -->
   <section class="letter g" id="letter" aria-labelledby="letH">
     <span class="lab" data-fly>{{letter.kicker}}</span>
     <h2 id="letH" data-fly>{words} <span class="ink wide">{{letter.stampWord}}</span> {words} <span class="loop">{{letter.loopWord}}</span> {words} {penultimate}&nbsp;{last}.</h2>
@@ -5702,17 +5715,17 @@ Templates in canonical order (sequence: §10.8); L1 shows a complete tray (A1, �
       <h3>{{F.figure.title}}</h3>
       <p class="cap">{{F.figure.caption}}</p>
       <div class="ctrls">
-        <label for="fig1Total"><span id="fig1TotalL">{Units}</span> <output id="fig1TotalO" for="fig1Total">1000</output>
-          <select id="fig1Total" aria-labelledby="fig1TotalL"><option>500</option><option selected>1000</option><!-- … --><option>5000</option></select></label>
-        <label for="fig1Cap"><span id="fig1CapL">{Limit, per second}</span> <output id="fig1CapO" for="fig1Cap">20</output>
-          <input id="fig1Cap" type="range" min="5" max="100" value="20" aria-labelledby="fig1CapL"></label>
-        <!-- #fig1Fail like #fig1Cap: 0–30, value 5, output "5%" -->
+        <label for="fig1Size"><span id="fig1SizeL">{Input size}</span> <output id="fig1SizeO" for="fig1Size">{default}</output>
+          <select id="fig1Size" aria-labelledby="fig1SizeL"><option>{small}</option><option selected>{default}</option><!-- … --><option>{large}</option></select></label>
+        <label for="fig1Knob"><span id="fig1KnobL">{Setting}</span> <output id="fig1KnobO" for="fig1Knob">{value}</output>
+          <input id="fig1Knob" type="range" min="{min}" max="{max}" value="{value}" aria-labelledby="fig1KnobL"></label>
+        <!-- further inputs alike; names, ranges and defaults come from the person's work -->
       </div>
-      <div class="runrow"><button class="btn solid" id="fig1Run" type="button">{Run both}</button><button class="btn" id="fig1Reset" type="button">Reset</button></div>
-      <div class="race">
-        <div class="lane"><h4>{Strategy A}</h4><small>{its rule}</small>
+      <div class="runrow"><button class="btn solid" id="fig1Run" type="button">{Verb}</button><button class="btn" id="fig1Reset" type="button">Reset</button></div>
+      <div class="compare">
+        <div class="lane"><h4>{Approach A}</h4><small>{its rule}</small>
           <div class="track" aria-hidden="true"><i class="d" id="fig1ad" style="width:0"></i><i class="f" id="fig1af" style="width:0"></i></div>
-          <div class="nums"><span>{Outcome}<b id="fig1adn">0</b></span><span>{Loss}<b id="fig1afn">0</b></span><span>Time<b id="fig1at">0s</b></span></div></div>
+          <div class="nums"><span>{Done}<b id="fig1adn">0</b></span><span>{Other}<b id="fig1afn">0</b></span><span>Time<b id="fig1at">0s</b></span></div></div>
         <div class="lane"><!-- as lane A, ids fig1bd fig1bf fig1bdn fig1bfn fig1bt --></div>
       </div>
       <div class="verdict" id="fig1Verdict" aria-live="polite"></div>
@@ -5730,7 +5743,7 @@ Tray order: `insert-h` → `h3` → `.cap` (not A3) → `.ctrls`/`.fields` → `
     <!-- base -->
     <div class="insert" id="fig2" data-fly="rise">
       <div class="insert-h"><span>Fig. 2</span><span>{note}</span></div><h3>{title}</h3><p class="cap">{caption}</p>
-      <div class="calc"><!-- .fields (labels as L1) + .slip + #fig2Pdf, markup §12.6.2 --></div>
+      <div class="io"><!-- .fields (labels as L1) + .result + #fig2File, markup §12.6.2 --></div>
     </div>
   </article>
 
@@ -5741,16 +5754,16 @@ Tray order: `insert-h` → `h3` → `.cap` (not A3) → `.ctrls`/`.fields` → `
     <!-- base -->
     <div class="insert" id="fig3" data-fly="rise">
       <div class="insert-h"><span>Fig. 3</span><span>{note}</span></div><h3>{title}</h3><p class="cap">{caption}</p>
-      <div class="runrow"><!-- buttons as L1: #fig3Primary solid "{Primary}", #fig3Sim "Simulate {a user}", #fig3Reset --></div>
+      <div class="runrow"><!-- buttons as L1: #fig3Run solid "{Verb}", optional #fig3Demo "{Demo verb}" (§12.5), #fig3Reset --></div>
       <div class="scene3">
         <div class="stage" id="fig3Host"><!-- canvas#fig3Canvas, .tags#fig3Tags, .stage-hint: §14.1 --></div>
         <div class="scene-side">
           <div class="lab">{Groups}</div><div class="toggles" id="fig3Groups" role="group" aria-label="{Groups}"></div>
-          <!-- the same pair for .toggles.pick#fig3Stations -->
-          <div class="tab" id="fig3Tab"><!-- §13.1: #fig3Url, #fig3List (aria-live), #fig3Total, #fig3Go --></div>
+          <!-- the same pair for .toggles.pick#fig3Parts -->
+          <div class="tab" id="fig3Tab"><!-- §13.1: #fig3Url, #fig3List (aria-live), #fig3Sum, #fig3Go --></div>
         </div>
       </div>
-      <div class="lab tk-h">{Records}<span class="tk-count" id="fig3TkCount"></span></div><div class="tk-scroll" id="fig3TkScroll"><ol class="tickets" id="fig3Tickets"></ol></div>
+      <div class="lab log-h">{Log}<span class="log-count" id="fig3LogCount"></span></div><div class="log-row" id="fig3LogRow"><ol class="log log-cards" id="fig3LogList"></ol></div>
       <div class="verdict" id="fig3Verdict" aria-live="polite"></div>
     </div>
     <p class="quote" data-fly=".6">{Principle sentence}<br class="d"> <span class="up">{turn}</span></p>
@@ -5766,15 +5779,15 @@ Tray order: `insert-h` → `h3` → `.cap` (not A3) → `.ctrls`/`.fields` → `
       <div class="scene3">
         <div class="stage sq" id="fig4Host"><!-- as Fig. 3 --></div>
         <div class="scene-side">
-          <div class="lab">{User side}</div><div class="tab" id="fig4Tab"><!-- body #fig4Pick, not live --></div>
+          <div class="lab">{Panel}</div><div class="tab" id="fig4Tab"><!-- body #fig4Pick, not live --></div>
           <div class="lab">{Tracker}</div><ol class="steps" id="fig4Steps"></ol><p class="steps-now" id="fig4StepNow"></p><p class="steps-log" id="fig4Log">{First step.}</p>
         </div>
       </div>
-      <div class="ctrls" style="margin-top:26px"><!-- ranges as L1: #fig4Rate 6–90 (30), #fig4Fail 0–40 (8%) --></div>
+      <div class="ctrls" style="margin-top:26px"><!-- one or two ranges as L1 (#fig4K1, #fig4K2), named and bounded from the person's process --></div>
       <div class="lab">{Routes}</div><div class="toggles" id="fig4Routes" role="group" aria-label="{Routes}"></div>
       <div class="runrow" style="margin-top:18px"><!-- #fig4Run solid "Pause", #fig4Reset --></div>
       <div class="nums shnums"><span>{Readout}<b id="fig4N1">0</b></span><!-- six spans, #fig4N1 … #fig4N6 --></div>
-      <div class="lab tk-h">{Recent records}</div><ol class="orders" id="fig4Orders"></ol>
+      <div class="lab log-h">{Log}</div><ol class="log log-lines" id="fig4LogList"></ol>
       <div class="verdict" id="fig4Verdict" aria-live="polite"></div>
     </div>
     <p class="quote" data-fly=".6"><span class="hang" aria-hidden="true">&ldquo;</span>{Principle sentence} <span class="up">{turn}.</span><span aria-hidden="true">&rdquo;</span></p>
@@ -5855,7 +5868,7 @@ The card arrives whole (no inner `data-fly`). `next.mode: "open"` → `<a class=
 
 ### B.8 Scripts (D)
 
-Each subtitle is the script's purpose; each banner is followed by one classic `<script>` holding one IIFE (§2.6). The order is load-bearing (§2.3); no `type="module"`, `defer`, `async`; the PDF library loads on intent (§2.7).
+Each subtitle is the script's purpose; each banner is followed by one classic `<script>` holding one IIFE (§2.6). The order is load-bearing (§2.3); no `type="module"`, `defer`, `async`; a file library, if any, loads on intent (§2.7).
 
 ```html
 <!-- ━━  D  ·  SCRIPTS  ━━ -->
@@ -5869,7 +5882,7 @@ Each subtitle is the script's purpose; each banner is followed by one classic `<
 <!-- D.07  PHOTO GUARD  ·  no context menu or drag on the portrait -->
 <!-- D.08  CONTROL DRAWERS  ·  settings folded into one line -->
 <!-- D.09  PINNED DRAWER  ·  the drawer opens over the pinned object -->
-<!-- D.10  COMPACT FIGURES  ·  tab sheets and the ticket row, ≤ 900px -->
+<!-- D.10  COMPACT FIGURES  ·  tab sheets and the log row, ≤ 900px -->
 </body>
 </html>
 ```
@@ -5965,16 +5978,16 @@ Every number that tunes motion or interaction, by system. Values are normative: 
 | slerp | `1 − e^(−4.5dt)` | — | orientation | §14.11 |
 | card trail | 7 pts, `0.03·v`, size 0.13, speed > 0.25 | — · u | | §14.11 |
 | stagger | `0.05k + 0.12·group`, scatter 0.35 | s | sort | §14.11 |
-| arc lift | 1.6 room · 0.35–0.8 short | u | apex `h/2` | §14.11 |
+| arc lift | 1.6 whole model · 0.35–0.8 short | u | apex `h/2` | §14.11 |
 | comet | 9 pts, step 0.035, size 0.15; start −0.16·i | — · u · s | flights | §14.11 |
 | pop-in | `s += 6dt`, `1 − (1 − s)³` | — | landing | §14.11 |
-| walker · carrier | 2.1 · 2.3 | u/s | path speed | §14.11 |
+| path mover · container mover | 2.1 · 2.3 | u/s | path speed | §14.11 |
 | dwell | 0.7 | s | at each stop | §14.11 |
 | legs · transfers | 0.7–1.0 · 0.5–0.55 (−0.12·k) | s | scheduler | §14.11 |
 | fade | 0.6 to scale 0.001 | s | back to pool | §14.11 |
 | queue compaction | `min(1, 6dt)` | — | lerp to slot | §14.11 |
 | glow capacity | 900 · 1600 busy | points | per stage | §14.9 |
-| spotlight hold | 4000 | ms | user's finished item | §14.12 |
+| spotlight hold | 4000 | ms | finished picked item | §14.12 |
 | reduced motion | flights 0.01 s; waits ≤ 120 ms | — | | §14.13 |
 
 ### C.5 Sheet and drag (≤ 900px)
@@ -5991,7 +6004,7 @@ Every number that tunes motion or interaction, by system. Values are normative: 
 | reduced motion | 160 fade in, instant close | ms | | §13.4 |
 | launcher hint | 1.5 × 2 | s | first full view, URL change | §13.4 |
 
-### C.6 Ticket row springs (≤ 900px)
+### C.6 Log row springs (≤ 900px)
 
 | Constant | Value | Unit | Meaning | Ref |
 |---|---|---|---|---|
@@ -6014,9 +6027,9 @@ Every number that tunes motion or interaction, by system. Values are normative: 
 | dropdown list | `min(264, n·44 + 14)`, margin 16, bar 54 | px | flips up if no room | §12.2.3 |
 | drawers open | min-width 701 | px | until first manual toggle | §12.3 |
 | closed-drawer summary | 1000 | ms | refresh interval | §12.3 |
-| race tick `TICK_MS` | 45 | ms | one simulated second | §12.6.1 |
+| compare tick `TICK_MS` | 45 | ms | one simulated step | §12.6.1 |
 | groove transition | 0.05 | s | just exceeds the tick | §12.4 |
-| demo prerequisite · lead-in | +2200 · 1300 | ms | Simulate | §12.5 |
+| demo prerequisite · lead-in | +2200 · 1300 | ms | demo button | §12.5 |
 | demo step gap | `clamp(2600 / steps, 170, 520)` | ms | | §12.5 |
 | demo commit | +500 | ms | after last step | §12.5 |
 | auto-play | 900 after > 35% visible | ms | once, untouched | §12.5 |
