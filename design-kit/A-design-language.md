@@ -163,7 +163,7 @@ It reads top to bottom as a document, never as a widget gallery or an app shell.
 | Editor's letter | the note before the work | `section#letter` | Voice and stance: a ringed word, a drop cap, two newspaper columns, a taped print (§9) |
 | Features No. 01–N | case-study spreads | `article#f1 … #fN` | One idea each: the same seven parts, a different composition per spread (§10) |
 | Figure plates | tray inside a feature | `.insert` | "Fig. N — try it": a working model of the feature's idea, with an honest note on what is simulated (§12, §13, §14) |
-| Pull quotes | display italic | `.quote` | The feature's principle in one sentence; 3–4 per issue (§10) |
+| Pull quotes | display italic | `.quote` | The feature's principle in one sentence; 0–4 per issue, typically 3–4 (§3.4, §10) |
 | Tipped-in prints | taped photo slots | `.snap` › `.snap-in` | Off-white tilted prints, hatched until a photo exists; at most three (§10) |
 | Next issue | the one inverse card | `section#next` | What is in progress; the only large ink mass on the page (§11) |
 | Contact | the e-mail as display type | `section#contact` | `{{email}}` as one line of display serif, plus `{{links}}` (§11) |
@@ -267,7 +267,7 @@ opening 101 · orbit ≈100 · glance 43 · letter 173 · F1 202 / F2 137 · F3 
 | One body line (17px × 1.68) | 28.6px; pauses read as 3–8 empty lines |
 | Empty paper inside the orbit | ≈ 70% |
 | Section background changes | none; sections separate by air and 1px rules only |
-| Hand marks / stamped words / pull quotes / prints | ≈ 10 / ≈ 5 / 3–4 / ≤ 3 per page |
+| Hand marks / stamped words / pull quotes / prints | ≈ 10 / ≈ 5 / 0–4, typically 3–4 / ≤ 3 per page |
 | Green marks in one screen | about a dozen at most; more is wrong |
 
 ---
@@ -284,13 +284,22 @@ opening 101 · orbit ≈100 · glance 43 · letter 173 · F1 202 / F2 137 · F3 
 index.html  site.webmanifest  robots.txt  sitemap.xml
 favicon.svg  icon-192.png  icon-512.png  apple-touch-icon.png (180)
 og-card.jpg (1200 × 630)      portrait.jpg (440 × 550, JSON-LD only)
-assets/portrait.webp          cover photo behind --me (§4), 1500 × 900
+assets/portrait.webp          cover photo behind --me (declared on main, §7.3.3), 1500 × 900
 assets/fonts/*.woff2          the nine faces of §5
 assets/vendor/three.min.js    three.js r149 (three@0.149.0), loaded with the page
 assets/vendor/{{pdfLib}}.js   only if a figure makes a file (e.g. jsPDF 2.5.1 UMD), loaded on intent
 ```
 
-Root files serve browsers, crawlers and previews, not the page. Manifest: `standalone`, `background_color` and `theme_color` `#e9e6de`. Vendor files **MUST** be unmodified official builds (an update is a file swap); site code uses r149 APIs only (§14).
+Root files serve browsers, crawlers and previews, not the page. Each is specified here, in the Folio style:
+
+- **`og-card.jpg`**, 1200 × 630 JPEG (≤ ≈ 150 KB), the social preview: flat `--paper` `#e9e6de` ground (grain optional), no photo, no gradient; `{{fullName}}` in the serif (Instrument Serif 400, ink `#151412`, the cover's tracking, one line, ≈ 120–150px, left-aligned on a 72px margin); `{{role}}` beneath in DM Mono 400, ≈ 28px, `--muted` `#54514a`; a 1px `--rule` top line as on a feature. Nothing else: no logo, no URL, no green.
+- **Icons** all come from one SVG monogram, `favicon.svg` (`viewBox="0 0 64 64"`; the initials, or one simple glyph of the signature object, drawn as strokes): ink `#151412` on a `--paper` `#e9e6de` square, with a `prefers-color-scheme: dark` rule that re-inks it `#eeebe3` on `#1c1b18`. `icon-192.png`, `icon-512.png` and `apple-touch-icon.png` (180) are that SVG's light rule rendered on an opaque paper square with ≈ 12% padding; no transparency, no rounded corners baked in (the OS rounds them).
+- **`portrait.jpg`**, 440 × 550 JPEG crop of `{{portrait.src}}` around `{{portrait.focal}}`, for JSON-LD only (A.06).
+- **`site.webmanifest`**: `name` `"{{fullName}} — Portfolio"`, `short_name` `{{shortName}}`, `start_url` and `scope` `"./"`, `display` `standalone`, `background_color` and `theme_color` = `--paper` `#e9e6de`, icons 192, 512 and the SVG (`purpose: "any"`).
+
+Why: every surface outside the page looks like the same paper and ink; the accent stays a rumour on the page.
+
+Vendor files **MUST** be unmodified official builds (an update is a file swap); site code uses r149 APIs only (§14).
 
 ### 2.2 The four layers
 
@@ -315,7 +324,17 @@ C order: bar · cover · opening line · orbit · at a glance · letter · `C.07
 ```
 
 - Every rule line **MUST** be exactly 80 characters. Part lines: `CODE  TITLE  ·  subtitle` (two spaces around items, title in capitals, subtitle optional). Head parts and groups: single spaces, lower case.
-- C and D parts: B's three-line form opened by `<!-- ` and closed by ` -->`, code line indented 5; inside `<main>` indent 2 more and drop 2 rule characters. Script groups indent 2.
+- C and D parts: B's three-line form opened by `<!-- ` and closed by ` -->`. Outside `<main>` (bar, footer, every D part): line 1 is `<!-- ` + 75 `═`; line 2 is the part line indented 5; line 3 is 5 spaces + 71 `═` + ` -->`. Inside `<main>` everything indents 2 more and each rule drops 2 `═` (73 and 69), so both rule lines stay exactly 80 columns. Script groups indent 2. Exactly, a C part inside `<main>` and a D part:
+
+```text
+  <!-- ═════════════════════════════════════════════════════════════════════════
+       C.02  COVER  ·  the name across the photo
+       ═════════════════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     D.09  PINNED DRAWER  ·  the drawer opens over the pinned object
+     ═══════════════════════════════════════════════════════════════════════ -->
+```
+
 - Layer rules: A after the masthead, B before `<style>`, C after `<body>`, D after `</footer>`.
 
 **Masthead**, after the charset and viewport metas; `{{fullName}}` in capitals, padded so the closing `│` stays in column 76:
@@ -332,13 +351,11 @@ C order: bar · cover · opening line · orbit · at a glance · letter · `C.07
   │   C   page ......... bar, cover, orbit, glance, letter, F1–F{{N}}      │
   │   D   scripts ...... arrivals, three.js, figures, 3D, sheets           │
   │                                                                        │
-  │   the full map of every layer is in README.md                          │
-  │                                                                        │
   └────────────────────────────────────────────────────────────────────────┘
 -->
 ```
 
-A `README.md` **SHOULD** map each code to its line and groups; without one, drop that masthead line.
+The masthead names no other file. Why: nothing beside `index.html` is guaranteed to ship; the banner codes are the map (§2.3).
 
 ### 2.3 Part lists
 
@@ -693,21 +710,17 @@ The hinge is the word that turns the sentence: a preposition, a qualifier, the s
 |---|---|
 | Features | 3–7. N sets the template sequence (`B-build-rules.md` §9.1), the contents stops (§8 lengthens gaps for fewer), codes `C.07…C.(6+N)` (§2) and the pause pairs (§10) |
 | Figures | ≥ 1 per page, ≤ 1 per feature, ≤ 2 in 3D; numbered in order of appearance; the signature object is fig. 0 |
-| Pull quotes | 0–4; never two neighbouring features both without figure and quote |
+| Pull quotes | 0–4, typically 3–4; never two neighbouring features both without figure and quote |
 | Spoken asides | 2–3 (1–2 when N ≤ 4) |
 | Photo slots | 0–3: letter, the L6 feature, next card |
 | Bar links | 5 (4 without a letter) |
 
 ### 3.5 The accent from the portrait
 
-Method only; §4 turns the sample into tokens and checks them.
+The accent is sampled from the portrait by the one method in §4.4.2 (SAMPLE, then LIGHT, DARK, GAMUT, CHECKS); this section adds no second method.
 
-1. Mask out the subject (skin, hair, clothes, glasses) and blown-out sky.
-2. In what remains, find the one natural colour the eye notices after the face: foliage, moss, water, painted wood, brick, tinted stone.
-3. Average five 20 × 20 px patches across it, mid-tones only (OKLCH L 0.3–0.7); take the median hue.
-4. Hand hue and sample to §4, which sets lightness and chroma for `--accent`, `--accent-ink` and dark `--accent` and runs the contrast checks. Store the pair in `accent`, `source: "portrait"`.
-5. A colour the person names replaces steps 1–3 (`"chosen"`) and still goes through §4.
-6. Use §4's default pair (`"default"`) with no portrait, when the only colour is the subject, when the surroundings are grey, white or sky, or when the sample fails §4.
+- Store the result in `accent` with `source: "portrait"`; a colour the person names runs from §4.4.2's LIGHT step with its own hue (`"chosen"`).
+- Use the default pair (`"default"`) whenever §4.4.2 says to: no portrait, too few coloured pixels, a hue outside its range, or a failed check.
 
 Sand and every other token stay as Appendix A gives them. Why: the one chroma in the interface reads as native to the photo; a second sampled colour would compete with it.
 
@@ -738,7 +751,7 @@ Never lorem ipsum, a stock photo, an avatar, initials in a circle, invented work
 | Quotes | fewer; the template drops the row (§10) |
 | Letter | omit it and its bar link |
 | Next project | `next.mode: "open"`, or omit the card |
-| A photo for a slot | an honest placeholder: hatched print captioned `{what it will show} — photo to come`; drop the slot if nothing will fill it |
+| A photo for a slot | one rule for every slot (letter, L6, next): keep an honest placeholder — hatched print captioned `{what it will show} — photo to come` — **only** if the person intends to supply that photo; otherwise drop the slot and its markup |
 
 **`open` next card.** Same anatomy. `kicker` states availability ("Taking on work"); `headline` two words ("Your *move.*"); `body` the kind of work, from when, in what arrangement; `built.note` "good fit", `built.items` the kinds of work; `button` a verb ("Write to me") on `<a class="btn" href="mailto:{{email}}">`, using the card's enabled-button rule (§11).
 
@@ -856,7 +869,7 @@ Why two tones per hue: light `--accent` and `--sand` fail as 11–13px labels on
 
 - `--accent`: marks and small fills; it **MUST NOT** colour text under ≈ 20px.
 - `--accent-ink`: accent text under ≈ 20px, set only by **one** late rule in shared finishing (B.23). Why: one place to audit contrast.
-- `--brand`: the light accent in both themes; the tile-colour and `mask-icon` metas and `favicon.svg`'s light rule use it.
+- `--brand`: the light accent in both themes; the tile-colour and `mask-icon` metas use it (the icons themselves are ink on paper, §2.1).
 - Sand belongs to the paper stock and **MUST NOT** change with the accent.
 
 #### 4.4.2 Deriving the accent
@@ -876,7 +889,7 @@ LIGHT    h = sample.h
 DARK
   accent     = oklch(0.75, C(brand) + 0.004, h − 6)
   accent-ink = accent
-  on-accent  = oklch(0.21, 0.023, h)
+  on-accent  = oklch(0.21, 0.023, h)                 h = sample.h (the LIGHT hue), not h − 6
 GAMUT    outside sRGB → lower C by 0.005 until inside
 CHECKS   move L by 0.01 (never raise C) until every line passes
   brand on #e9e6de ≥ 4.5            brand on #e0ddd3 ≥ 3.0
@@ -889,7 +902,7 @@ WRITE    lower-case hex
 
 Defaults in OKLCH: `#546634` (0.483 0.077 125.4), `#435425` (0.420 0.073 125.9), `#a9b77c` (0.754 0.081 119.2), `#161a0e` (0.209 0.023 123.4). The method's constants are fitted to the default pair. Why: L ≈ 0.48 prints like ink; C ≤ 0.09 keeps colour a rumour; warm hues collide with sand and skin. A preferred colour runs from LIGHT with its own hue; outside 105°–285° the plan offers the default pair.
 
-Write the hex everywhere the accent is baked: `--brand`, `--accent-ink` (`:root`); `--accent`, `--accent-ink`, `--on-accent` (both dark blocks); the `%23` stroke of `--pencil` and `--loop` (all three blocks); the tile-colour and `mask-icon` metas; `favicon.svg` (both rules) and its PNG icons; the inverse-card swap (4.6.4); the 3D colour-probe fallback (§14).
+Write the hex everywhere the accent is baked: `--brand`, `--accent-ink` (`:root`); `--accent`, `--accent-ink`, `--on-accent` (both dark blocks); the `%23` stroke of `--pencil` and `--loop` (all three blocks); the tile-colour and `mask-icon` metas; the inverse-card swap (4.6.4); the 3D colour-probe fallback (§14).
 
 #### 4.4.3 Where green appears (exhaustive)
 
@@ -903,7 +916,7 @@ Write the hex everywhere the accent is baked: `--brand`, `--accent-ink` (`:root`
 | Other | cover-name selection; 3D live channels, beads, trails, glow cores, halos, "on" labels (§14, §15) |
 | `--accent-ink` text | hand aside; field errors; busy toggle; tab-mock small heads; button hover text; selected option; first feature's number; contents number on hover; current step; selected item; last-stage status pills; verdict emphasis; glance link's ↓; zoom keys on hover; row-card header labels |
 
-Green **MUST NOT** be an "on" fill, a resting button, link or toggle, a headline, body text, a fill over 26px, a border, rule, bar, print or card surface, or a glow on a control. It covers < 0.1% of the page; more than about a dozen green marks in a 1440 × 900 view is wrong.
+Green **MUST NOT** be an "on" fill, a resting button, link or toggle, a headline, body text, a fill over 26px, a border, rule, bar, print or card surface, or a glow on a control. It covers < 0.1% of the page's total area, averaged over the whole scroll (a different measure from §18.4 #17's < 1% of any single viewport); more than about a dozen green marks in a 1440 × 900 view is wrong.
 
 #### 4.4.4 Where sand appears
 
@@ -1003,7 +1016,7 @@ A plate sets its background and `--surf` to the same token: `.insert { backgroun
 }
 ```
 
-- The accent lines swap in the other theme's tone (light card: dark `--accent`; dark card: light `--accent-ink`). Why: the page accent is 2.92:1 on ink and 1.81:1 on cream; the swap gives 8.55:1 and 6.96:1 for focus and hover text.
+- The accent lines swap in the other theme's tone: the light-theme card (ink ground) takes the dark theme's `--accent`, `#a9b77c`; the dark-theme card (cream ground) takes the light theme's `--accent-ink`, `#435425`. Both `--accent` and `--accent-ink` on the card are set to that one value. Why: the page accent is 2.92:1 on ink and 1.81:1 on cream; the swap gives 8.55:1 and 6.96:1 for focus and hover text.
 - New surfaces: dark → small white %, large black %; light → the reverse; dark values twice.
 - Card text: `color-mix(in srgb, var(--paper) N%, transparent)`, N = 84 paragraph, 78 mono, 72 eyebrow, 68 caption, 60 disabled, 50 disabled hover; never `--muted`. No `.btn.solid` here (ink on ink).
 
@@ -1418,6 +1431,7 @@ body {
   text-rendering: optimizeLegibility; overflow-x: clip;
 }
 a { color: inherit; }
+h1, h2, h3, h4, h5, h6 { font-weight: 400; margin: 0; }
 ::selection { background: color-mix(in srgb, var(--sand) 42%, transparent); color: inherit; }
 .wrap { margin: 0 auto; padding: 0 var(--gut); max-width: calc(var(--max) + 2 * var(--gut)); }
 :focus-visible { outline: 1.5px solid var(--accent); outline-offset: 3px; }
@@ -1459,6 +1473,7 @@ Write one declaration per line in the file (§2.4). This part's theme-transition
 
 - **`overflow-x: clip`, never `hidden`**, trims bleeds and tilted prints at the screen edge. Why: `clip` never creates a scroll container; `hidden` makes `body` one as soon as `html` gets any overflow value, and the sticky bar and pinned orbit stage then silently stop sticking.
 - **`scroll-padding-top: 64px`** = 54px bar + 1px hairline + 9px air; `0` in short landscape, where the bar is static (§7).
+- **Headings reset to weight 400 and no margin.** Why: every face in §5 ships at 400 (Jost also 300) and no heading is bold, so the UA's `font-weight: bold` would make the browser fake a bold or fall back to a system face; the UA margins would add space no component asked for. Each heading sets its own size, line height and margin in its component rule.
 - **Keyboard-only rings**, offset 3px to clear moulded shadows. Mouse focus on a `select` or custom select shows `--sink-s` (pressed in). Range: no ring on the track; the thumb gets 2px surface + 2px accent.
 - **Scrollbars twice:** the standard pair for Firefox and current Chromium, `::-webkit-scrollbar` for Safari. Result: 8px track, 4px pill at 28% ink (48% hover), no arrows.
 - **Pressables** get no tap flash, callout or selection, so dragging a slider or a canvas never selects text; running text stays selectable. `.hidden` beats any component `display` (scripts toggle it); `.nw` keeps a number and unit, or a hyphenated compound, together.
@@ -1648,7 +1663,7 @@ Pauses are set by eye, in pairs, not from a scale. Each section owns its top spa
 | `(max-width: 460px)` | details label 84px (§10); tighter control grids, stretched run-row buttons, fields 1 column, tab footer wraps, readouts 2 columns (§12, §13) |
 | `(max-width: 380px)` | glance aside hidden, cover 1.6 : 1, actions 2 columns (§9) |
 | `(max-width: 360px)` | body 15.5px; details rows stack; control grids 1 column; smaller `.btn`, `.seg` padding |
-| `(max-width: 359px)` | bar: name and theme pill only (§7) |
+| `(max-width: {B − 1}px)` | bar: name and theme pill only; B is measured per §7.1.9 (359px is the value for the reference name length) |
 | `(max-width: 300px)` | body 14.5px/1.6; `.lab, label` tracking 0.1em; glance and orbit contents 1 column; tab glyphs and launcher pill hidden |
 | `(max-width: 240px)` · `(max-width: 220px)` | statement-table total on one line, then cells wrap (§12) |
 | `(max-height: 520px) and (orientation: landscape)` | bar static, `scroll-padding-top: 0`; cover `min-height: 78svh`; glance cover 3.4 : 1; signature view `max-width: min(520px, 78svh)`; stage `max-height: 82svh` |
@@ -1708,7 +1723,7 @@ The wordmark prints `nameParts` in order, the italic one in `<i>`. No letter: dr
 }
 .bar nav a:hover, .bar nav a:focus-visible { color: var(--ink); background-size: 100% 0.3em; }
 @media (max-width: 760px) { .bar nav a { display: none; } .bar nav a[href="#glance"] { display: inline-block; } }
-@media (max-width: 359px) { .bar nav a[href="#glance"] { display: none; } }
+@media (max-width: 359px) { .bar nav a[href="#glance"] { display: none; } }   /* {B − 1}px, B measured per §7.1.9; 359 = reference name length */
 @media (max-height: 520px) and (orientation: landscape) { .bar { position: static; } }
 ```
 
@@ -1718,7 +1733,7 @@ Hover and focus: `--muted` → `--ink`, pencil to full width; focus adds the rin
 
 #### 7.1.5 Responsive
 
-≥ 761px: all links; the row spans the card's edges (x 63 → 1377 at 1440). ≤ 760px: only `#glance`, for readers who will not scroll. ≤ 359px: none. Short landscape: static bar, `scroll-padding-top: 0` (§6.1). No menu button.
+≥ 761px: all links; the row spans the card's edges (x 63 → 1377 at 1440). ≤ 760px: only `#glance`, for readers who will not scroll. ≤ B − 1 (§7.1.9; 359px for the reference name length): none. Short landscape: static bar, `scroll-padding-top: 0` (§6.1). No menu button.
 
 #### 7.1.6 Motion
 
@@ -1865,6 +1880,7 @@ Identity in one image: a rounded photo card, role and place in its top corners, 
 #### 7.3.3 Spec (B.07)
 
 ```css
+main { --me: url(assets/portrait.webp); }   /* the one portrait declaration; cover and glance band both read it */
 .cover {
   padding: clamp(14px, 3vw, 30px) var(--gut) 0; margin: 0 auto;
   max-width: calc(var(--max) + 2 * var(--gut));   /* = .wrap: card edges = bar edges */
@@ -1945,11 +1961,11 @@ Loading: text paints at once on the ground. **No portrait:** `main { --me: none;
 | Card w × h | 268 × 354 | 356 × 440 | 566 × 300 | 748 × 344 | 1313 × 560 | 1680 × 560 |
 | Radius / name px | 22 / 32.2 | 22 / 44.0 | 26 / 71.7 | 26 / 94.7 | 26 / 167 | 26 / 196 |
 
-From 621 to ≈ 1333px the card holds ≈ 2.17 : 1, then widens toward 3 : 1. At ≤ 620px it turns portrait and re-frames the photo (four positions: `background-position` is per layer). In short landscape `78svh` keeps the name in view.
+From 621 to ≈ 1333px the card holds ≈ 2.17 : 1, then widens toward 3 : 1. At ≤ 620px it turns portrait and re-frames the photo (four positions: `background-position` is per layer). In short landscape `78svh` keeps the card's bottom edge, and so the cream name above the cut, in the first screen (at 844 × 390 it ends at 384.5px; §18.4 #9).
 
 #### 7.3.7 Motion
 
-Only `::before` fades in, scaling 1.025 → 1 over 0.9s, clipped by the card so its edges never move. The name never animates. Why: it is the LCP text; it must not wait for the image.
+Only `::before` fades in, scaling 1.025 → 1 over 0.9s, clipped by the card so its edges never move. The name never animates. Why: it is the first contentful paint and must not wait for the image; the preloaded portrait is the intended LCP element (§17.2.1), and the name may paint before it.
 
 #### 7.3.8 Accessibility
 
@@ -1971,14 +1987,14 @@ The name is announced and copied once: the echo is `aria-hidden`, pointer-transp
 
 The clamp arm is the designed size; the width arm is a ceiling, content width ÷ name width in em. In the fluid range content = 100 − 2 × 4.4 − 2 × 2.6 = 86vw, so slope `86 / K` keeps the arms level. The width arm wins on phones (clamped gutters), the cap on wide screens.
 
-1. After `document.fonts.ready`, append a clone of the final `h1` with `position:absolute; visibility:hidden; margin:0; font-size:100px; white-space:nowrap`; `W = getBoundingClientRect().width / 100`. Estimate: `W ≈ 0.38 ×` characters incl. spaces.
+1. **Measure W in the browser; never compute it by hand.** After `document.fonts.ready`, render the final name (the real `h1`, with its spans and tracking) at `font-size: 100px` — a clone with `position:absolute; visibility:hidden; margin:0; font-size:100px; white-space:nowrap` — and read its width: `W = getBoundingClientRect().width / 100` em. `0.38 ×` characters incl. spaces is a first estimate only, for planning before fonts load; the browser reading replaces it. Why: per-glyph widths, the italic part and the per-word tracking vary too much for a character count.
 2. `K = W × 1.03`, rounded up to 0.01. `slope = 86 / K`, rounded up to 0.1.
 3. `cap = min(floor(slope × 16.9), floor(1500 / W), 217)` px: engages at ≈ 1690px; fits the content width at `--max`; keeps a short name's line box ≤ 35% of the 560px card. The 36px floor stays.
 4. Check `W × used size ≤ content width` at 300, 390, 820, 1440, 1920 and 2560.
 
 The values in 7.3.3 come from W = 7.25: K 7.45, 11.6vw, 196px.
 
-**Worked example.** Placeholder `Xxxxx Yyyyyy Zzzzz` (18 characters, italic middle word, estimate 6.84em) measures **W = 6.86**. K = 7.0658 → **7.07**, slope 12.16 → **12.2vw**, cap = min(206, 218, 217) = **206px**:
+**Worked example (arithmetic only).** Placeholder `Xxxxx Yyyyyy Zzzzz` (18 characters, italic middle word) estimates 0.38 × 18 = 6.84em; its real W is whatever the browser reads in step 1 and will differ. To show the arithmetic, suppose the reading is 686px, so W = 6.86. Then K = 7.0658 → 7.07, slope 12.16 → 12.2vw, cap = min(206, 218, 217) = 206px. Redo every number below from your own reading:
 
 ```css
 font-size: min(clamp(36px, 12.2vw, 206px), calc((100vw - 2 * var(--gut) - 2 * var(--hp)) / 7.07));
@@ -2044,7 +2060,9 @@ Ink on paper: 14.8:1. The stamp drops in `forced-colors` and in selection (§5.6
 
 #### 7.4.8 Adapting
 
-`12.5ch` suits a 7-word, 35-character line breaking just before the ink word (lines ≈ 4.5em and 5.2em at 1440). Check 1440, 820, 390: lower in 0.5ch steps if line 1 takes the ink word, raise if a third line appears; if nothing works, put a `<br>` before the ink word.
+`12.5ch` suits a 7-word, 35-character line breaking just before the ink word (lines ≈ 4.5em and 5.2em at 1440); it is tuned to that line and **MUST** be re-derived for another. Re-derive it by measuring, as §7.3.10 does: after `document.fonts.ready`, render at `font-size: 100px` with `white-space: nowrap` (a) the intended first line, (b) the intended second line, (c) the first line plus the ink word, and (d) a `0` (the `ch`); divide each `getBoundingClientRect().width` by 100. `max-width` = the smallest 0.5ch step ≥ max(a, b) ÷ d and < c ÷ d. Then check 1440, 820, 390: lower in 0.5ch steps if line 1 takes the ink word, raise if a third line appears; if no step fits, put a `<br>` before the ink word.
+
+The `&nbsp;` glues the last two words into one unbreakable run; it **MUST NOT** overflow at the 300px phone floor. There the size is the 46px floor of §7.4.3's ≤ 620 rule and the line has 300 − 2 × 16 gutter − 13.5 indent = 254.5px, so the glued run, measured as above, **MUST** be ≤ 254.5 ÷ 46 = 5.53em. Longer → use a plain space.
 
 ---
 
@@ -2082,7 +2100,7 @@ Hand the reader the object, and pass the contents as stops on the way down rathe
         <path d="M6 5c8 19 30 35 62 41 27 5 55 1 79-10"/><path d="M131 27c6 3 12 6 17 9-5 4-11 8-16 12"/></svg>
     </p>
     <p class="sig-note o-r o-in" data-fly style="--mt:12svh"><span class="note">fig. 0 &mdash; {{orbit.signatureObject}}</span>{{orbit.figNote}}</p>
-    <nav class="inside" id="inside" aria-label="Contents">
+    <nav class="inside" id="inside" aria-label="What is inside">
       <span class="lab o-l" data-fly style="--mt:26svh">In this issue</span>
       <a class="o-l" data-fly href="#f1" style="--mt:8svh"><span class="n">{{features[0].no}}</span><span class="t">{{features[0].headline}}</span></a>
       <a class="o-r o-in" data-fly href="#f2" style="--mt:6svh"><span class="n">{{features[1].no}}</span><span class="t">{{features[1].headline}}</span></a>
@@ -2190,7 +2208,7 @@ The runway lets the last stop pass the object's middle before release, so the ne
 .inside a:hover .n { color: var(--accent-ink); } /* in B.23 with the other accent-ink rules (§4) */
 ```
 
-Mono number over serif title (33px at 1440, the section's largest type). Left stops alternate outer edge (01, 05) and inner edge (03, 07); right stops always hug the object. Inner-left: title right-aligned, number pushed right by `margin-left: auto`. Why `max-content`: a full-width block ignores the auto margin.
+Mono number over serif title (33px at 1440, the section's largest type). Left stops alternate outer edge (01, 05) and inner edge (03, 07). Right stops all sit against the object, because right-lane text is left-aligned by default; the class `.o-in` is written on a right stop only where k mod 4 = 2 (02, 06; not 04), where it marks intent and has no CSS (§8.2, §8.3.3, §8.9). Inner-left: title right-aligned, number pushed right by `margin-left: auto`. Why `max-content`: a full-width block ignores the auto margin.
 
 #### 8.3.6 Object column and control bar (base rules in §15)
 
@@ -2223,17 +2241,18 @@ The 10/9 view is never taller than `100svh − 250px`, so object and bars fit (4
 
 ```text
 PIN = matchMedia("(min-width: 1100px) and (min-height: 680px)")
+pin = .orbit-pin; view = #sigHost (.sig-view); ui = #sigUi (.sig-ui); dock = ui's details.dock; panel = its .dock-b
 fit():  // on details toggle, PIN change, ResizeObserver(.orbit-pin)
   if !(dock.open && PIN) → view.style.transform = ""; return
-  top = view.offsetTop; h = view.offsetHeight  // relative to the stage
+  top = view.offsetTop; h = view.offsetHeight  // relative to pin
   need = ui.offsetTop + ui.offsetHeight + 6 + panel.offsetHeight + 12 − top  // 6 gap, 12 clearance
   if need ≤ 0 → clear; return
-  shift = min(need, max(0, stage.clientHeight − (top + h) − 8))  // move down first, keep 8px
+  shift = min(need, max(0, pin.clientHeight − (top + h) − 8))  // move down first, keep 8px
   rest = need − shift
   sc = rest > 0 ? max(0.6, 1 − rest / h) : 1  // then shrink, never < 60%
   view.style.transform = "translateY(" + shift + "px) scale(" + sc.toFixed(3) + ")"
 Escape on the details → close, focus the summary
-pointerdown outside the stage while open and PIN → close
+pointerdown outside pin (!pin.contains(target)) while open and PIN → close
 ```
 
 With origin `50% 100%`, scaling lowers the top edge by exactly `h·(1 − sc)`. Why offset values: they ignore transforms, so `fit()` is idempotent and cannot loop with the observer.
@@ -2288,7 +2307,7 @@ Section metrics come from a `ResizeObserver`; `scrollY` is read in rAF; there is
 
 ### 8.7 Accessibility
 
-- A real `<nav aria-label="Contents">` of plain links; the bar's contents link targets `#inside` (`scroll-padding-top`, §6).
+- A real `<nav aria-label="What is inside">` of plain links; the bar's contents link targets `#inside` (`scroll-padding-top`, §6).
 - Canvas: focusable `role="img"` labelled with every control; keys match dragging (§15). Drawer: native `<details>`; Escape closes it and refocuses the summary.
 - `#sigStatus` is `aria-live="polite"`, written only when the sentence changes. Why: it refreshes 4× a second; identical rewrites would re-announce.
 - One drag hint at a time; the arrow is `aria-hidden`, the handwriting is read. Tab order: canvas → Adjust → Reset → stops.
@@ -2545,7 +2564,7 @@ A note before the work: a serif statement with two hand-set words, two columns u
 </section>
 ```
 
-Rows are explicit; no sign-off. A real photo replaces `span.snap-ph` with a lazy `<img>` (§10).
+Rows are explicit; no sign-off. A real photo replaces `span.snap-ph` with a lazy `<img>` (§10). The placeholder stays only if the person intends to supply the photo; otherwise drop `.snap-desk` entirely (§3.7).
 
 #### 9.2.3 Spec (B.11)
 
@@ -2602,6 +2621,7 @@ Named by `#letH`; hatch hidden, caption read. Stamp, ring and drop cap are pure 
 - **Body**: 3–5 paragraphs, four best; one `<strong>`.
 - **Drop cap for N lines** at line-height L: `(N − 0.2) × L / 0.84` em, keeping `/0.78` and the paddings.
 - **Tilt**: −1.5° to −3°, unlike the page's other slots.
+- **Photo slot**: the §3.7 rule — placeholder only if a photo is coming, else no slot.
 
 ---
 
@@ -2998,7 +3018,7 @@ Charcoal one step above dark `--paper2`, no contact line; the dark `--sand` grey
 #### 10.12.6 Placement and photos
 
 - Placement: L6 §10.6.6, letter §9, next card §11.
-- **Swap in a photo**: replace the span with `<img src="{{features[i].photoSlot.src}}" alt="{{features[i].photoSlot.alt}}" width="800" height="1000" loading="lazy">` and rewrite the caption; it inherits 4/5 and `object-fit: cover`. A landscape slot sets its ratio on both children: `.snap-process .snap-ph, .snap-process img { aspect-ratio: 5/4; }`. A slot nothing will fill is dropped.
+- **Swap in a photo**: replace the span with `<img src="{{features[i].photoSlot.src}}" alt="{{features[i].photoSlot.alt}}" width="800" height="1000" loading="lazy">` and rewrite the caption; it inherits 4/5 and `object-fit: cover`. A landscape slot sets its ratio on both children: `.snap-process .snap-ph, .snap-process img { aspect-ratio: 5/4; }`. A slot nothing will fill is dropped; the placeholder is kept only while the person intends to supply the photo (§3.7).
 - **Accessibility**: an empty slot announces only its caption; a photo **MUST** carry `alt`. Captions: `#5a554c` on `#f7f5ef`, `#b9b3a7` on `#2e2c27`.
 - **Pitfalls**: the tilt lives on `.snap-in`, never `.snap`. Why: arrivals write an inline `transform` on the `[data-fly]` wrapper, so a tilt there vanishes in flight and pops back. No `overflow: hidden` on the parent: tape and corners stick out.
 - **Adapting**: keep every value; choose only the tilt (opposite sign to the previous print), the caption and the photo.
@@ -3530,7 +3550,7 @@ Chosen by B §9.2; each at most once; at most two 3D besides the signature objec
 
 ```html
 <div class="race">
-  <div class="lane"><h5>{Strategy A}</h5><small>{its rule}</small>
+  <div class="lane"><h4>{Strategy A}</h4><small>{its rule}</small>
     <div class="track" aria-hidden="true"><i class="d" id="figNad" style="width:0"></i><i class="f" id="figNaf" style="width:0"></i></div>
     <div class="nums"><span>{Outcome}<b id="figNadn">0</b></span><span>{Loss}<b id="figNafn">0</b></span><span>Time<b id="figNat">0s</b></span></div></div>
   <div class="lane">…ids figNb…</div>
@@ -3541,10 +3561,14 @@ Chosen by B §9.2; each at most once; at most two 3D besides the signature objec
 .race { display: grid; grid-template-columns: 1fr 1fr; }
 .lane { padding: 4px 30px 4px 0; }
 .lane + .lane { padding: 4px 0 4px 30px; border-left: 1px solid var(--rule); }
-.lane h5 { font: 400 26px/1.1 var(--serif); margin: 0 0 2px; letter-spacing: -0.01em; }
+.lane h4 { font: 400 26px/1.1 var(--serif); margin: 0 0 2px; letter-spacing: -0.01em; }
 .lane small { display: block; font: 400 14px var(--sans); color: var(--muted); margin-bottom: 14px; }
 @media (max-width: 700px) { .race { grid-template-columns: 1fr; } .lane { padding-right: 0; }
   .lane + .lane { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); margin-top: 20px; padding-top: 20px; } }
+@media (max-width: 620px) { .race { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .lane, .lane + .lane { padding: 0; border: 0; margin: 0; }
+  .lane h4 { font-size: 17px; line-height: 1.15; margin-bottom: 8px; } .lane small { display: none; }
+  .race .nums { gap: 4px 12px; margin-top: 10px; } .race .nums span { font-size: 10.5px; letter-spacing: 0.04em; } .race .nums b { font-size: 22px; } }
 ```
 
 ```text
@@ -3554,7 +3578,7 @@ run(): reset(); run.disabled = true; read inputs ONCE; every TICK_MS each unfini
   both done → clear, re-enable, verdict "{A} … {tA}s but only <b>{pA}%</b> ({lost} lost). {B} … {tB}s, <b>{pB}%</b>. {moral}"
 ```
 
-Units are Bernoulli trials (`Math.random() >= p`). Ranges **MUST** keep the claim true everywhere, else the verdict branches (§3.9); defaults finish in 1–6s. Lanes stack at 621–700; ≤ 620 they pair again, compact: gap 12px, no rule, `h5` 17px, `small` hidden, labels 10.5px, numerals 22px.
+Units are Bernoulli trials (`Math.random() >= p`). Ranges **MUST** keep the claim true everywhere, else the verdict branches (§3.9); defaults finish in 1–6s. The `≤ 700` rule stacks the lanes, and the later `≤ 620` rule overrides it, so they are stacked only at 621–700; ≤ 620 they pair again, compact: gap 12px, no rule, `h4` 17px, `small` hidden, labels 10.5px, numerals 22px.
 
 #### 12.6.2 A2 · Calculator → document
 
@@ -4311,7 +4335,7 @@ Authored on a **400 × 400 design grid** (y down, centre 200,200), converted wit
 PINS = [82 + 19·i for i in 0..12]                    // 13 per side, pitch 19 (row centred on 196, kept as shipped)
 POWER = [120, 158, 196, 234, 272]                    // top-edge pins that carry the live lines
 pins: top non-power [p,70]→[p,50]; bottom [p,330]→[p,350]; left [70,p]→[50,p]; right [330,p]→[350,p]   // 47, ink, z 0
-passive (soft, ±ZL): for k, i in [1,3,4,7,9,11]: p = 82+19i; a = 84+9(k%3); t = clamp(p + (k%2 ? -22 : 22), 128, 272)
+passive (soft, ±ZL): for k = 0..5, i = [1,3,4,7,9,11][k] (i = pin index, k = position in the list): p = 82+19i; a = 84+9(k%3); t = clamp(p + (k%2 ? -22 : 22), 128, 272)
   bottom [p,330][p,316−9(k%3)][t,316−9(k%3)][t,282]; left [70,p][a,p][a,t][118,t]; right [330,p][316−9(k%3),p][316−9(k%3),t][282,t]
 mark (ink, front only): [78,78][104,78][78,104][78,78]           // open triangle: tells the faces apart after a flip
 DEFS = [{p:120,t:170,a:118},{p:158,t:185,a:106},{p:196,t:200,a:94},{p:234,t:215,a:106},{p:272,t:230,a:118}]
@@ -4420,7 +4444,7 @@ hold(): if held return; held = true; rot.y = wrap(rot.y + yaw); yaw = 0   // see
 drag:   pointerdown → capture, vel = 0, .grab; move: if !held and |dx|+|dy| > 2 → hold()
         rot.y += 0.55·dx; rot.x += 0.55·dy (°/px); vel.y = 33·dx, vel.x = 33·dy (°/s)
 fling:  !drag and |vel| > 1.2 °/s → rot += vel·dt; vel *= 0.0006^dt   // per second: same throw at any Hz
-keys:   ←/→ y ∓5, ↑/↓ x ∓5, Q/E z ∓5; Shift 15°; hold() first; preventDefault used keys only; vel = 0
+keys:   ← rot.y −5, → rot.y +5; ↑ rot.x −5, ↓ rot.x +5; Q rot.z −5, E rot.z +5; Shift 15°; hold() first; preventDefault used keys only; vel = 0
 sliders: X, Z absolute; Y relative (d = value − round(rot.y); hold(); rot.y += d): no yaw jump
 supply: sets D and readout only; not an orientation input, so no hold()
 scroll: if !held and !drag and PIN and !reducedMotion:
@@ -4456,6 +4480,7 @@ Pick an artefact that (a) reads as a flat-ish wireframe, (b) has channels carryi
 |---|---|---|---|---|
 | Architect | floor plan, wall outlines, door ticks as pins, stair core sink | people walking corridors | tip the plan and uphill corridors empty | "Stair core: 4 of 5 corridors reaching it. Partly walking." |
 | Data scientist | node graph: 5 sources, 2 hidden layers, one output | records on edges | invert and records slide back to sources | "Output: 5 of 5 inputs feeding it. Feeding." |
+| Data engineer / data platform | pipeline DAG: 5 source taps as pins, stage boxes (ingest, transform, validate) on orthogonal edges, warehouse sink | records moving stage to stage | backpressure: tip the DAG and an uphill stage backs up, records queue at its inlet, then slide back to the source | "Warehouse: 4 of 5 pipelines loading. Partly loading." |
 | Designer | 4 offset artboards at z steps, swatches on the edge | components entering the main frame | upside down, the frame sheds them | "Main frame: 2 of 4 layers composing. Partly composing." |
 | Musician | body outline, 6 strings, frets as pins, sound-hole sink | vibrations down each string | neck tilted up, notes fade back | "Sound hole: 6 of 6 strings ringing. Ringing." |
 | Writer | bound book open, page edges as pins, spine sink | lines drifting to the spine | tipped, lines slip back to the margin | "Spine: 3 of 5 chapters binding in. Partly binding." |
@@ -4886,7 +4911,7 @@ Anything drawn twice or drawn only for the eye **MUST** be hidden from assistive
 
 | Control | Keys | Built in |
 |---|---|---|
-| Signature canvas | ←/→ yaw ∓5°, ↑/↓ pitch ∓5°, Q/E roll; Shift = 15° | §15 |
+| Signature canvas | ← yaw −5°, → yaw +5°; ↑ pitch −5°, ↓ pitch +5°; Q roll −5°, E roll +5°; Shift = 15° | §15 |
 | 3D stage canvas | arrows turn, `+`/`=` and `-`/`_` zoom, `0` resets | §14.5 |
 | Custom dropdown | ↓/↑ open and move, Home/End, Enter/Space choose, Escape closes, Tab closes without choosing, type-ahead (600 ms) | §12 |
 | Drawers (`details`) | Enter/Space toggle; Escape closes and refocuses the summary | §12, §8 |
@@ -4964,7 +4989,7 @@ Scripts read `matchMedia("(prefers-reduced-motion: reduce)")`. Scripts that act 
 
 #### 17.2.1 Loading
 
-- Preload the portrait (`as="image" type="image/webp" fetchpriority="high"`) and the seven first-screen faces (`as="font" type="font/woff2" crossorigin`; all but Nunito 600 and Caveat 500 (§2.5). Why: the LCP portrait lives in `--me`, invisible to the preload scanner; without `crossorigin` a font downloads twice.
+- Preload the portrait (`as="image" type="image/webp" fetchpriority="high"`) and the seven first-screen faces (`as="font" type="font/woff2" crossorigin`; all but Nunito 600 and Caveat 500 (§2.5). Why: the portrait is the intended LCP element (the name may paint first, §7.3.7) and lives in `--me`, invisible to the preload scanner; without `crossorigin` a font downloads twice.
 - Every `@font-face` uses `font-display: swap` and `font-synthesis: none`.
 - `html.js` is set by the head script, before `<style>`. The saved theme is applied there too, inside try/catch, so there is no flash.
 - End of `body`: arrivals first, then three.js, then the rest. Why: `fly-ready` lands before 608 KB is parsed.
@@ -5115,7 +5140,7 @@ Bands follow §6.5. "Short landscape" is `(max-height: 520px) and (orientation: 
 | Component | ≥ 1600 | 1100–1599 | 761–1099 | ≤ 760 | ≤ 460 / 360 / 300 | Short landscape |
 |---|---|---|---|---|---|---|
 | Frame and type base | body 18px (19px ≥ 2200); frame caps at 1560px (≈ 1711px viewport), 1680px from 1920; bleeds widen past `--gut` | body 17px; 12-column frame `100% − 2·--gut` | body 17px; `--cg` ≈ 13–19px | `--gut` → 16px floor at 364px; `--cg` 12px | body 15.5px at ≤ 360, 14.5px/1.6 at ≤ 300; `.lab, label` tracking 0.1em at ≤ 300 | unchanged; `scroll-padding-top: 0` |
-| Bar `header.bar` | name, five links, theme pill; 54px; hairline | same | same, link gaps ≈ 18px | name, one link (`#glance`), pill; never a hamburger | ≤ 359: name and pill only; ≤ 300: pill padding `5px 8px` | `position: static` (scrolls away) |
+| Bar `header.bar` | name, five links, theme pill; 54px; hairline | same | same, link gaps ≈ 18px | name, one link (`#glance`), pill; never a hamburger | ≤ B − 1 (§7.1.9; 359 for the reference name): name and pill only; ≤ 300: pill padding `5px 8px` | `position: static` (scrolls away) |
 | Cover `section.cover` | card 26px radius, ≈ 3 : 1, name at its cap (196px at 1920), one line | landscape card ≈ 2.17 : 1 → 2.35 : 1; name ≈ 167px at 1440 | landscape, name ≈ 95px at 820 | ≤ 620: portrait card ≈ 4 : 5, radius 22, photo re-framed to `{{portrait.focal}}`; name ≈ 44px at 390 | name one line at every width (32.2px at 300); corner labels stay in the top corners | card `min-height: 78svh` so the name is in view |
 | Opening `section.opening` | two lines, under 40% of width, right side empty paper | 104px at 1440, starts 65px past the frame | 59px, ≈ 45% of width | ≤ 620: `clamp(46px, 14.6vw, 66px)`, fills the width like a poster | 46px floor at 300; still two to three lines | unchanged |
 | Orbit `section#orbit` | three lanes: left lane, pinned object column (`--objW` up to 620px), right lane; stops zig-zag | same, needs height ≥ 680; hand aside and arrow shown | one column: stand paragraph → object (≤ 560px) → control bar → caption → contents as a 4-column grid under an ink rule; aside hidden | same order; contents 2 columns (≤ 620); object ≈ 190px wide at 390 | control grid gaps `10px 18px` (≤ 460), 1 column (≤ 360); contents 1 column (≤ 300) | one column; `.sig-view` `max-width: min(520px, 78svh)` |
@@ -5191,7 +5216,7 @@ Each **MUST NOT** appear.
 | 9 | Full neumorphism: embossed cards, embossed text | only pressable things are moulded |
 | 10 | Hover scale on everything, coloured hover glows | hover changes colour or posture on a few named elements, never size or glow |
 | 11 | Parallax backgrounds, scroll-jacking, snap scrolling | the page scrolls natively; only the orbit object and arrivals answer scroll (§16) |
-| 12 | Typewriter or text-scramble effects, rotating taglines | display type is still; the name is the LCP and never animates |
+| 12 | Typewriter or text-scramble effects, rotating taglines | display type is still; the name paints first (the portrait is the LCP, §17.2.1) and never animates |
 | 13 | Custom cursors, cursor followers, magnetic buttons | the pointer is the system pointer |
 | 14 | One fade-up for every element with the same timing | arrivals are composed per part; much text does not move |
 | 15 | Lorem ipsum or invented biography | every string comes from the content model (§3); empty slots say so honestly |
@@ -5234,12 +5259,12 @@ document.documentElement.scrollWidth <= innerWidth;           // must be true
 | 1 | No horizontal scroll from 300 to 2560px | T-overflow at every listed width and a drag from 300 to 2560 in device mode |
 | 2 | The cover name is one line at every width, and its ink echo lines up with it within 1px | its `h1` height ≤ 1.1 × its font-size; overlay the echo and the photo-clipped copy |
 | 3 | `col 3 / col-end` spans x 286 → 1377 at 1440 and 78 → 373 at 390, ±1px | measure the glance card's left edge and a full-frame tray's right edge |
-| 4 | The bar shows 5 links at ≥ 761, 1 at ≤ 760, 0 at ≤ 359; it never wraps to two rows | bar height = 54px + 1px at every width |
+| 4 | The bar shows 5 links at ≥ 761, 1 at ≤ 760, 0 at ≤ B − 1 (B measured per §7.1.9; 359 for the reference name length); it never wraps to two rows | bar height = 54px + 1px at every width |
 | 5 | Bleeding plates square their corners on the bleeding side and their content stays on the frame | glance card, L4 tray, next card: computed `border-radius`; text left edge = `col N` |
 | 6 | The orbit pins only at ≥ 1100 × 680; at 1440 × 600 it is one column | resize height across 679/680 |
 | 7 | Drawers are open at ≥ 701 and closed with a value summary at ≤ 700, unless the user toggled one | resize across 700/701 before and after a manual toggle |
 | 8 | Below 1100 the visual order equals the DOM order in every section | tab through a feature; focus never jumps backwards on screen |
-| 9 | In short landscape the bar is static and the cover name is visible without scrolling | 844 × 390: name bottom ≤ 390px |
+| 9 | In short landscape the bar is static and the cover name's cream letters (everything above the cut, §7.3.4) are visible without scrolling | 844 × 390: card bottom edge ≤ 390px (55 bar + 25.3 padding + 78svh 304.2 = 384.5); the echo's feet below the cut may fall under the fold |
 | 10 | Nothing jumps when a figure runs or a status line fills | record a run; heights above and below the tray are constant |
 
 #### 18.4.2 Typography
@@ -5257,7 +5282,7 @@ document.documentElement.scrollWidth <= innerWidth;           // must be true
 | # | Test | How to check |
 |---|---|---|
 | 16 | No pure white or black is rendered | T-colour returns `[]`; screenshots sampled show no `#ffffff` / `#000000` outside photos |
-| 17 | Accent pixels are < 1% of any 1440 × 900 viewport outside photos and 3D canvases | screenshot, mask photos and canvases, count pixels within ΔE 6 of `--accent` / `--accent-ink` |
+| 17 | Accent pixels are < 1% of any single 1440 × 900 viewport outside photos and 3D canvases (a per-viewport ceiling; §4.4.3's < 0.1% is the whole-page average) | screenshot, mask photos and canvases, count pixels within ΔE 6 of `--accent` / `--accent-ink` |
 | 18 | Only these have a `box-shadow`: moulded controls and plates in the `--raise`/`--sink` family (wells, drawers, statement card), taped prints, the open bottom sheet, focus rings on thumbs and fields, the tracker pulse and the followed-row inset bar. The bar, trays, cards and photos have none | T-shadow list reviewed against this sentence |
 | 19 | No `backdrop-filter`, no gradient `background` except photo washes, the glance band fade and drawer glyph strokes | search computed `background-image` |
 | 20 | Grain appears on page and bar only | sample a tray: zero variance; sample the page: per-pixel deviation ≈ 20 around paper |
@@ -5296,7 +5321,7 @@ document.documentElement.scrollWidth <= innerWidth;           // must be true
 | 38 | With JS disabled every section and all copy, links and the address are visible | disable JavaScript and scroll the whole page |
 | 39 | With WebGL unavailable each 3D figure shows a sentence and its controls are hidden or disabled | `--disable-webgl` or a blocked context |
 | 40 | No console errors or warnings on load, on scroll, on theme switch and while running every figure | console at 390 and 1440 |
-| 41 | CLS ≤ 0.02; LCP is the portrait, ≤ 2.5s on a mid phone over 4G | Lighthouse mobile, three runs, median |
+| 41 | CLS ≤ 0.02; the LCP element is the preloaded portrait (the cover name may paint earlier as FCP), ≤ 2.5s on a mid phone over 4G | Lighthouse mobile, three runs, median |
 | 42 | No request leaves the origin at runtime; the PDF library loads only on intent | Network tab filtered to third-party: empty; PDF script absent until the button is hovered or focused |
 | 43 | Sizes stay within ≈ 10% of the §17.2.3 budgets | Network tab totals, raw and gzip |
 | 44 | Print output is one column of ink on white with all arrivals visible and no controls | print preview |
@@ -5455,7 +5480,7 @@ Declared on `*` so each element resolves it against its own `--surf`. Containers
 
 ### A.7 Inverse-card surface
 
-The card is ink in light and cream in dark, so it retunes the mixes in both themes (§4.6.4). Its accent lines take the other theme's tone. Why: the page accent is 2.92:1 on ink and 1.81:1 on cream; the swap gives 8.55:1 and 6.96:1.
+The card is ink in light and cream in dark, so it retunes the mixes in both themes (§4.6.4). Its accent lines take the other theme's tone: the light-theme card (ink) uses `#a9b77c` (the dark theme's `--accent`), the dark-theme card (cream) uses `#435425` (the light theme's `--accent-ink`). Why: the page accent is 2.92:1 on ink and 1.81:1 on cream; the swap gives 8.55:1 and 6.96:1.
 
 ```css
 .next {
@@ -5604,7 +5629,7 @@ Name classes: §7.3.2. `{city}`: `{{location}}` before the comma.
       <p class="stand o-r" data-fly style="--mt:4svh">{lede before} <b>{{orbit.keyPhrase}}</b> {lede after}</p>
       <p class="o-hand o-l o-in" data-fly style="--mt:20svh"><span class="hand">{{orbit.aside[0]}} &mdash;<br>{{orbit.aside[1]}}</span><svg viewBox="0 0 160 64" aria-hidden="true" focusable="false"><path d="M6 5c8 19 30 35 62 41 27 5 55 1 79-10"/><path d="M131 27c6 3 12 6 17 9-5 4-11 8-16 12"/></svg></p>
       <p class="sig-note o-r o-in" data-fly style="--mt:12svh"><span class="note">fig. 0 &mdash; {{orbit.signatureObject}}</span>{{orbit.figNote}}</p>
-      <nav class="inside" id="inside" aria-label="Contents">
+      <nav class="inside" id="inside" aria-label="What is inside">
         <span class="lab o-l" data-fly style="--mt:26svh">In this issue</span>
         <a class="o-l" data-fly href="#f1" style="--mt:8svh"><span class="n">01</span><span class="t">{headline 1, plain}</span></a>
         <!-- like 01: 02 o-r o-in 6svh · 03 o-l o-in 16svh · 04 o-r 12svh · 05 o-l 18svh · 06 o-r o-in 9svh · 07 o-l o-in 15svh -->
@@ -5685,7 +5710,7 @@ Templates in canonical order (sequence: §10.8); L1 shows a complete tray (A1, �
       </div>
       <div class="runrow"><button class="btn solid" id="fig1Run" type="button">{Run both}</button><button class="btn" id="fig1Reset" type="button">Reset</button></div>
       <div class="race">
-        <div class="lane"><h5>{Strategy A}</h5><small>{its rule}</small>
+        <div class="lane"><h4>{Strategy A}</h4><small>{its rule}</small>
           <div class="track" aria-hidden="true"><i class="d" id="fig1ad" style="width:0"></i><i class="f" id="fig1af" style="width:0"></i></div>
           <div class="nums"><span>{Outcome}<b id="fig1adn">0</b></span><span>{Loss}<b id="fig1afn">0</b></span><span>Time<b id="fig1at">0s</b></span></div></div>
         <div class="lane"><!-- as lane A, ids fig1bd fig1bf fig1bdn fig1bfn fig1bt --></div>
