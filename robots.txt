@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://armanafridirahman.github.io/sitemap.xml
