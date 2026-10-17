@@ -6133,7 +6133,8 @@ label,
     oTop = 0,
     oLen = 1,
     yaw = 0,
-    held = false;
+    held = false,
+    settle = null;
   var PIN = window.matchMedia("(min-width: 1100px) and (min-height: 680px)"),
     STILL = window.matchMedia("(prefers-reduced-motion: reduce)");
   function measureOrbit() {
@@ -6142,6 +6143,7 @@ label,
     oLen = Math.max(1, b.height - window.innerHeight);
   }
   function hold() {
+    settle = null;
     if (held) return;
     held = true;
     rot.y = wrap(rot.y + yaw);
@@ -6185,13 +6187,17 @@ label,
   ss.addEventListener("input", setSupply);
   $("chipReset").addEventListener("click", function () {
     held = false;
-    rot.x = REST.x;
-    rot.y = REST.y;
-    rot.z = REST.z;
     vel.x = vel.y = 0;
     ss.value = 1.1;
     setSupply();
-    applyRot();
+    if (STILL.matches) {
+      rot.x = REST.x;
+      rot.y = REST.y;
+      rot.z = REST.z;
+      applyRot();
+    } else {
+      settle = { x: rot.x, y: rot.y, z: rot.z, t: 0 };
+    }
   });
 
   var drag = false,
@@ -6203,6 +6209,7 @@ label,
     lx = e.clientX;
     ly = e.clientY;
     vel.x = vel.y = 0;
+    settle = null;
     try {
       canvas.setPointerCapture(e.pointerId);
     } catch (er) {}
@@ -6295,6 +6302,16 @@ label,
       vel.x *= damp;
       vel.y *= damp;
       applyRot();
+    }
+    if (settle) {
+      settle.t += dt;
+      var u = Math.min(1, settle.t / 0.7);
+      u = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+      rot.x = wrap(settle.x + wrap(REST.x - settle.x) * u);
+      rot.y = wrap(settle.y + wrap(REST.y - settle.y) * u);
+      rot.z = wrap(settle.z + wrap(REST.z - settle.z) * u);
+      applyRot();
+      if (u >= 1) settle = null;
     }
 
     if (!held && !drag && PIN.matches && !STILL.matches) {
